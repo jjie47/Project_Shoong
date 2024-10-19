@@ -1,0 +1,57 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.LikedMapper">
+	<select id="getLikedPlans" resultType="LikedPlanDTO">
+		SELECT 
+		    lp.user_id AS userId,                         
+		    lp.plan_id AS planId,                      
+		    author.nickname AS nickname,                  
+		    d.country_kor AS countryKor,               
+		    d.city_kor AS cityKor,                       
+		    DATE(p.start_date) AS startDate,                  
+		    DATE(p.end_date) AS endDate,                         
+		    COUNT(g.user_id) AS ruleCnt,                  
+		    (SELECT COUNT(pl.place_id) 
+		     FROM place pl 
+		     WHERE pl.destination_id IN 
+		     	(SELECT dst.destination_id 
+		     	FROM destination dst 
+		     	WHERE dst.plan_id = p.plan_id)
+			) AS placeCnt 
+		FROM 
+		    liked_plan lp 
+		JOIN 
+		    plan p ON lp.plan_id = p.plan_id 
+		JOIN 
+		    `user` u ON lp.user_id = u.user_id            
+		JOIN 
+		    destination d ON p.plan_id = d.plan_id 
+		LEFT JOIN 
+		    `group` g ON p.plan_id = g.plan_id AND g.rule = '그룹장'  
+		JOIN 
+		    `user` author ON g.user_id = author.user_id     
+		WHERE 
+		    lp.user_id = #{userId}                           
+		GROUP BY 
+		    lp.plan_id,                                                                         
+		    author.nickname,                                
+		    d.country_kor,                                  
+		    d.city_kor                                    
+		LIMIT 0, 1000;  
+	</select>
+	
+	<select id="getCitiesByPlanId">
+		SELECT city_kor FROM Destination WHERE plan_id = #{planId}
+	</select>
+	
+	<select id="existByUserIdAndPlanId">
+		SELECT COUNT(*) > 0 FROM liked_plan 
+		WHERE user_id = #{userId} AND plan_id = #{planId}
+	</select>
+	
+	<delete id="deleteLikedPlanByUserIdAndPlanId">
+		DELETE FROM liked_plan
+		WHERE user_id = #{userId} AND plan_id = #{planId}
+	</delete>
+</mapper>

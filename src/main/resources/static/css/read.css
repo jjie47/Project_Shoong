@@ -1,0 +1,206 @@
+/*html, body{ height: 100%;}*/
+
+#review_read{
+    width: 1440px;
+    height: 100%;
+}
+
+#review_read .title_top_line{
+    background: #006bdf;
+    height: 2px;
+    border: 0;
+}
+#review_read .title_under_line{
+    background: #111111;
+    height: 1px;
+    border: 0;
+}
+#review_read .content_top_line{
+    background: #111111;
+    height: 1px;
+    border: 0;
+}
+#review_read .content_under_line{
+    background: #111111;
+    height: 1px;
+    border: 0;
+}
+#review_read .comment_top_line{
+    background: #111111;
+    height: 1px;
+    border: 0;
+}
+
+#review_read .write_button_box{
+	width: 1440px; height: 36px;
+	  position: relative;
+	  padding-top: 15px;
+	  padding-bottom: 101px;
+	text-align: right;
+}
+#review_read .write_button_box > a > input{
+	cursor: pointer;
+	width: 73px; height: 36px;
+	 font-size: 20px;
+	 background-color: #dbecff;
+	 color: #006ae0;
+	 border: none;
+	 border-radius: 10px;
+	 top: 15px;
+}
+#review_read .write_button_box > input:hover{
+	background-color: white;
+	  border: 1px solid #006ae0;
+	  transition: background-color 0.3s;
+}
+
+#review_read .comment_line{
+    background: #dddddd;
+    height: 1px;
+    border: 0;
+}
+#review_read .comment_uner_line{
+    background: #dddddd;
+    height: 1px;
+    border: 0;
+}
+
+
+#review_read .title_box{
+    display: flex;
+	justify-content: space-between;
+}
+#review_read .title{
+    font-size: 30px;
+    padding: 18px 0px;
+    margin: 0;
+}
+
+#review_read .plan_button1_box{
+	padding-top: 16px;
+}
+#review_read .plan_button1{
+	cursor: pointer;
+    width: 159px; height: 40px;
+    margin: auto;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-right: 0;
+    background-color: #ffffff;
+    color: #006ae0;
+    border: 1px solid #006ae0;
+}
+
+#review_read .plan_button1:hover{
+    background-color: #006ae0;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+#review_read .title_under_box{
+    display: flex;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+#review_read .writer{margin-left: 0;}
+#review_read .read_count{
+    width: 110px;
+    margin: auto;
+    margin-right: 0;
+    font-size: 15px;
+
+}
+
+#review_read .content{
+	height: 100%;
+    margin: 0;
+	white-space: pre-line;
+}
+
+#review_read .content_under_box{
+    display: flex;
+}
+#review_read .like{
+    margin: auto;
+    margin-left: 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+#review_read .like_count{
+    /* display: inline-block; */
+   padding-top: 16px;
+   padding-bottom: 16px;
+}
+
+#review_read .plan_button2_box{
+	padding-top: 7px;
+}
+#review_read .plan_button2{
+	cursor: pointer;
+    width: 159px; height: 40px;
+    margin: auto;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-right: 0;
+    background-color: #ffffff;
+    color: #006ae0;
+    border: 1px solid #006ae0;
+}
+
+#review_read .plan_button2:hover{
+    background-color: #006ae0;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#review_read .comment{
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 37px;    
+    padding-bottom: 9px;    
+}
+#review_read .comment1{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#review_read .comment1::first-line{
+    font-weight: bold;
+}
+#review_read .comment2{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#review_read .comment2::first-line{
+    font-weight: bold;
+}
+#review_read .comment_text_box{
+    width: 1440px;
+    height: 177px;
+    border: 1px solid #dddddd;
+    border-radius: 15px;
+    resize: none;
+}
+#review_read .comment_button_box{
+    width: 1440px; height: 36px;
+    position: relative;
+    padding-top: 15px;
+    padding-bottom: 101px;
+	text-align: right;
+    /* margin: 0; */
+    /* 등록 버튼 아래에 padding-bottom 이외의 빈공간 있는 것 같은데 없앨 수 있는지 알아보기 */
+}
+#review_read .comment_button{
+	cursor: pointer;
+    width: 73px; height: 36px;
+    font-size: 20px;
+    background-color: #dbecff;
+    color: #006ae0;
+    border: none;
+    border-radius: 10px;
+    top: 15px;
+    /* margin-bottom: 0; */
+}
+#review_read .comment_button:hover{
+    background-color: white;
+    border: 1px solid #006ae0;
+    transition: background-color 0.3s;
+}

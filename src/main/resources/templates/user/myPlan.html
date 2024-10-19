@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+    <title>계획 관리</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">마이페이지</a>
+            > 
+            <a href="#">내 일정</a>
+            > 
+            <a href="#">계획 관리</a>
+        </p>
+        <div>계획 관리</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+                <div id="my_plan_con">
+                    <div class="bluebar"></div>
+                    <div class="box1">
+                        <div class="textbox">
+                            <p>내 일정</p>
+                            <p class="mini_text">계획 관리</p>
+                        </div>
+                    </div>
+                    <div class="box2">
+						
+						<div th:if="${rt == null or rt.size() == 0}" class="no_plan">
+							<p>등록된 계획이 없습니다.</p>
+						</div>
+						
+						<!--여기서부터-->
+                        <div class="planbox" th:each="plan : ${rt}">
+                            <div class="planbox_plan">
+                                <div class="planbox_plan1">
+                                    <span><p th:text="${plan.countryKor}"></p></span>
+                                </div>
+                                <div class="planbox_plan2">
+                                    <span><p th:text="${plan.cityKor}"></p></span>
+									<span th:if="${plan.destCount - 1 > 0}"><p class="dhl">&nbsp&nbsp외&nbsp</p></span>
+									<span th:if="${plan.destCount - 1 > 0}"><p th:text="${plan.destCount-1}"></p></span>
+                                </div>
+                                <div class="planbox_plan3">
+                                    <span><p th:text="${plan.startDate}"></p></span>
+                                    <span><p>&nbsp~&nbsp</p></span>
+                                    <span><p th:text="${plan.endDate}"></p></span>
+                                </div>
+                                <div class="planbox_plan4">
+                                    <div class="planbox_plan4_1">
+                                        <p>인원 수</p>
+                                    </div>
+                                    <div class="planbox_plan4_2">
+                                        <span><p class="count" th:text="${plan.personCount}"></p></span>
+                                        <p>&nbsp명</p>
+                                    </div>
+                                </div>
+                                <div class="planbox_plan5">
+                                    <div class="planbox_plan5_1">
+                                        <p>방문 장소</p>
+                                    </div>
+                                    <div class="planbox_plan5_2">
+                                        <span><p class="count" th:text="${plan.placeCount}"></p></span>
+                                        <p>&nbsp개</p>
+                                    </div>
+                                </div>
+                                <div class="planbox_plan6">
+                                    <div class="planbox_plan6_1">
+                                        <p>나의 역할</p>
+                                    </div>
+									<div class="planbox_plan6_2">
+									    <div class="planbox_plan6_2box" 
+									         th:style="${plan.rule == '그룹원' ? 'background-color: #006BDF;' : (plan.rule == '그룹장' ? 'background-color: #8a00df;' : '')}">
+									        <span><p class="count" th:text="${plan.rule}"></p></span>
+									    </div>
+									</div>
+                                </div>
+                            </div>
+                            <div class="planbox_set">
+                                <div class="planbox_set1">
+                                    <div class="planbox_set1_1">
+										<span><p th:text="${plan.nights}"></p></span>
+										<span><p>박&nbsp</p></span>
+										<span><p th:text="${plan.days}"></p></span>
+										<span><p>일</p></span>
+                                    </div>
+                                </div>
+                                <div class="planbox_set2">
+									<a th:href="@{/plan/get?planId={PlanId}(PlanId=${plan.planId})}">
+                                        <div class="planbox_set2_1">
+                                            <p>계획 보러가기</p>
+                                        </div>
+                                    </a>
+									<a th:href="@{/Set/{PlanId}(PlanId=${plan.planId})}">
+                                        <div class="planbox_set2_2">
+                                            <p>계획 수정하기</p>
+                                        </div>
+                                    </a>
+									
+									<a th:href="${plan.rule == '그룹원' ? '/user/myPlan/exit/' + plan.userId + '/' + plan.planId : (plan.rule == '그룹장' ? '/user/myPlan/delete/' + plan.planId  : '')}"
+									onclick="return confirm('정말 삭제하시겠습니까?');">
+									    <div class="planbox_set2_3">
+									        <p th:text="${plan.rule == '그룹원' ? '계획 나가기' : (plan.rule == '그룹장' ? '계획 삭제' : '')}"></p>
+									    </div>
+									</a>
+                                </div>
+                            </div>
+                        </div>
+						<!--여기까지-->
+						
+						
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>

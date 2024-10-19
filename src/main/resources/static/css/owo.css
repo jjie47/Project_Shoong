@@ -1,0 +1,573 @@
+/* div,footer{
+    outline: 1px solid black;
+} */
+
+#my_schedule .bluebar{
+    width: 1200px;
+    border: 1px solid rgb(0, 107, 223);
+}
+
+#my_schedule .box1{
+    width: 1200px;
+    height: 80px;
+}
+
+#my_schedule .box1 .textbox{
+    padding-top: 30px;
+    font-size: 30px;
+    font-family: 'Pretendard-Bold';
+}
+
+#my_schedule .box2{
+    width: 1200px;
+    height: 150px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+#my_schedule .box2 .menu1,
+#my_schedule .box2 .menu2,
+#my_schedule .box2 .menu3,
+#my_schedule .box2 .menu4{
+    width: 285px;
+    height: 150px;
+    border-radius: 15px;
+
+    position: relative;
+    background-color: rgb(219, 236, 255);
+}
+
+#my_schedule .box2 .text1{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+
+    font-size: 20px;
+    font-family: 'Pretendard-Bold';
+}
+
+#my_schedule .box2 .text2{
+    position: absolute;
+    left: 20px;
+    top: 52px;
+
+    font-size: 15px;
+    color: rgb(136, 136, 136);
+}
+
+#my_schedule .box2 .text3{
+    position: absolute;
+    left: 20px;
+    top: 112px;
+
+    font-size: 15px;
+    color: rgb(0, 107, 223);
+}
+
+#my_schedule .box2 .text3logo{
+    position: absolute;
+    left: 81px;
+    top: 115px;
+}
+
+#my_schedule .box2 .logo{
+    position: absolute;
+    left: 219px;
+    top: 83px;
+}
+
+#my_schedule .menu4 .btn1{
+    position: absolute;
+    left: 20px;
+    top: 93px;
+
+    width: 70px;
+    height: 40px;
+    border: 1px solid rgb(0, 107, 223);
+    border-radius: 10px;
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgb(0, 107, 223);
+    font-size: 15px;
+}
+
+#my_schedule .menu4 .btn2{
+    position: absolute;
+    left: 100px;
+    top: 93px;
+
+    width: 70px;
+    height: 40px;
+    border: 1px solid rgb(0, 107, 223);
+    border-radius: 10px;
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgb(0, 107, 223);
+    font-size: 15px;
+}
+
+#my_schedule .blackbar{
+    width: 1200px;
+    border-top: 1px solid rgb(17, 17, 17);
+    margin-top: 33px;
+}
+
+#my_schedule .menu4 .btn1:hover,
+#my_schedule .menu4 .btn2:hover{
+    background-color: #006BDF;
+    transition: background-color 0.3s;
+    color: white;
+}
+
+
+/* 내일정 페이지 1 끝 */
+
+#my_plan_con .bluebar{
+    width: 1200px;
+    border: 1px solid rgb(0, 107, 223);
+}
+
+#my_plan_con .box1{
+    width: 1200px;
+    height: 80px;
+}
+
+#my_plan_con .box1 .textbox{
+    padding-top: 30px;
+    font-size: 30px;
+    font-family: 'Pretendard-Bold';
+
+    display: flex;
+    align-items: flex-end
+}
+
+#my_plan_con .box1 .textbox .mini_text{
+    font-size: 20px;
+    font-family: 'Pretendard-Regular';
+    margin-left: 13px;
+}
+
+#my_plan_con .box2{
+    width: 1200px;
+    height: 600px;
+
+    border-radius: 15px;
+    background-color: #DBECFF;
+
+    overflow-y: scroll;
+}
+
+#my_plan_con .box2::-webkit-scrollbar{
+    width: 10px;
+}
+
+#my_plan_con .box2::-webkit-scrollbar-thumb{
+    background: #d9d9d9;
+    border-radius: 15px;
+}
+
+/* 여기서부터 계획 추가 */
+
+#my_plan_con .box2 .planbox{
+    width: 1160px;
+    height: 180px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 12px;
+
+    display: flex;
+    justify-content: space-between;
+
+    margin: 15px;
+}
+
+#my_plan_con .box2 .no_plan{
+    width: 1160px;
+    height: 180px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 12px;
+
+    display: flex;
+    justify-content: center;
+	align-items: center;
+	
+	font-size: 20px;
+	font-family: 'Pretendard-Bold';
+
+    margin: 15px;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan{
+    width: 280px;
+    height: 156px;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan1{
+    font-size: 15px;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan2{
+	display: flex;
+	align-items: flex-end;
+    font-size: 25px;
+    font-family: 'Pretendard-Bold';
+}
+
+#my_plan_con .box2 .planbox .planbox_plan2 .dhl{
+    font-size: 20px;
+    font-family: 'Pretendard-Bold';
+}
+
+#my_plan_con .box2 .planbox .planbox_plan3{
+    display: flex;
+    font-size: 15px;
+    color: #888888;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan4{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+
+    align-items: flex-end;
+
+    margin-top: 8px;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan4_2{
+    display: flex;
+    align-items: flex-end;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan4_2 .count{
+    font-size: 20px;
+    font-family: 'Pretendard-Bold';
+}
+
+#my_plan_con .box2 .planbox .planbox_plan5{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+
+    align-items: flex-end;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan5_2{
+    display: flex;
+    align-items: flex-end;
+}
+
+#my_plan_con .box2 .planbox .planbox_plan5_2 .count{
+    font-size: 20px;
+    font-family: 'Pretendard-Bold';
+}
+
+#my_plan_con .box2 .planbox .planbox_plan6{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px
+}
+
+#my_plan_con .box2 .planbox .planbox_plan6 .planbox_plan6_1{
+    display: flex;
+    align-items: center;
+}
+
+
+#my_plan_con .box2 .planbox .planbox_plan6_2 .planbox_plan6_2box{
+    width: 60px;
+    height: 35px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    background-color: #8a00df;
+    
+    color: white;
+    font-size: 19px;
+}
+
+
+#my_plan_con .box2 .planbox .planbox_set{
+    width: 540px;
+    height: 156px;
+
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set1{
+    position: relative;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set1 .planbox_set1_1{
+    position: absolute;
+    right: 0;
+
+    border-radius: 10px;
+    background-color: #DBECFF;
+
+    width: 100px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    font-family: 'Pretendard-Bold';
+    color: #306AA8;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2{
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 106px;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_1,
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_2,
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_3{
+    width: 170px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_1{
+    background-color: #808080;
+    color: white;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_1:hover{
+    background-color: white;
+    transition: background-color 0.3s;
+    color: #808080;
+    border: 1px solid #808080;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_2{
+    background-color: #006BDF;
+    color: white;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_2:hover{
+    background-color: white;
+    transition: background-color 0.3s;
+    color: #006BDF;
+    border: 1px solid #006BDF;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_3{
+    background-color: #a80000;
+    color: white;
+}
+
+#my_plan_con .box2 .planbox .planbox_set .planbox_set2 .planbox_set2_3:hover{
+    background-color: white;
+    transition: background-color 0.3s;
+    color: #a80000;
+    border: 1px solid #a80000;
+}
+
+/* 여기까지 계획 완료 */
+
+/* 계획 관리 페이지 끝 */
+
+#my_plan_view .bluebar{
+    width: 1200px;
+    border: 1px solid rgb(0, 107, 223);
+}
+
+#my_plan_view .box1{
+    width: 1200px;
+    height: 80px;
+}
+
+#my_plan_view .box1 .textbox{
+    padding-top: 30px;
+    font-size: 30px;
+    font-family: 'Pretendard-Bold';
+
+    display: flex;
+    align-items: flex-end
+}
+
+#my_plan_view .box1 .textbox .mini_text{
+    font-size: 20px;
+    font-family: 'Pretendard-Regular';
+    margin-left: 13px;
+}
+
+#my_plan_view .box2{
+    width: 1200px;
+    height: 50px; 
+
+    display: flex;
+    position: relative;
+
+    background-color: rgb(219, 236, 255);
+    border-radius: 15px 15px 0px 0px;
+}
+
+#my_plan_view .box2 .category1,
+#my_plan_view .box2 .category2,
+#my_plan_view .box2 .category3,
+#my_plan_view .box2 .category4,
+#my_plan_view .box2 .category5{
+    
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+#my_plan_view .box2 .category1{
+    width: 60px;
+    display: flex;
+    justify-content: center;
+}
+
+#my_plan_view .box2 .category2{
+    width: 540px;
+    padding-left: 10px;
+}
+#my_plan_view .box2 .category3{
+    width: 200px;
+}
+
+#my_plan_view .box2 .category4{
+    width: 90px;
+}
+
+#my_plan_view .box2 .category5{
+    width: 75px;
+}
+
+/* 게시글 작성시 추가되어야 하는 부분 top*/
+
+#my_plan_view .boxcover{
+    width: 1200px;
+    height: auto;
+}
+
+#my_plan_view .boxcover .postbox .flex{
+    width: 1200px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+}
+
+#my_plan_view .boxcover .postbox::after{
+    content: "";
+    display: block;
+    width: 1150px;
+    height: 1px;
+    background: #e5e5e5;
+    margin: 0 auto;
+}
+
+#my_plan_view .boxcover .postbox:last-child::after{
+    display: none;
+}
+
+
+
+#my_plan_view .boxcover .no_review{
+    width: 1200px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+	justify-content: center;
+}
+
+
+#my_plan_view .boxcover .postbox .post1{
+    width: 60px;
+    text-align: center;
+}
+
+#my_plan_view .boxcover .postbox .post2{
+    width: 540px;
+    display: flex;
+    text-align: center;
+    padding-left: 10px;
+}
+
+#my_plan_view .boxcover .postbox .post2 .posttitle:hover{
+    text-decoration: underline;
+}
+
+#my_plan_view .boxcover .postbox .post3{
+    width: 200px;
+}
+
+#my_plan_view .boxcover .postbox .post4{
+    width: 90px;
+}
+
+#my_plan_view .boxcover .postbox .post5{
+    width: 75px;
+}
+
+#my_plan_view .boxcover .postbox .post6{
+    width: 130px;
+    height: 30px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 10px;
+    margin-left: 65px;
+
+    color: white;
+    background-color: #006BDF;
+}
+
+#my_plan_view .boxcover .postbox .post6:hover{
+    background-color: white;
+    transition: background-color 0.3s;
+    color: #006BDF;
+    border: 1px solid #006BDF;
+}
+
+
+/* 게시글 작성시 추가되어야 하는 부분 end*/
+
+
+/* 공백칸 디자인 */
+#my_plan_view .box3 .boxcover{
+    width: 1200px;
+    height: auto;
+    border-radius: 0px 0px 10px 10px;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+}
+
+
+
+/* 페이징 버튼 */
+#my_plan_view .pagination {display: flex; justify-content: center; margin-top:50px;}
+#my_plan_view .pagination a{display: flex; justify-content: center; align-items: center; width:45px; height:45px; margin:5px; border-radius: 5px; border: 1px solid #ddd; }
+#my_plan_view .pagination span.now_page{display: flex; justify-content: center; align-items: center; width:45px; height:45px; margin:5px; border-radius: 5px; background: #006BDF; border: 1px solid #006BDF; color:#fff;}
+#my_plan_view .pagination a img.reflect {transform: scaleX(-1);}
+
+
+/* 작성글 끝 */

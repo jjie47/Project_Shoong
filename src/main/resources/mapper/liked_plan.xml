@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.LikedPlanMapper">
+	<!-- 좋아요 추가 -->
+	<insert id="insertLikedPlan">
+		INSERT INTO `liked_plan` (plan_id, user_id)
+		VALUES (#{planId}, #{userId});
+	</insert>
+	
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLikedPlan">
+		DELETE FROM `liked_plan`
+		WHERE plan_id = #{planId} AND user_id = #{userId};
+	</delete>
+
+	<!-- 좋아요 갯수 확인 -->
+	<select id="getLikedCountByPlanId" resultType="int">
+		SELECT COALESCE(COUNT(*), 0)
+		FROM liked_plan 
+		WHERE plan_id = #{planId};
+	</select>
+
+	<!-- 로그인한 유저의 좋아요 여부 (0or1)-->
+	<select id="getLikedCheck">
+		SELECT COUNT(*)
+		FROM `liked_plan`
+		WHERE plan_id = #{planId} AND user_id = #{userId};
+	</select>
+</mapper>

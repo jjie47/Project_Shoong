@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+
+
+    <title>후기 관리</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">마이페이지</a>
+            > 
+            <a href="#">내 일정</a>
+            > 
+            <a href="#">후기 관리</a>
+        </p>
+        <div>후기 관리</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+                <div id="my_plan_view">
+                    <div class="bluebar"></div>
+                    <div class="box1">
+                        <div class="textbox">
+                            <p>내 일정</p>
+                            <p class="mini_text">후기 관리</p>
+                        </div>
+                    </div>
+                    <div class="box2">
+                        <div class="category1">
+                            <p>번호</p>
+                        </div>
+                        <div class="category2">
+                            <p>제목</p>
+                        </div>
+                        <div class="category3">
+                            <p>등록일시</p>
+                        </div>
+                        <div class="category4">
+                            <p>좋아요 수</p>
+                        </div>
+                        <div class="category5">
+                            <p>조회수</p>
+                        </div>
+                    </div>
+                    <div class="box3">
+                        <div class="boxcover">
+                            <!-- 여기서부터 -->
+                            <div class="postbox" th:each="review, iterStat : ${review}">
+                                <div class="flex">
+                                    <div class="post1">
+                                        <p><span th:text="${iterStat.index + 1}"></span></p>
+                                    </div>
+                                    <div class="post2">
+                                        <a href="#">
+                                            <p class="posttitle"><span>[[${review.title}]]</span></p>
+                                        </a>
+                                        <p>&nbsp&nbsp[</p>
+                                        <p><span th:text="${count[review.reviewId]}"></span></p>
+                                        <p>]</p>
+                                    </div>
+                                    <div class="post3">
+                                        <p><span>[[${review.createdDate}]]</span></p>
+                                    </div>
+                                    <div class="post4">
+                                        <p><span>[[${review.likeCount}]]</span></p>
+                                    </div>
+                                    <div class="post5">
+                                        <p><span>[[${review.viewCount}]]</span></p>
+                                    </div>
+                                    <a href="#">
+                                        <div class="post6">
+                                            <p>삭제</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- 여기까지 -->
+                            
+
+                        </div>
+                    </div>
+                    <div class="pagination">
+                        <a class="btn changePage"><img src="/images/page_end.png" class="reflect" alt=""></a>
+                        <a class="btn changePage"><img src="/images/page_next.png" class="reflect" alt=""></a>
+                        <a href="#" class="now_page">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">7</a>
+                        <a href="#">8</a>
+                        <a href="#">9</a>
+                        <a href="#">10</a>
+                        <a class="btn changePage"><img src="/images/page_next.png" alt=""></a>
+                        <a class="btn changePage"><img src="/images/page_end.png" alt=""></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>

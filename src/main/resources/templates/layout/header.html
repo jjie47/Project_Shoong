@@ -1,0 +1,31 @@
+<th:block th:fragment="header">
+<script defer src="/js/script.js"></script>
+
+<div class="inner">
+    <div class="logo">
+        <a href="/" id="logoimg"><img src="/images/top_logo.png" alt=""></a>
+    </div>
+    <div class="menu">
+        <ul>
+            <li><a href="/plan/write">계획 세우기</a></li>
+            <li><a href="/plan/list">계획 구경하기</a></li>
+            <li><a href="/review/list">후기 구경하기</a></li>
+        </ul>
+    </div>
+    <div class="login">
+        <ul>
+			<!-- 세션에 로그인 사용자 정보가 있는 경우 -->
+			<th:block th:if="${session.loginUser != null}">
+                <li><a th:href="@{/user/myaccount}">마이페이지</a></li>
+                <li><a th:href="@{/user/logout}">로그아웃</a></li>
+            </th:block>
+			
+			<!-- 세션에 로그인 사용자 정보가 없는 경우 -->
+			<th:block th:unless="${session.loginUser != null}">
+				<li><a th:href="@{/user/login}">로그인</a></li>
+	            <li><a th:href="@{/user/join}">회원가입</a></li>
+			</th:block>
+        </ul>
+    </div>
+</div>
+</th:block>

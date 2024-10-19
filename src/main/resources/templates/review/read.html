@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/read.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <title>Shoong_sub</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block> 
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">후기 구경하기</a>
+        </p>
+        <div>후기 구경하기</div>
+    </div>
+
+    <div class="container">
+        <div class="inner">
+
+            <!-- ★★★작업위치★★★ -->
+            <div id="review_read">
+                <hr class="title_top_line">
+                <div class="title_box">
+                    <div class="title">[[${review.title}]]</div>
+					<a href="/plan/read/${review.planId}" class="plan_button1_box">
+                    	<input class="plan_button1" type="button" value="이 계획 보러가기">
+					</a>
+                </div>
+                <hr class="title_under_line">
+                <div class="title_under_box">
+                    <div class="writer">작성자 : [[${review.userId}]]</div>
+                    <div class="read_count">조회수 : [[${review.viewCount}]]</div>
+                </div>
+                <hr class="content_top_line">
+                <div class="content">
+                    <p>[[${review.content}]]</p>
+                </div>
+                <hr class="content_under_line">
+                <div class="content_under_box">
+                    <!-- like 버튼으로 변경해야? -->
+                    <div class="like"><img src="/images/like.png" alt=""><span id="like_count">&nbsp&nbsp[[${review.likeCount}]]</span></div>
+					<a href="/plan/read/${review.planId}" class="plan_button2_box">
+                    <input class="plan_button2" type="button" value="이 계획 보러가기">
+					</a>
+                </div>
+                <hr class="comment_top_line">
+				<div class="write_button_box">
+					<a>
+				    	<input class="update_button" type="button" value="수정" th:if="${loginUser == review.userId}">
+				   </a>
+				   <a th:href="@{/review/list/read/delete/{reviewId}(reviewId=${review.reviewId})}"
+				                              onclick="return confirm('정말 삭제하시겠습니까?');">
+				   		<input class="delete_button" type="button" value="삭제" th:if="${loginUser == review.userId}">
+				   </a>
+				   <a>
+				   		<input class="write_button" type="button" value="등록">
+				   </a>
+				   <a th:href="@{/review/list/read/rlist/{reviewId}(reviewId=${review.reviewId})}">
+				       <input class="rlist_button" type="button" value="목록">
+				   </a>
+				</div>
+                <div class="comment_box">
+                    <div class="comment">댓글쓰기</div>  
+                    <hr class="comment_line">
+                    <div class="comment1">
+                        <p>빠나나</p>
+                        <br>
+                        <p>후기 재밌게 잘 봤어요! 저도 다음 번에 꼭 가보고 싶어요~😊</p>
+                        <p>2024.09.26 14:43</p>
+                    </div>
+                    <hr class="comment_uner_line">
+                    <div class="comment2">
+                        <p>쿠키</p>
+                        <br>
+                        <p>블랙 글레이즈드라떼 어때요? 맛있었나요? 아이스 핫 중에 뭐드셨나요?</p>
+                        <p>2024.09.26 14:43</p>
+                    </div>
+                    <textarea name="" class="comment_text_box"></textarea>
+                    <div class="comment_button_box">
+                        <input class="comment_button" type="button" value="등록">
+                    </div>
+                </div>
+            </div>
+            <!-- ★★★작업위치★★★ -->
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+         <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>

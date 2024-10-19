@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/kuj.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>마이페이지 - 관심 후기 목록</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a th:href="@{/}">홈</a>
+            > 
+            <a th:href="@{/user/myaccount}">마이페이지</a>
+            > 
+            <a href="#">내 일정</a>
+        </p>
+        <div>관심 후기 목록</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+
+                <div id="my_schedule">
+                    <div class="bluebar"></div>
+                    <div class="account_top">
+                        <h2 class=" my_account_title">내 일정</h2>
+                        <div class="my_account_sub_title">관심 후기 목록</div>
+                    </div>
+                    
+                    <!-- 후기 항목들을 담을 곳 -->
+                    <div class="schedule_container" id="liked_review_list">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>
+<script>
+	$(document).ready(function(){
+		//페이지 로드 시 좋아요 후기 불러오기
+		loadLikedReviews();
+		
+		function loadLikedReviews(){
+			$.ajax({
+				url: "likedReviews",
+				method: "GET",
+				success: function(likedReviews){
+					console.log(likedReviews);
+					
+					$('#liked_review_list').empty();
+					if(likedReviews.length > 0) {
+						
+						likedReviews.forEach(function(likedReview) {
+							
+							//배경이미지
+							let backgroundImage = "/images/review_background_img.png";
+							if(likedReview.backgroundImage){
+								backgroundImage = likedReview.backgroundImage;
+							}
+							
+							const html = `
+							<a href="/review/read?reviewId=${likedReview.reviewId}" class="item_link">
+								<div class="review_content" data-reviewId=${likedReview.reviewId} style="background-image: url('${backgroundImage}')";>
+									<div class="date_and_views">
+		                                <div class="date">${likedReview.createdDate}</div>
+		                                <div class="views_and_count">
+		                                    <div class="views">조회수</div>
+		                                    <div class="views_count">${likedReview.viewCount}</div>
+		                                </div>
+		                            </div>
+		                            <div class="like_box">
+		                                <img src="/images/like_icon.png" alt="하트" class="like_icon" onclick="removeReview(event, ${likedReview.reviewId})">
+		                            </div>
+		                            <div class="title_text">${likedReview.title}</div>
+		                            <div class="author_name_nim">
+		                                <div class="author_name">${likedReview.nickname}</div>
+		                                <div class="nim">님</div>
+		                            </div>
+	                        	</div>
+							</a>`;
+							
+							$('#liked_review_list').append(html);
+						});
+					}
+					else{
+						$('#liked_review_list').append("<p>좋아요한 후기가 없습니다.</p>");
+					}
+				},
+				error: function(error){
+					console.error("좋아요 목록을 불러오는 중 오류 발생:", error);
+				}
+			});
+		}
+		
+	});
+	
+	//하트 클릭시 리스트에서 제거
+	function removeReview(event, reviewId){
+		
+		//클릭 이벤트가 상위 요소에 전달되지 않도록 방지
+		event.preventDefault();
+		event.stopPropagation();
+		
+		$.ajax({
+			url: `likedReviews/${reviewId}`,
+			method: "DELETE",
+			success: function(response){
+				$('.review_content[data-reviewId="' + reviewId + '"]').remove();
+				alert(reviewId + "번 후기에서 좋아요를 제거합니다."); //나중에 삭제?
+			},
+			error: function(error){
+				console.error("좋아요 제거 중 오류 발생: ", error);
+			}
+		});
+	}
+</script>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Shoong_sub</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="/">홈</a>
+            > 
+            <a href="/user/myaccount">마이페이지</a>
+            >
+            <a href="/user/myaccount">내 계정</a>
+        </p>
+        <div>포인트 관리</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+                <div id="my_account">
+                    <div class="bluebar"></div>
+                    <div class="account_top">
+                        <h2 class=" my_account_title">내 계정</h2>
+                        <div class="my_account_sub_title">포인트 관리</div>
+                    </div>
+
+                    <!-- 포인트 관리 -->
+                    <div id="my_point">
+                        <div class="point_item">
+                            <table class="point_table">
+                                <thead>
+                                    <tr>
+                                        <th>발급일</th>
+                                        <th>내역</th>
+                                        <th>포인트</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2024.09.20</td>
+                                        <td>적립</td>
+                                        <td class="point_positive">+ 500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024.07.12</td>
+                                        <td>사용</td>
+                                        <td  class="point_negative">- 500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024.02.02</td>
+                                        <td>적립</td>
+                                        <td class="point_positive">+ 500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2023.12.31</td>
+                                        <td>적립</td>
+                                        <td class="point_positive">+ 500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2023.08.13</td>
+                                        <td>적립</td>
+                                        <td class="point_positive">+ 500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2023.01.20</td>
+                                        <td>적립</td>
+                                        <td class="point_positive">+ 500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2023.01.12</td>
+                                        <td>사용</td>
+                                        <td  class="point_negative">- 500</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>

@@ -1,0 +1,675 @@
+@import url("font.css");
+
+*{ box-sizing: border-box; margin: 0; padding: 0;}
+a{ text-decoration: none; }
+
+#first_page{
+    height: 100%;
+    width: 1920px;
+    height: 100vh;
+    background-image: url(../images/first.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.first1{
+    width: 100%;
+    height: 77px;
+    display: flex;
+    align-items: center; 
+}
+.left_logo{
+    margin-left: 240px;
+}
+.white_box{
+    position:absolute;
+    left: 734px;
+    top: 121px;
+    width: 451px;
+    height: 724px; 
+    background-color: #FFFFFF;
+    border-radius: 20px;
+}
+.white_box h2{
+    margin-top: 35px;
+    margin-left: 35px;
+    margin-bottom: 35px;
+    font-weight: bold;
+    font-size: 24px;
+    color: #111;
+}
+.white_box .checking_box_style{
+    border: none;
+    background-color: #0B98FF;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+.input_box{
+    margin: 0 32px;
+}
+.input_box label{
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #111;
+}
+.input_box input{
+    border:none;
+    background: #F7F7F7;
+    border-radius: 10px;
+}
+
+/* 회원가입 */
+#join .input_box input{
+    width: 379.49px;
+    height: 43.92px;
+}
+#join .input_box .user_id_input_box{
+    width: 278.02px;
+}
+#join .input_box #checking_user_id{
+    width: 96px;
+}
+#join .input_box .phone_number_input_box{
+    width: 243px;
+}
+#join .input_box #checking_phone_number{
+    width: 131px;
+}
+#join .input_box #checking_phone_number_auth{
+    width: 131px;
+}
+#join .input_box .phone_auth_box{
+	position: relative;
+}
+#join .input_box .phone_auth_box .phone_number_auth{}
+#join .input_box .phone_auth_box .countdown_warning_text{
+	position: absolute;
+	top: 13.5px;
+	right: 160px;
+	color: red;
+	font-size: 12px;
+	font-weight: bold;
+	z-index: 1000;
+}
+#join .submit_box #checking_join_submit{
+    width: 88.27px;
+    height: 43.92px;
+    border-radius: 10px;
+    margin-left: 180px;   
+    margin-top: 25px;
+}
+#join .input_box .warning_text{
+    width: 379.49px;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 8px;
+    margin-bottom: 25px; 
+    padding: 0; 
+}
+#join .input_box .nickname_margin, .phone_number_input_box{
+    margin-bottom: 15px;
+}
+#join .input_box #password{
+    margin-bottom: 9px;
+}
+#join .input_box #email{
+    width: 175px;
+}
+#join .input_box select{
+    width: 183px;
+    height: 43.92px;
+    border:none;
+    background: #F7F7F7;
+    border-radius: 10px;
+    font-size: 14px; 
+    padding-left: 10px;
+}
+input::placeholder{
+    color: #AAAAAA;
+    font-size: 14px;
+    padding-left: 12px;
+}   
+
+/* 로그인 */
+#login input{
+    width: 382px;
+    height: 50px;
+    border-radius: 10px;
+}
+#login .user_id_input_box{
+    margin-bottom: 38px;
+}
+#login .submit_box #checking_login_submit{
+    margin: 0 32px;
+    margin-top: 57px;
+    margin-bottom: 15px;
+}
+#login .search_button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 57px;
+}
+#login .search_button span{
+    color: #828282;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 10px;
+}
+#login .search_button a{
+    color: #828282;
+    font-weight: bold;
+    font-size: 14px;
+}
+#login .sns_button{
+    margin: 0 35px;
+}
+#login .sns_login_button{
+    width: 382px;
+    height: 50px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    overflow: hidden; /* 자식 요소가 넘치는 경우 숨기기 */
+}
+#login .sns_login_button #google_login_box{
+    background-color: #F7F7F7;
+}
+#login .sns_login_button #kakao_login_box{
+    background-color: #FFEB3B;
+}
+#login .sns_login_button #naver_login_box{
+    background-color: #00C73C;
+}
+#login .sns_login_button .items{
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+}
+#login .sns_login_button .items img{
+    width: 27px;
+    height: 27px;
+    margin: 11px;
+}
+#login .sns_login_button .items span{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #474747;
+}
+
+/* 마이페이지 - 내 계정 */
+#my_account .bluebar{
+    width: 1200px;
+    border: 1px solid rgb(0, 107, 223);
+}
+#my_account .account_top{
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 29px;
+    margin-bottom: 23px;
+}
+#my_account .account_top .my_account_title{
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0;
+}
+#my_account .account_top .my_account_sub_title{
+    font-size: 20px;
+}
+#my_account .account_content{
+    display: flex;
+}
+#my_account .account_content .account_info{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 30px;
+}
+#my_account .account_content .account_info span{
+    font-size: 18px;
+}
+#my_account .account_content .account_info .account_item{
+    margin-bottom: 12px;
+}
+#my_account .account_content .account_info .account_item .account_label{
+    display: inline-block;
+    font-weight: bold;
+    width: 80px;
+}
+#my_account .account_content .account_info, .point_mgmt{
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 30px 50px;
+    width: 585px;
+    height: 177px;
+    position: relative;
+}
+#my_account .account_content .point_mgmt{
+    display: flex;
+    justify-content: space-between;
+}
+#my_account .account_content .point_mgmt .point_mgmt_title{
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+#my_account .account_content .point_mgmt .point_box{
+	display:flex;
+	gap: 10px;
+}
+#my_account .account_content .point_mgmt .point_box .point_score, .point_lan{
+    font-weight: bold;
+    font-size: 50px;
+    color: #006BDF;
+}
+#my_account .account_content .account_edit_btn, .point_mgmt_btn{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #006BDF;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #006BDF;
+    width: 132px;
+    height: 40px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+
+/* 마이페이지 - 내 계정 - 회원정보 수정 */
+#my_account .account_edit_content{
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    width: 1200px;
+    height: 273px;
+    display: inline-flex;
+    gap: 10px;
+    padding: 34px 0;
+    position: relative;
+ }
+#my_account .account_edit_content .account_profile_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 340px;
+}
+#my_account .account_edit_content .account_profile_box .profile_image{
+    position: relative;
+    width: 139px;
+    height: 139px;
+}
+#my_account .account_edit_content .account_profile_box .profile_image .image{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	overflow: hidden; /* 이미지가 부모 요소를 넘지 않도록 함 */
+    border-radius: 50%;
+}
+#my_account .account_edit_content .account_profile_box .profile_image .profile_edit_icon{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 34px;
+    height: 34px;
+	z-index: 10;
+}
+#my_account .account_edit_content .account_edit_info_box1{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 520px;
+    padding: 0 50px;
+}
+#my_account .account_edit_content .account_edit_info_box1 .account_edit_item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+    height: 40px;
+}
+#my_account .account_edit_content .account_edit_info_box1 .account_edit_item .account_edit_label{
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+    font-size: 18px;
+}
+#my_account .account_edit_content .account_edit_info_box1 .account_edit_item input{
+    border: 1px solid #eee;
+    border-radius: 10px;
+    width: 373px;
+    height: 37.46px;
+    padding: 0 5px;
+}
+#my_account .account_edit_content .account_finish_btn{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    width: 132px;
+    height: 40px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+#my_account .account_edit_content .account_finish_btn:hover{
+	background-color: #006BDF;
+	color: white;
+}
+
+#my_account .leave_box{
+    margin: 5px;
+	cursor: pointer;
+}
+#my_account .leave_box:hover{
+	color: #006BDF;
+	text-decoration: underline;
+}
+#my_account .popup_overlay{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+}
+#my_account .popup{
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: calc(50% - 15px); /* 스크롤바 너비를 고려한 조정 */
+    transform: translate(-50%, -50%);
+	text-align: center;
+	width: 300px;
+	padding: 30px 20px;
+	background-color: white;
+	border-radius: 8px;
+	z-index: 1000;
+}
+#my_account .popup p{
+	margin-bottom: 20px;	
+}
+#my_account .popup button{
+	margin: 0 10px;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	border-radius: 7px;
+}
+#my_account .popup .btn_yes{
+	background-color: #0B98FF;
+	color: white;
+}
+#my_account .popup .btn_no{
+	background-color: #ccc;
+}
+
+
+
+/* 마이페이지 - 내 일정 - 관심 계획 목록 */
+#my_schedule .bluebar{
+    width: 1200px;
+    border: 1px solid rgb(0, 107, 223);
+}
+#my_schedule .account_top{
+    display: flex;
+    position: relative;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 29px;
+    margin-bottom: 23px;
+}
+#my_schedule .account_top .my_account_title{
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0;
+}
+#my_schedule .account_top .my_account_sub_title{
+    font-size: 20px;
+}
+#my_schedule .account_top .array_box{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+#my_schedule .schedule_content{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    background-color: #DBECFF;
+    border-radius: 15px;
+    width: 1200px;
+    padding: 20px;
+}
+#my_schedule .schedule_content .schedule_content_item{
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    width: 370px;
+    height: 320px;
+    padding: 30px;
+}
+#my_schedule .schedule_content .schedule_content_item .item1, .item2, .item3, .item4, .item5{
+    /* position: relative; */
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+#my_schedule .schedule_content .schedule_content_item .item1{
+    margin-bottom: 14px;
+}
+#my_schedule .schedule_content .schedule_content_item .item1 .country_name{
+    font-size: 15px;
+}
+#my_schedule .schedule_content .schedule_content_item .item1 .like_box{
+    width: 47.19px;
+    height: 40.87px;
+}
+#my_schedule .schedule_content .schedule_content_item .item1 .like_box .like_icon{
+	cursor: pointer;
+	transition: transform 0.1s sease;
+}	
+#my_schedule .schedule_content .schedule_content_item .item1 .like_box .like_icon:hover{
+	transform: scale(1.2);
+}
+#my_schedule .schedule_content .schedule_content_item .item2{
+    margin-bottom: 26px;
+}
+#my_schedule .schedule_content .schedule_content_item .item2 .city_name_oe{
+	display: flex;
+	gap: 8px;
+    font-size: 30px;
+    font-weight: bold;
+}
+#my_schedule .schedule_content .schedule_content_item .item2 .city_name_oe .oe_city_gae{
+	display: flex;
+}
+#my_schedule .schedule_content .schedule_content_item .item2 .nights_and_days{
+    font-size: 20px;
+    font-weight: bold;
+    color: #306AA8;
+}
+#my_schedule .schedule_content .schedule_content_item .item3{
+    margin-bottom: 12px;
+}
+#my_schedule .schedule_content .schedule_content_item .item3 .travel_period{
+    font-size: 15px;
+    color: #888;
+}
+#my_schedule .schedule_content .schedule_content_item .item3 .author_nim{
+    font-size: 15px;
+    color: #888;
+	display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+#my_schedule .schedule_content .schedule_content_item .thin_blue_bar{
+    border: 1px solid #006BDF;
+    margin-bottom: 15px;
+}
+#my_schedule .schedule_content .schedule_content_item .item4{
+    margin-bottom: 13px;
+}
+#my_schedule .schedule_content .schedule_content_item .item4 .people_num{
+    font-size: 15px;
+}
+#my_schedule .schedule_content .schedule_content_item .item4 .people_count_myeong{
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+#my_schedule .schedule_content .schedule_content_item .item4 .people_count_myeong .people_count{
+    font-size: 20px;
+    font-weight: bold;
+}
+#my_schedule .schedule_content .schedule_content_item .item4 .myeong{
+    font-size: 15px;
+}
+#my_schedule .schedule_content .schedule_content_item .thin_gray_bar{
+    border: 1px solid #eee;
+    margin-bottom: 13px;
+}
+#my_schedule .schedule_content .schedule_content_item .item5{
+}
+#my_schedule .schedule_content .schedule_content_item .item5 .place_name{
+    font-size: 15px;
+}
+#my_schedule .schedule_content .schedule_content_item .item5 .place_count_gae{
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+#my_schedule .schedule_content .schedule_content_item .item5 .place_count_gae .place_count{
+    font-size: 20px;
+    font-weight: bold;
+}
+#my_schedule .schedule_content .schedule_content_item .item5 .place_count_gae .gae{
+    font-size: 15px;
+}
+
+/* 마이페이지 - 내 일정 - 관심 후기 목록 */
+#my_schedule .schedule_container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 53px;
+    gap: 20px;
+}
+#my_schedule .schedule_container .review_content{
+    position: relative;
+    width: 532px;
+    height: 372px;
+    background-image: url("/images/review_background_img.png");
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 1;
+    gap: 30px;
+}
+#my_schedule .schedule_container .review_content .like_box .like_icon{
+	cursor: pointer;
+	transition: transform 0.1s sease;
+}	
+#my_schedule .schedule_container .review_content .like_box .like_icon:hover{
+	transform: scale(1.2);
+} 
+#my_schedule .schedule_container .review_content .date_and_views{
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    color: white;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    z-index: 2;
+} 
+#my_schedule .schedule_container .review_content .date_and_views .date{
+    font-size: 20px;
+    font-weight: bold;
+} 
+#my_schedule .schedule_container .review_content .date_and_views .views_and_count{
+    display: flex;
+    gap: 8px;
+    font-size: 15px;
+} 
+#my_schedule .schedule_container .review_content .date_and_views .views_and_count .views_count{} 
+#my_schedule .schedule_container .review_content .date_and_views .views_and_count .views{} 
+#my_schedule .schedule_container .review_content .like_box{
+    position: absolute;
+    top: 30px;
+    right: 30px;
+} 
+#my_schedule .schedule_container .review_content .title_text{
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    color: white;
+    font-size: 45px;
+    font-weight: bold;
+    width: 170px;
+} 
+#my_schedule .schedule_container .review_content .author_name_nim{
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    color: white;
+    font-size: 25px;
+    display: flex;
+    gap: 8px;
+} 
+#my_schedule .schedule_container .review_content .author_name_nim .author_name{} 
+#my_schedule .schedule_container .review_content .author_name_nim .nim{} 
+
+/* 마이페이지 - 내 계정 - 포인트 관리 */
+#my_point .point_item{}
+#my_point .point_item .point_table{
+	width: 100%;
+	border-collapse: separate;
+	border: 1px solid #ddd;
+	border-collapse: collapse;
+	border-radius: 10px;
+	border-radius: 10px;
+  	border-style: hidden;
+  	box-shadow: 0 0 0 1px #ddd;
+}
+#my_point .point_item .point_table th, td{ 
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: center;
+	font-size: 14px;
+}
+#my_point .point_item .point_table tr:first-child th:first-child {
+	border-top-left-radius: 10px;
+}
+#my_point .point_item .point_table tr:first-child th:last-child {
+	border-top-right-radius: 10px;
+}
+#my_point .point_item .point_table tr:last-child td:first-child {
+	border-bottom-left-radius: 10px;
+}
+#my_point .point_item .point_table tr:last-child td:last-child {
+	border-bottom-right-radius: 10px;
+}
+#my_point .point_item .point_table .point_positive{
+	color: #006BDF;
+}
+#my_point .point_item .point_table .point_negative{
+}
+
+/* 라인잡기 */
+div,footer{
+    /* outline: 1px solid black; */
+}

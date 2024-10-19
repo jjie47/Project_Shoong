@@ -1,0 +1,92 @@
+#review_write{
+
+    height: 100%;
+}
+
+#review_write .write_top_line{
+    background: #006bdf;
+    height: 2px;
+    border: 0;
+}
+
+#review_write .review_title{
+    font-size: 18px;
+    margin: 0;
+}
+#review_write #review_title{
+    width: 300px;
+    position: relative;
+    bottom: 0.5px;
+    font-size: 18px;
+    margin: 0 0 0 10px;
+    border: 1px solid #006bdf
+}
+#review_write .review_title_p{
+    padding-top: 30px;
+    padding-bottom: 10px;
+    display: flex;
+}
+
+#review_write .my_plan_button{
+    width: 159px; height: 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    color: #006ae0;
+    border: 1px solid #006ae0;
+}
+#review_write .my_plan_button:hover{
+    background-color: #006ae0;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#review_write #review_write_box{
+    width: 1000px; height: 300px;
+    margin-left: 50px;
+    border: 1px solid #006bdf;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    resize: none;
+    /* border-radius: 15px; */
+}
+
+#review_write .file_upload_p{
+    padding-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#review_write .file_upload{
+    font-size: 18px;
+}
+#review_write .file_upload_box{
+    padding-left: 10px;
+}
+
+#review_write .upload_button_p{
+    display: flex;
+}
+#review_write .upload_button{
+    width: 73px; height: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: 390px;
+    margin-bottom: 10px;
+    background-color: #dbecff;
+    color: #006ae0;
+    border: none;
+}
+#review_write .upload_button:hover{
+    background-color: white;
+    border: 1px solid #006ae0;
+    transition: background-color 0.3s;
+}
+
+#review_write .plan_box label{
+    display: block;
+}

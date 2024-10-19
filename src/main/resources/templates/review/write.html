@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/write.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/write.js" defer></script>
+
+    <title>Shoong_sub</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+       <th:block th:replace="~{layout/header::header}"></th:block> 
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">후기 작성하기</a>
+        </p>
+        <div>후기 작성하기</div>
+    </div>
+
+    <div class="container">
+        <div class="inner">
+
+            <!-- ★★★작업위치★★★ -->
+            <div id="review_write">
+                <hr class="write_top_line">
+                <form action="/review/write" method="post" enctype="multipart/form-data" id="review_form" name="review_form">
+                    <p class="review_title_p">
+                        <label for="title_box" class="review_title">제목 :</label>
+                        <input type="text" name="review_title" id="review_title">
+                    </p>
+                    <div class="my_plan_p">
+                        <input type="button" class="my_plan_button" id="my_plan_button" value="내 계획 가져오기">
+                    </div>
+					<div id="my_plan_options"></div>
+					<!--<input type="hidden" name="planId" id="planId"> 숨은 필드 추가-->
+                    <p class="review_write_box_p">
+                        <textarea name="review_write_box" id="review_write_box"></textarea>
+                    </p>
+                    <p class="file_upload_p">
+                        <label for="file_upload" class="file_upload">파일 첨부 :
+                        <input type="file" name="photos" class="file_upload_box
+                        " id="file_upload"multiple></label>
+                    </p>
+                    <p class="upload_button_p" >
+                        <input type="button" value="등록" class="upload_button" id="submit_button">
+                    </p>
+
+                </form>
+            </div>
+             <!-- ★★★작업위치★★★ -->
+
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+         <th:block th:replace="~{layout/footer::footer}"></th:block> 
+    </div>
+</div>
+<script>
+	document.getElementById('my_plan_button').addEventListener('click', function() {
+		fetch('/review/write/myplan')
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error('Network response was not ok ' + response.statusText);
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            console.log(data); // 데이터 확인
+	            const optionsDiv = document.getElementById('my_plan_options');
+	            optionsDiv.innerHTML = '';
+	            
+	            // 데이터가 배열인지 확인
+	            if (Array.isArray(data)) {
+	                data.forEach(plan => {
+	                    const label = document.createElement('label');
+	                    const radio = document.createElement('input');
+	                    radio.type = 'radio';
+	                    radio.name = 'selected_plan';
+	                    radio.value = plan.planId;//plan.planId; // planId 설정
+	                    label.appendChild(radio);
+	                    label.appendChild(document.createTextNode(`${plan.countryKor} (${plan.cityKor}) (${plan.startDate}) ~ (${plan.endDate})`));
+	                    optionsDiv.appendChild(label);
+	                    optionsDiv.appendChild(document.createElement('br'));
+	                });
+	            } else {
+	                console.error('받은 데이터가 배열이 아닙니다:', data);
+	            }
+	        })
+	        .catch(error => console.error('Error fetching plans:', error));
+	});
+	
+	
+	document.getElementById('submit_button').addEventListener('click', function() {			
+	    const selectedPlan = document.querySelector('input[name="selected_plan"]:checked');
+	    const reviewTitle = document.getElementById('review_title').value; // 제목 가져오기
+	    const reviewWriteBox = document.getElementById('review_write_box').value; // 내용 가져오기
+		
+		<!--alert(selectedPlan.value);-->
+	    if (selectedPlan) {
+	        const planId = selectedPlan.value;
+			
+	        fetch('/review/write', {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/x-www-form-urlencoded'
+	            },
+	            body: new URLSearchParams({
+	                planId: planId,
+	                review_title: reviewTitle, // 제목 추가
+	                review_write_box: reviewWriteBox // 내용 추가
+	            })
+	        })
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error('Network response was not ok ' + response.statusText);
+	            }
+	            return response.text();
+	        })
+	        .then(data => {
+	            console.log('리뷰 작성 성공:', data);
+	            location.replace("/review/list");
+	        })
+	        .catch(error => console.error('Error submitting review:', error));
+	    } else {
+	        console.error('선택된 계획이 없습니다.');
+	    }
+	});
+	
+</script>
+</body>

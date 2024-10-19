@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/kuj.css">
+    
+
+    <title>마이페이지 - 관심 계획 목록</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a th:href="@{/}">홈</a>
+            > 
+            <a th:href="@{/user/myaccount}">마이페이지</a>
+            > 
+            <a href="#">내 일정</a>
+        </p>
+        <div>관심 계획 목록</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+
+                <div id="my_schedule">
+                    <div class="bluebar"></div>
+                    <div class="account_top">
+                        <h2 class=" my_account_title">내 일정</h2>
+                        <div class="my_account_sub_title">관심 계획 목록</div>
+                        <select class="array_box" id="sortSelect" onchange="sortCities()">
+                            <option value="asc">올림차순</option>
+                            <option value="desc">내림차순</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 일정 항목들을 담을 곳 -->
+                    <div class="schedule_content" id="schedule_list">
+                        
+                    </div>
+					
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function (){
+		//페이지 로드 시 좋아요 목록 불러오기
+		loadLikedPlans();
+		
+		function loadLikedPlans(){
+			$.ajax({
+				url: "likedPlans",
+				method: "GET",
+				success: function(likedPlans){
+					console.log(likedPlans);
+					
+					$('#schedule_list').empty();
+					if(likedPlans.length > 0) {
+						
+						//planId 별로 유니크한 항목만 필터링
+						const uniquePlans = [];
+						const seenPlanIds = new Set();
+						
+						likedPlans.forEach(function(likedPlan) {
+							
+							if(!seenPlanIds.has(likedPlan.planId)){
+								seenPlanIds.add(likedPlan.planId);
+								uniquePlans.push(likedPlan);
+							}
+						});
+						
+						uniquePlans.forEach(function(likedPlan) {
+							
+							//도시가 여러 개인 경우 대표 도시와 "외 N" 표시
+							const cityKorFirst = likedPlan.cityKorFirst;
+							const otherCityText = likedPlan.otherCitiesCnt > 0 ? `외 ${likedPlan.otherCitiesCnt}` : "";
+							
+							const html = `
+							<a href="/plan/get?planId=${likedPlan.planId}" class="item_link">
+								<div class="schedule_content_item" data-planId="${likedPlan.planId}">
+		                            <div class="item1">
+		                                <div class="country_name">${likedPlan.countryKor}</div>
+		                                <div class="like_box">
+		                                    <img src="/images/like_icon.png" alt="하트" class="like_icon" onclick="removeItem(event, ${likedPlan.planId})">
+		                                </div>
+		                            </div>
+	
+		                            <div class="item2">
+										<div class="city_name_oe">
+			                                <div class="city_name">${likedPlan.cityKorFirst}</div>
+											<div class="oe_city_gae">
+												<div class="oe" style="display:none;">외</div>
+												<div class="city_gae">${otherCityText}</div>
+											</div>
+										</div>
+		                                <div class="nights_and_days">${getNightsAndDays(likedPlan.startDate, likedPlan.endDate)}</div>									
+		                            </div>
+	
+		                            <div class="item3">
+		                                <div class="travel_period">${likedPlan.startDate} ~ ${likedPlan.endDate}</div>
+		                                <div class="author_nim">
+											<div class="author">${likedPlan.nickname}</div>
+											<div class="nim">님</div>										
+										</div>
+		                            </div>
+	
+		                            <div class="thin_blue_bar"></div>
+	
+		                            <div class="item4">
+		                                <div class="people_num">인원 수</div>
+		                                <div class="people_count_myeong">
+		                                    <div class="people_count">${likedPlan.ruleCnt}</div>
+		                                    <div class="myeong">명</div>
+		                                </div>
+		                            </div>
+	
+		                            <div class="thin_gray_bar"></div>
+	
+		                            <div class="item5">
+		                                <div class="place_name">방문장소</div>
+		                                <div class="place_count_gae">
+		                                    <div class="place_count">${likedPlan.placeCnt}</div>
+		                                    <div class="gae">개</div>
+		                                </div>
+		                            </div>
+	                        	</div>
+							</a>`;
+							
+							//새로운 html 생성하여 추가하기
+							$('#schedule_list').append(html);
+						});
+					} 
+					else{
+						$('#schedule_list').append("<p>좋아요한 계획이 없습니다.</p>");
+					}
+				}, 
+				error: function(error){
+					console.error("좋아요 목록을 불러오는 중 오류 발생:", error);
+				}
+			});
+		}
+		
+		//날짜 차이 계산
+		function getNightsAndDays(startDate, endDate){
+			let start = new Date(startDate);
+			let end = new Date(endDate);
+			let timeDiff = end - start;
+			let dayDiff = timeDiff / (1000 * 3600 * 24);
+			return dayDiff + "박" + (dayDiff + 1) + "일";
+		}
+	});
+	
+	//하트 클릭시 리스트에서 제거
+	function removeItem(event, planId){
+		//클릭 이벤트가 상위 요소에 전달되지 않도록 방지
+		event.preventDefault();
+		event.stopPropagation();
+		
+		$.ajax({
+			url: `likedPlans/${planId}`,
+			method: "DELETE",
+			success: function(response){
+				//서버에서 성공적으로 삭제되면 목록에서 해당 계획을 제거
+				$('.schedule_content_item[data-planId="' + planId + '"]').remove();
+				alert(planId + "번 계획에서 좋아요를 제거합니다."); //나중에 삭제
+				console.log(planId +"번 계획 게시글을 삭제했습니다.");
+			},
+			error: function(error){
+				console.log("좋아요 제거 중 오류 발생: ", error);
+			}
+		});
+	}
+	
+	//도시명을 기준으로 정렬
+	function sortCities(){
+		const sortSelect = document.getElementById('sortSelect');
+		const scheduleList = document.getElementById('schedule_list');
+		    const items = Array.from(scheduleList.getElementsByClassName('schedule_content_item'));
+		    const sortOrder = sortSelect.value; // 선택된 정렬 옵션
+
+		    // 도시 이름을 기준으로 정렬
+		    items.sort((a, b) => {
+		        const cityA = a.querySelector('.city_name').textContent.trim();
+		        const cityB = b.querySelector('.city_name').textContent.trim();
+
+		        return sortOrder === 'asc' ? cityA.localeCompare(cityB) : cityB.localeCompare(cityA);
+		    });
+
+		    // 정렬된 결과를 기존 목록에서 제거하고 새로 추가
+		    scheduleList.innerHTML = '';
+		    items.forEach(item => scheduleList.appendChild(item));
+	}
+</script>
+</html>

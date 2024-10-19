@@ -1,0 +1,217 @@
+*{
+    box-sizing: border-box; margin: 0 auto; padding: 0;
+}
+
+#review_list{
+    /* width: 1440px; */
+    height: 100%;
+}
+
+#review_list .search{
+    margin: auto;
+    height: 115px;
+    display: flex;
+    justify-content: center;
+    font-size: 18;
+    background-color: #f4f4f4;
+    border-radius: 15px;
+}
+#review_list .search_innerbox{
+    line-height: 113px;
+    margin-left: 70px;
+}
+#review_list .search_innerbox span{ padding-right: 70px;}
+#review_list .search_keyward{
+    width: 140px; height: 55px;
+    font-size: 18;
+    margin-right: 21px;
+    padding-left: 30px;
+}
+#review_list .search_textbox{
+    width: 682px; height: 55px;
+    font-size: 18;
+    margin-right: 21px;
+    padding-left: 30px;
+}
+#review_list .search_button{
+    /* 버튼 좀 더 search 박스에서 상하를 가운데정렬 해야 함 */
+	cursor: pointer;
+    width: 55px;
+    height: 55px;
+    background-color: #006bdf;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    border-radius: 5px;
+    border-style: none;
+    position: relative;
+    top: 5px;
+}
+
+#review_list .review_line{
+    background: #006bdf;
+    margin: 30px 0;
+    height: 2px;
+    border: 0;
+}
+
+#review_list .write_button{
+    cursor: pointer;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    position: fixed;
+    right:20px;
+    bottom:20px;
+    font-size: 18px;
+    background-color: #dbecff;
+    color: #006ae0;
+    border: none;
+    
+}
+#review_list .write_button:hover{
+    background-color: white;
+    border: 1px solid #006ae0;
+    transition: background-color 0.3s;
+}
+
+#review_list .review_board{
+    border-style: none;
+    margin: auto;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+}
+#review_list .review_board>div{
+	/*cursor: pointer;*/
+    background: url("/images/space1.jpg");
+    margin: auto;
+    border: 1px solid #dddddd;
+    border-radius: 15px;
+    width: 345px;
+    height: 435.54px;
+    margin: 7.5px;
+    /* position: relative; */
+}
+
+/* #review_list .review_board>div:hover{
+    background-color: #ffffff; opacity: 0.4;
+    transition: background-color 0.3s ease;
+} */
+
+#review_list .review_top{
+    display: flex;
+	justify-content: space-between;
+    padding-top: 15px;
+    font-size: 24px;
+    font: bold;
+}
+#review_list .review_date{
+    padding-left: 17px;
+    margin: 0;
+}
+#review_list .review_like{
+    width: 22px; height: 20px;
+   margin-right: 20px;
+   background: none;
+   border: none;
+}
+#review_list .review_like >img{
+    width: 31px; height: 29px;
+}
+
+#review_list .review_title{
+	font-size: 24px;
+	word-break: keep-all;
+}
+/* #review_list .review_title >h3, p{
+    color: pink;
+} */
+#review_list .review_title >h3{
+    font-size: 36px;
+    text-align: center;
+}
+#review_list .review_title >p{
+    font-size: 24px;
+    padding-left: 30px;
+    padding-top: 15px;
+}
+#review_list .review_comment_cnt{
+    /* color: pink; */
+    font-size: 20px;
+    text-align: right;
+    padding-right: 20px;
+}
+
+
+
+#review_list .review_board .white_boxs{
+	position:relative;
+	height:100%;
+	background-image: url("/images/sample_img7.png");
+	border-radius: 15px;
+}
+
+#review_list .review_board>div:hover .review_box{
+	opacity: 0.6;
+	background: rgb(255,255,255);
+	transition: all 0.3s ease;
+}
+
+#review_list .white_boxs .review_box{
+	position:absolute;
+	opacity: 0;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background: rgb(255,255,255);
+	border-radius: 15px;
+}
+
+#review_list .white_boxs .review_box a{
+	display:block;
+	height:100%;
+}
+
+#review_list .white_boxs .review_box a>h2 {
+	position:absolute;
+	top:50%;
+	transform: translateY(-50%);
+	padding:20px;
+	
+}
+
+#review_list .white_boxs .review_box a>p{
+	position:absolute;
+	bottom:15px;
+	right:20px;
+}
+
+/*#review_lsit .spinner{
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#review_lsit .spinner >p{
+	font-size: 16px;
+	color: #006ae0;
+}*/
+
+/*#review_list .review_board > div:hover .review_date,
+#review_list .review_board > div:hover .review_title,
+#review_list .review_board > div:hover .review_like,
+#review_list .review_board > div:hover .review_comment_cnt{
+    display:block;
+     position: absolute; 
+    color: #111111;
+    border-radius: 15px;
+   
+}*/
+
+/* review_board 부분 양 쪽 마진 없애서 search 부분이랑 width 같게 만들어야 */
+/* #review_list .review1{ margin-left: 0;}
+#review_list .review4{ margin-right: 0;}
+#review_list .reveiw5{ margin-left: 0;}
+#review_list .reveiw8{ margin-right: 0;} */
+
+#review_list .loading{ text-align: center;}

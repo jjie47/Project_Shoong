@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="../js/jieun.js"></script>
+	
+
+    <title>Shoong-계획 구경하기</title>
+</head>
+<body>
+	<!--<th:block th:if="${session.loginUser == null">
+		<script>
+			location.replace('/user/login');
+		</script>
+	</th:block>-->
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="/">홈</a>
+            > 
+            <a>계획 구경하기</a>
+        </p>
+        <div>계획 구경하기</div>
+    </div>
+
+    <div class="container">
+        <div class="inner">
+            <!-- ★★★작업위치-시작★★★ -->
+            <div id="plan_view">
+                <div class="search">
+                    <p>검색 키워드</p>
+                    <form name="searchForm" id="searchForm" action="/plan/list">
+                        <select name="keywordType" id="keywordType">
+                            <option value="all" th:selected="${pageMaker.criJ.keywordType == null}">전체</option>
+                            <option value="country" th:selected="${pageMaker.criJ.keywordType == 'country'}">나라</option>
+                            <option value="city" th:selected="${pageMaker.criJ.keywordType == 'city'}">도시</option>
+                        </select>
+                        <input type="search" id="keyword" name="keyword" th:value="${pageMaker.criJ.keyword}">
+                        <a id="search_btn" class="btn" onclick="searchBtnHandler()">
+                            <img src="../images/search.png" alt="">
+                        </a>
+						<input type="hidden" name="pageNum" th:value="${pageMaker.criJ.pageNum}">
+						<input type="hidden" name="amount" th:value="${pageMaker.criJ.amount}">
+                    </form>
+                </div>
+    
+                <p class="blue_line"></p>
+    
+                <div class="category">
+					<form name="categoryForm" id="categoryForm" action="/plan/list">
+	                  	<ul>
+	                        <li><a href="" th:class="${pageMaker.criJ.category == '' ? 'cate_btn active' : 'cate_btn'}">전체</a></li>
+	                        <li><a href="동남아" th:class="${pageMaker.criJ.category == '동남아' ? 'cate_btn active' : 'cate_btn'}">동남아</a></li>
+	                        <li><a href="아시아" th:class="${pageMaker.criJ.category == '아시아' ? 'cate_btn active' : 'cate_btn'}">아시아</a></li>
+	                        <li><a href="대양주" th:class="${pageMaker.criJ.category == '대양주' ? 'cate_btn active' : 'cate_btn'}">대양주</a></li>
+	                        <li><a href="유럽" th:class="${pageMaker.criJ.category == '유럽' ? 'cate_btn active' : 'cate_btn'}">유럽</a></li>
+	                        <li><a href="미주" th:class="${pageMaker.criJ.category == '미주' ? 'cate_btn active' : 'cate_btn'}">미주</a></li>
+							<input type="hidden" name="keywordType" th:value="${pageMaker.criJ.keywordType}">
+							<input type="hidden" name="keyword" th:value="${pageMaker.criJ.keyword}">
+							<input type="hidden" name="category" th:value="${pageMaker.criJ.category}">
+							<input type="hidden" name="pageNum" th:value="${pageMaker.criJ.pageNum}">
+							<input type="hidden" name="amount" th:value="${pageMaker.criJ.amount}">
+						</ul>
+					</form>
+                </div>
+    
+                <div>
+					<div th:if="${planLists == null or planLists.size() == 0}" class="no_list">
+						<p>등록된 게시글이 없습니다.</p>
+					</div>
+                    <ul class="plan_list">
+                        <li th:each="planList : ${planLists}" th:if="${planList.plan.isShared == 1}">
+                            <div class="list_title">
+                                <div>
+                                    <div class="f_left">
+                                        [[${planList.destinations.get(0).countryKor}]]
+                                        <div>[[${planList.destinations.get(0).cityKor}]]
+                                            <p th:if="${planList.destinations.size() > 1}" class="plus">외 [[${planList.destinations.size() - 1}]]</p>
+                                        </div>
+                                    </div>
+                                    <div class="f_right">
+                                        [[${planList.daysCount}]]박 [[${planList.daysCount+1}]]일
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="date">
+                                        [[${planList.plan.startDate.substring(0, 10)}]] ~ [[${planList.plan.endDate.substring(0, 10)}]]
+                                    </div>
+                                    <div class="wirter">
+										<span th:each="group : ${planList.groups}" th:if="${group.rule == '그룹장'}">
+											[[${#strings.substring(group.userId, 0, 3)} + ${#strings.repeat('*', group.userId.length() - 3)}]]
+							            </span>님
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="blue_line"></p>
+                            <div class="list_content">
+                                <ul>
+                                    <li>
+                                        <div>인원 수</div>
+                                        <div><span class="group_num">[[${planList.groups.size()}]]</span>명</div>
+                                    </li>
+                                    <li>
+                                        <div>방문 장소</div>
+                                        <div><span class="place_num">[[${planList.places.size()}]]</span>개</div>
+                                    </li>
+                                </ul>
+                                <div>
+                                    <div id="like_plan">
+                                        <div class="img">
+											<span class="heart" onclick="likedPlan(this)">
+												<img th:src="${planList.likedCheck != 0 ? '../images/like_on.png' : '../images/like.png'}" alt="">
+											</span>
+											<input th:value="${planList.plan.planId}" class="planID hidden"/>
+                                            <span class="like_plan_num">[[${planList.likedCount}]]</span>
+                                        </div>
+                                    </div>
+                                    <a th:href="${planList.plan.planId}" class="a_plan_view">계획 보러가기</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+				<!-- 페이징 버튼 -->
+				<form name="pageForm" id="pageForm" action="/plan/list">
+                	<div class="pagination">
+	                    <a th:if="${pageMaker.prev}" class="btn change_page" th:href="${pageMaker.criJ.start}"><img src="../images/page_end.png" class="reflect" alt=""></a>
+	                    <a th:if="${pageMaker.prev}" class="btn change_page" th:href="${pageMaker.startPage - 1}"><img src="../images/page_next.png" class="reflect" alt=""></a>
+						<!-- #numbers.sequence(1,7) 숫자를 넘기면 반복자를 만들어주는 함수 [1,2,3,4,5,6,7] -->
+						<th:block th:each="i:${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+							<a class="btn change_page" th:href="${i}" th:if="${pageMaker.criJ.pageNum != i}">[[${i}]]</a>
+							<a class="now_page" th:if="${pageMaker.criJ.pageNum == i}">[[${i}]]</a>
+						</th:block>
+	                    <a th:if="${pageMaker.next}" class="btn change_page" th:href="${pageMaker.endPage + 1}"><img src="../images/page_next.png" alt=""></a>
+	                    <a th:if="${pageMaker.next}" class="btn change_page" th:href="${pageMaker.realEnd}"><img src="../images/page_end.png" alt=""></a>
+						<input type="hidden" name="keywordType" th:value="${pageMaker.criJ.keywordType}">
+						<input type="hidden" name="keyword" th:value="${pageMaker.criJ.keyword}">
+						<input type="hidden" name="category" th:value="${pageMaker.criJ.category}">
+						<input type="hidden" name="pageNum" th:value="${pageMaker.criJ.pageNum}">
+						<input type="hidden" name="amount" th:value="${pageMaker.criJ.amount}">
+					</div>
+                </form>
+            </div>
+
+            <!-- ★★★작업위치-끝★★★ -->
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>

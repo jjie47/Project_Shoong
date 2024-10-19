@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PlaceMapper">
+	<select id="getMyPlaceByDestIds"  resultType="Long">
+		SELECT COUNT(*) FROM `place` p
+    	JOIN `destination` d ON p.destination_id = d.destination_id
+    	WHERE d.destination_id IN
+    <foreach item="destinationId" collection="destIds" open="(" separator="," close=")">
+        #{destinationId}
+    </foreach>
+    AND d.plan_id IN
+    <foreach item="planId" collection="planIds" open="(" separator="," close=")">
+        #{planId}
+    </foreach>
+    GROUP BY d.plan_id
+	</select>
+	<insert id="insertPlace" parameterType="java.util.Set">
+		insert into place
+		(marker_id, name, addr, latitude, longitude, start_time, end_time, type, system_name, destination_id)
+		values
+		<foreach collection="places" item="place" separator=",">
+			(#{place.markerId}, #{place.name}, #{place.addr}, #{place.latitude}, #{place.longitude},
+			#{place.startTime}, #{place.endTime}, #{place.type}, #{place.systemName}, #{place.destinationId})
+		</foreach>
+	</insert>
+	<insert id="insertPlaces" useGeneratedKeys="true" keyProperty="placeId" parameterType="PlanDTO">
+		insert into place (marker_id, name, addr, latitude, longitude, start_time, end_time, type, system_name, destination_id)
+		values (#{markerId}, #{name}, #{addr}, #{latitude}, #{longitude},
+			#{startTime}, #{endTime}, #{type}, #{systemName}, #{destinationId})
+	</insert>
+	
+	
+	
+	<!-- 장소 불러오기 -->
+	<select id="getPlaceByPlanId" resultType="com.example.demo.domain.PlaceDTO">
+		SELECT p.*
+		FROM `place` p
+		JOIN `destination` d ON p.`destination_id` = d.`destination_id`
+		WHERE d.`plan_id` = #{planId};
+	</select>
+	<!-- 장소 불러오기 -->
+	<select id="getPlacesByDestinationId" resultType="com.example.demo.domain.PlaceDTO">
+		SELECT p.*
+		FROM `place` p
+		JOIN `destination` d ON p.`destination_id` = d.`destination_id`
+		WHERE d.`plan_id` = #{planId} AND d.`destination_id` = #{destinationId};
+	</select>
+</mapper>

@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DefaultDestinationMapper">
+	<select id="getDestinationById">
+		select * from default_destination where destination_id = #{destinationId}
+	</select>
+	<select id="getDestinationsByKeyword">
+		select * from default_destination where city_kor like '%${keyword}%' or country_kor like '%${keyword}%'
+	</select>
+	<select id="getDestinationsByKeyAndCont">
+		select * from default_destination where (city_kor like '%${keyword}%' or country_kor like '%${keyword}%') and continent like #{continent}
+	</select>
+</mapper>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+          $("#header").load("../layout/header.html");
+          $("#left_menu").load("../layout/left_menu.html");
+          $("#footer").load("../layout/footer.html");
+        });
+    </script>
+
+    <title>계획 구경하기</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <!-- <th:block th:replace="~{layout/header::header}"></th:block> -->
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">계획 구경하기</a>
+        </p>
+        <div>계획 구경하기</div>
+    </div>
+
+    <div class="container">
+        <div class="inner">
+            <!-- ★★★작업위치-시작★★★ -->
+            <div id="plan_view">
+                <div class="search">
+                    <p>검색 키워드</p>
+                    <form name="searchForm" id="searchForm" action="/board/list">
+                        <select name="keywordType" id="keywordType">
+                            <option value="all">전체</option>
+                            <option value="country">나라</option>
+                            <option value="city">도시</option>
+                            <option value="wirter">작성자</option>
+                        </select>
+                        <input type="search" id="keyword" name="keyword">
+                        <a href="#" id="search-btn" class="btn">
+                            <img src="../images/search.png" alt="">
+                        </a>
+                    </form>
+                </div>
+    
+                <p class="blue_line"></p>
+    
+                <div class="category">
+                    <ul>
+                        <li><a href="#" class="active">전체</a></li>
+                        <li><a href="#">동남아</a></li>
+                        <li><a href="#">일본</a></li>
+                        <li><a href="#">대양주</a></li>
+                        <li><a href="#">유럽</a></li>
+                        <li><a href="#">미주</a></li>
+                        <li><a href="#">중국</a></li>
+                    </ul>
+                </div>
+    
+                <div class="plan_list">
+                    <ul>
+                        <li>
+                            <div class="list_title">
+                                <div>
+                                    <div class="f_left">
+                                        일본
+                                        <div>오사카
+                                            <p class="plus">외 <span>1</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="f_right">
+                                        <span>3</span>박 <span>4</span>일
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="date">
+                                        2024.09.01~2024.09.04
+                                    </div>
+                                    <div class="wirter">
+                                        <span>ap***</span>님
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="blue_line"></p>
+                            <div class="list_content">
+                                <ul>
+                                    <li>
+                                        <div>인원 수</div>
+                                        <div><span class="group_num">2</span>명</div>
+                                    </li>
+                                    <li>
+                                        <div>방문 장소</div>
+                                        <div><span class="place_num">15</span>개</div>
+                                    </li>
+                                </ul>
+                                <div>
+                                    <div class="like_plan">
+                                        <div class="img">
+                                            <img src="../images/like.png" alt="">
+                                            <span class="like_plan_num">125</span>
+                                        </div>
+                                    </div>
+                                    <a href="#">계획 보러가기</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 페이징 버튼 -->
+                <div class="pagination">
+                    <a class="btn changePage"><img src="../images/page_end.png" class="reflect" alt=""></a>
+                    <a class="btn changePage"><img src="../images/page_next.png" class="reflect" alt=""></a>
+                    <a href="#" class="now_page">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">6</a>
+                    <a href="#">7</a>
+                    <a href="#">8</a>
+                    <a href="#">9</a>
+                    <a href="#">10</a>
+                    <a class="btn changePage"><img src="../images/page_next.png" alt=""></a>
+                    <a class="btn changePage"><img src="../images/page_end.png" alt=""></a>
+                </div>
+            </div>
+
+            <!-- ★★★작업위치-끝★★★ -->
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <!-- <th:block th:replace="~{layout/footer::footer}"></th:block> -->
+    </div>
+</div>
+</body>

@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.GroupMapper">
+
+	<select id="getMyGroup">
+		select * from `group` where user_id = #{userId} order by `plan_id` asc;
+	</select>
+	
+	<select id="getGroupCount"  resultType="Long">
+		SELECT COUNT(*) FROM `group`
+    	WHERE plan_id IN
+    <foreach item="planId" collection="planIds" open="(" separator="," close=")">
+        #{planId}
+    </foreach>
+    GROUP BY plan_id
+    </select>
+    
+    <delete id="exitMyPlan">
+        DELETE FROM `group`
+        WHERE `plan_id` = #{planId} AND `user_id` = #{userId}
+    </delete>
+    
+	<insert id="insertGroup">
+		insert into `group` values(#{rule}, #{planId}, #{userId})
+	</insert>
+	<select id="getMemberListByPlanId">
+		select `group`.rule, `group`.plan_id, `group`.user_id, nickname from `group`, `user` where `group`.user_id = `user`.user_id and plan_id = #{planId};
+	</select>
+	
+	<!-- 그룹 불러오기 -->
+	<select id="getGroupByPlanId" resultType="com.example.demo.domain.GroupDTO">
+		SELECT * 
+		FROM `group` 
+		WHERE `plan_id` = #{planId};
+	</select>
+</mapper>

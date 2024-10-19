@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CostMapper">
+	<insert id="insertCostByPlaceId" parameterType="java.util.List">
+		insert into cost
+		(content, expected_cost, payer, place_id)
+		values
+		<foreach collection="costs" item="cost" separator=",">
+			(#{cost.content}, #{cost.expectedCost}, #{cost.payer}, #{cost.placeId})
+		</foreach>
+	</insert>
+	
+	<!-- 비용 불러오기 -->
+	<select id="getCostByPlanId" resultType="com.example.demo.domain.CostDTO">
+		SELECT c.*
+		FROM `cost` c
+		JOIN `place` p ON c.`place_id` = p.`place_id`
+		JOIN `destination` d ON p.`destination_id` = d.`destination_id`
+		WHERE d.`plan_id` = #{planId};
+	</select>
+</mapper>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/kuj.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	<title>마이페이지 - 내 계정</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">마이페이지</a>
+            >
+            <a href="#">내 계정</a>
+        </p>
+        <div>내 계정</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+                <div id="my_account">
+                    <div class="bluebar"></div>
+                    <div class="account_top">
+                        <h2 class=" my_account_title">내 계정</h2>
+                        <div class="my_account_sub_title"></div>
+                    </div>
+                    <div class="account_content">
+                        <div class="account_info">
+                            <div class="account_info_box1">
+                                <div class="account_item">
+                                    <span class="account_label">아이디</span>
+                                    <span id="userId" th:text=${user.userId}></span>
+                                </div>
+                                <div class="account_item">
+                                    <span class="account_label">닉네임</span>
+                                    <span id="nickname" th:text=${user.nickname}></span>
+                                </div>
+                                <div class="account_item">
+                                    <span class="account_label">이메일</span>
+                                    <span id="email" th:text=${user.email}></span>
+                                </div>
+                                <div class="account_item">
+                                    <span class="account_label">전화번호</span>
+                                    <span id="phoneNumber" th:text=${user.phoneNumber}></span> 
+                                </div>
+                            </div>
+                            <div class="account_info_box2">
+                                <a th:href="@{/user/myaccountEdit}" class="account_edit_btn">회원정보 수정</a>
+                            </div>
+                        </div>
+
+                        <div class="point_mgmt">
+                            <div class="point_mgmt_box1">
+                                <h3 class="point_mgmt_title">총 보유 포인트</h3>
+								<div class="point_box">
+	                                <div class="point_score" th:text=${user.point}></div>
+									<div class="point_lan">P</div>									
+								</div>
+                            </div>
+                            <div class="point_mgmt_box2">
+                                <a th:href="@{/user/mypoint}" class="point_mgmt_btn">포인트 관리</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>
+</html>

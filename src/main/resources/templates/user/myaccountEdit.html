@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/kuj.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>마이페이지 - 회원정보 수정</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">마이페이지</a>
+            >
+            <a href="#">내 계정</a>
+        </p>
+        <div>회원정보 수정</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+                <div id="my_account">
+                    <div class="bluebar"></div>
+                    <div class="account_top">
+                        <h2 class=" my_account_title">내 계정</h2>
+                        <div class="my_account_sub_title">회원정보 수정</div>
+                    </div>
+					
+					<!-- 회원정보 수정 -->
+                    <form action="/user/myaccountEdit" method="post" enctype="multipart/form-data">
+                        <div class="account_edit_content">
+							<!-- 프로필 -->
+                            <div class="account_profile_box">
+                                <div class="profile_image">
+									<img th:src="${user.systemName != null ? user.systemName : '/images/default_profile.png'}" id="profileImage" class="image" alt="프로필 이미지">
+
+                                    <div class="profile_edit_icon" id="profileEditIcon">
+                                        <img src="/images/user_profile_edit_icon.png" alt="프로필 수정">
+                                    </div>
+									
+									<input type="file" id="profileInput" name="profileInput" accept="image/*" style="display:none;">
+                                </div>
+                            </div>
+                            <div class="account_edit_info_box1">
+                                <div class="account_edit_item">
+                                    <span class="account_edit_label">아이디</span>
+                                    <span id="userId" th:text=${user.userId}></span> 
+                                </div>
+                                <div class="account_edit_item">
+                                    <label class="account_edit_label">닉네임</label>
+                                    <input type="text" id="nickname" name="nickname" th:value=${user.nickname}></input>
+                                </div>
+                                <div class="account_edit_item">
+                                    <label class="account_edit_label">이메일</label>
+                                    <input type="text" id="email" name="email" th:value=${user.email}></input>
+                                </div>
+                                <div class="account_edit_item">
+                                    <label class="account_edit_label">전화번호</label>
+                                    <input type="text" id="phoneNumber" name="phoneNumber" th:value=${user.phoneNumber}></input> 
+                                </div>
+                                <div class="account_edit_item">
+                                    <label class="account_edit_label">비밀번호</label>
+                                    <input type="password" id="password" name="password" th:value=${user.password}></input> 
+                                </div>
+                            </div>
+							<button type="submit" class="account_finish_btn">수정 완료</button>
+                        </div>
+                    </form>
+					
+					<!-- 회원 탈퇴 -->
+					<form id="deleteAccountForm" action="/user/deleteAccount" method="POST" style="display: none;">
+						<input type="hidden" name="userId" value="${user.userId}">
+					</form>
+                    <div class="leave_box" onclick="openPopup()">
+                        정말 회원탈퇴 하시겠어요?
+                    </div>
+					
+					<!-- 팝업창 -->
+					<div class="popup_overlay" id="popupOverlay"></div>
+					<div class="popup" id="popup">
+						<p>정말 떠나실껀가요?</p>
+						<button class="btn_yes" onclick="deleteAccount()">예</button>
+						<button class="btn_no" onclick="closePopup()">아니오</button>
+					</div>
+                </div>  
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body> 
+<script>
+	//프로필사진 변경
+	$(document).ready(function() {
+	    // 프로필 수정 아이콘 클릭 시 파일 입력 클릭
+	    $('#profileEditIcon').click(function() {
+	        $('#profileInput').click(); // 파일 입력 클릭
+	    });
+	    
+        // 파일이 변경되면 실행
+	    $('#profileInput').change(function() {
+	        if (this.files && this.files[0]) {
+	            var reader = new FileReader();
+	            reader.onload = function(e) {
+	                // 파일 읽기가 완료되면 실행
+	                $('.image').attr('src', e.target.result); // 선택한 이미지 미리보기
+	            }
+	            reader.readAsDataURL(this.files[0]); // 파일 읽기
+	        }
+	    });
+	});
+
+	//팝업창 열고 닫기
+	function openPopup(){
+		$('#popup').show();
+		$('#popupOverlay').show();
+	}
+	function closePopup(){
+		$('#popup').hide();
+		$('#popupOverlay').hide();
+	}
+	
+	//회원탈퇴
+	function deleteAccount(){
+		closePopup();
+		document.getElementById("deleteAccountForm").submit();
+	}
+</script>
+</html>

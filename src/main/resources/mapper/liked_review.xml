@@ -1,0 +1,50 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.LikedMapper">
+	<select id="getLikedReivews" resultType="LikedReviewDTO">
+		SELECT 
+			lr.user_id AS userId,
+		    lr.review_id AS reviewId,
+		    p.plan_id AS planId,
+		    r.title AS title,
+		    r.content AS content,
+		    author.nickname AS nickname,
+		    r.created_date AS createdDate,
+		    r.like_count AS likeCount,
+		    r.view_count AS viewCount
+		FROM 
+			liked_review lr
+		JOIN
+			review r ON lr.review_id = r.review_id
+		JOIN
+			plan p ON r.plan_id = p.plan_id
+		JOIN
+			`user` u ON lr.user_id = u.user_id
+		JOIN
+		    `user` author ON r.user_id = author.user_id
+		WHERE
+			lr.user_id = #{userId};
+	</select>
+	
+	<select id="existByUserIdAndReviewId">
+		SELECT COUNT(*) > 0 FROM liked_review
+		WHERE user_id = #{userId} AND review_id = #{reviewId}
+	</select>
+	
+	<select id="getPhotosByReviewId" resultType="PhotoDTO">
+		SELECT
+			system_name,
+			origin_name,
+			review_id
+		FROM
+			photo
+		WHERE
+			review_id = #{reviewId}
+	</select>
+	
+	<delete id="deleteLikedReviewByUserIdAndReviewId">
+		DELETE FROM liked_review
+		WHERE user_id = #{userId} AND review_id = #{reviewId}
+	</delete>
+</mapper>

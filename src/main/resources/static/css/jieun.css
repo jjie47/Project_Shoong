@@ -1,0 +1,153 @@
+/* 계획 목록 공통 */
+#plan_view{font-size: 18px; } 
+#plan_view .blue_line{width:100%; height:2px; margin:30px 0;  background-color: #006BDF;}
+#plan_view .hidden{display:none;}
+
+/* 검색 키워드 */
+#plan_view .search{display: flex; padding:30px; background: #F4F4F4; border-radius: 15px; line-height: 45px; } 
+#plan_view .search p{margin:0 70px 0 50px;} 
+#plan_view .search form{display: flex;} 
+#plan_view .search select{width:140px; height:45px; font-size: 15px; border: none; outline: none;} 
+#plan_view .search input{width:680px; margin:0 20px; padding:0 15px; border: none; outline: none; font-size: 15px;} 
+#plan_view .search a{display: flex; justify-content: center; align-items: center; width:45px; height:45px;  background: #006BDF; border-radius: 5px; cursor: pointer;} 
+#plan_view .search a img{width:27px; height:27px;} 
+
+/* 상단 버튼 카테고리 */
+#plan_view .category{margin-bottom:30px;}
+#plan_view .category ul{display: flex;}
+#plan_view .category ul li{margin-right:8px;}
+#plan_view .category ul li a{display: block; padding: 0 30px; border: 1px solid #ddd; border-radius: 10px; line-height: 40px; }
+#plan_view .category ul li a:hover{background-color: #F7F7F7; border: 1px solid #ddd; color:#111;}
+#plan_view .category ul li a.active{background: #006BDF; border: 1px solid #006BDF; color:#fff;}
+#plan_view .category ul li a.active:hover{background: #006BDF; border: 1px solid #006BDF; color:#fff;}
+
+/* 게시글 리스트 */
+#plan_view .no_list{width: 100%; text-align: center; margin:100px 0;}
+#plan_view .plan_list{display: flex; flex-wrap: wrap; max-width: 1440px;}
+#plan_view .plan_list>li{width: 345px; margin: 0 20px 30px 0; padding:30px; border:1px solid #ddd; border-radius: 15px;}
+#plan_view .plan_list>li:nth-child(4n){margin-right: 0;}
+#plan_view .plan_list .list_title>div{display: flex; justify-content: space-between;}
+#plan_view .plan_list .list_title>div div.f_left{font-size: 15px;}
+#plan_view .plan_list .list_title>div div.f_left .plus{display: inline;}
+#plan_view .plan_list .list_title>div div.f_left div{margin-top:2px; font-size: 25px; font-family: 'Pretendard-Bold'; }
+#plan_view .plan_list .list_title>div div.f_right{padding:0 15px; border-radius: 10px; background:#DBECFF; line-height: 50px; font-size: 20px; font-family: 'Pretendard-Bold'; color:#006BDF}
+#plan_view .plan_list .list_title>div:nth-child(2){margin-top:15px; color:#888; font-size: 15px;}
+
+#plan_view .plan_list .blue_line{margin:10px 0 0;}
+
+#plan_view .plan_list .list_content ul{margin-bottom:5px;} 
+#plan_view .plan_list .list_content ul li{display: flex; justify-content: space-between; line-height:45px; font-size: 15px;} 
+#plan_view .plan_list .list_content ul li:first-child{border-bottom:1px solid #eee;} 
+#plan_view .plan_list .list_content ul li div span{font-size: 20px; font-family: 'Pretendard-Bold';} 
+
+#plan_view .plan_list .list_content>div{display: flex; justify-content: space-between; line-height: 50px;}
+#plan_view .plan_list .list_content>div #like_plan .img img{margin-right: 5px; cursor: pointer; vertical-align: text-bottom;}
+#plan_view .plan_list .list_content>div a{display: block; background: #f4f4f4; border-radius: 10px; padding:0 35px; color:#006BDF}
+
+/* 페이징 버튼 */
+#plan_view .pagination {display: flex; justify-content: center; margin-top:50px;}
+#plan_view .pagination a{display: flex; justify-content: center; align-items: center; width:45px; height:45px; margin:5px; border-radius: 5px; border: 1px solid #ddd; cursor: pointer;}
+#plan_view .pagination a.now_page{background: #006BDF; border: 1px solid #006BDF; color:#fff;}
+#plan_view .pagination a img.reflect {transform: scaleX(-1);}
+
+
+/**************************************************************/
+
+/* 계획 상세보기 공통 */
+#plan_get{font-size: 18px;}
+#plan_get .hidden{display: none;}
+#plan_get .blue_line{width:100%; height:2px; margin:50px 0 20px;  background-color: #006BDF;}
+
+/* 계획 상세 리스트 */
+#plan_get .plan_con{display: flex; justify-content: space-between;}
+#plan_get .plan_list{width:520px; margin-right:20px; padding:20px 15px; border:1px solid #ddd; border-radius: 15px; }
+#plan_get .plan_list .p_title{display: flex; justify-content: space-between; width:474px; margin-bottom:10px; padding-bottom:13px; border-bottom:1px solid #ddd;}
+#plan_get .plan_list .p_title>div:nth-child(1) span{font-family: 'Pretendard-Bold';}
+#plan_get .plan_list .p_title>div:nth-child(1) p{font-size: 15px; color:#888; margin-top:3px;}
+#plan_get .plan_list .p_title>div:nth-child(2) p{display: inline-block; margin-right:3px; padding:0 10px; vertical-align: top; border-radius: 10px; background: #DBECFF; line-height: 40px; font-family: 'Pretendard-Bold'; color:#306AA8;}
+#plan_get .plan_list .p_title>div:nth-child(2) img{ padding-right:3px; vertical-align: text-bottom; line-height: 40px; cursor: pointer;}
+#plan_get .plan_list .p_title>div:nth-child(2) #like_plan{display: inline-block; min-width: 30px; text-align: center;}
+#plan_get .plan_list .p_title>div:nth-child(2) #like_plan .img img{margin:0; padding:0; cursor: pointer; vertical-align: text-bottom;}
+#plan_get .plan_list .p_title>div:nth-child(2) #like_plan .img .like_plan_num{display: block; font-size: 15px; margin-top: 2px;}
+
+#plan_get .plan_list .p_con{overflow: auto; height:700px;}
+#plan_get .plan_list .p_con::-webkit-scrollbar{background: #fff; width:5px; }
+#plan_get .plan_list .p_con::-webkit-scrollbar-thumb{background: #D9D9D9; border-radius: 2.5px;}
+#plan_get .plan_list .p_con .destiList>li{padding-right:10px;}
+#plan_get .plan_list .p_con .destiList>li p.dest_title{margin:22px 0 12px; font-size:15px;}
+#plan_get .plan_list .p_con .destiList>li:first-child p.dest_title{margin-top:10px;}
+#plan_get .plan_list .p_con .destiList>li p.dest_title>span{padding-right:5px; font-size: 25px; font-family: 'Pretendard-Bold';}
+
+#plan_get .plan_list .p_con .daysList>div p.day_title{padding:0 10px; border-radius: 5px; background: #f4f4f4; line-height: 40px; font-size: 20px; color:#006BDF; font-family: 'Pretendard-Bold';}
+#plan_get .plan_list .p_con .daysList>div p.day_title span{padding-left:5px; font-size: 15px; color:#888; font-family: 'Pretendard-Regular'; }
+
+#plan_get .plan_list .p_con .daysList>div>.placeList>li{display: flex; padding: 13px 5px; border-bottom:1px solid #f4f4f4;}
+#plan_get .plan_list .p_con .daysList>div>.placeList>li:last-child{border-bottom:none;}
+#plan_get .plan_list .p_con .daysList>div:last-child>.placeList>li:last-child{border-bottom:1px solid #f4f4f4;}
+#plan_get .plan_list .p_con .daysList>div>.placeList>li p.pl_type{width:45px; margin-right:10px; border-radius: 11px; text-align: center; line-height: 22px; font-size: 13px; color:#fff; }
+#plan_get .plan_list .p_con .daysList>div>.placeList>li p.pl_type.air{background: #006BDF;}
+#plan_get .plan_list .p_con .daysList>div>.placeList>li p.pl_type.hotel{background: #00ADA4;}
+#plan_get .plan_list .p_con .daysList>div>.placeList>li p.pl_type.eat{background: #F47700;}
+#plan_get .plan_list .p_con .daysList>div>.placeList>li p.pl_type.tour{background: #F55A91;}
+#plan_get .plan_list .p_con .daysList>div>.placeList>li p.pl_type.etc{background: #F5D030;}
+#plan_get .plan_list .p_con .daysList>div>.placeList>li span{margin-left: auto; font-size: 15px; line-height: 22px;}
+
+/* 지도 */
+#plan_get .plan_map{width:900px; border-radius: 15px;   overflow: hidden; display: flex; justify-content: center; align-items: center;}
+#plan_get .plan_map #map{width: 107%; height: 107%;}
+
+/* 후기 */
+#plan_get .review_con{margin-top:20px; padding-top:20px; border-top:1px solid #ddd;}
+#plan_get .review_con .title{margin-bottom:15px;}
+#plan_get .review_con .title span{font-size: 30px; font-family: 'Pretendard-Bold';}
+#plan_get .review_con>ul{display: flex; flex-wrap: wrap;}
+#plan_get .review_con>ul>li{position:relative; overflow: hidden; width:460px; height:300px; margin:0 30px 30px 0; border-radius: 15px; border:1px solid #f4f4f4; background: #00ADA4;}
+#plan_get .review_con>ul>li:nth-child(3n){margin-right:0px;}
+#plan_get .review_con>ul>li:nth-child(1n){background: url(../images/plan_view01.jpg) no-repeat center center / cover;}
+#plan_get .review_con>ul>li:nth-child(2n){background: url(../images/plan_view02.jpg) no-repeat center center / cover;}
+#plan_get .review_con>ul>li:nth-child(3n){background: url(../images/plan_view03.jpg) no-repeat center center / cover;}
+#plan_get .review_con>ul>li:nth-child(4n){background: url(../images/plan_view04.jpg) no-repeat center center / cover;}
+#plan_get .review_con>ul>li:nth-child(5n){background: url(../images/plan_view05.jpg) no-repeat center center / cover;}
+#plan_get .review_con>ul>li:nth-child(6n){background: url(../images/plan_view06.jpg) no-repeat center center / cover;}
+#plan_get .review_con>ul>li:nth-child(7n){background: url(../images/plan_view07.jpg) no-repeat center center / cover;}
+#plan_get .review_con>ul>li a{align-items: center; width:100%; height:100%; }
+#plan_get .review_con>ul>li a::before{position:absolute; top:0; display: block; content: ""; width:100%; height:100%; background: rgba(0,0,0,0.7); opacity: 0; transition: all 0.3s;}
+#plan_get .review_con>ul>li a:hover::before{opacity: 1;}
+#plan_get .review_con>ul>li a div{position:absolute; top:100px; left:0; width:100%; text-align: center; color:#fff; opacity: 0; transition: all 0.3s;}
+#plan_get .review_con>ul>li a:hover div{opacity: 1;}
+#plan_get .review_con>ul>li a div p{font-size: 30px; font-family: 'Pretendard-Bold';}
+#plan_get .review_con>ul>li a div p::after{display: block; content: ""; width:30px; height:3px; background: #fff; margin:20px auto 17px;}
+#plan_get .review_con>ul>li a div li{line-height: 25px;}
+#plan_get .review_con>ul>li a div li img{padding-right:5px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

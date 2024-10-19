@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+	<insert id="insertUser">
+		insert into user (user_id, password, nickname, email, phone_number)
+		values(#{userId}, #{password}, #{nickname}, #{email}, #{phoneNumber})
+	</insert>
+	
+	<select id="getUserByUserId">
+		select * from user where user_id=#{userId}
+	</select>
+	
+	<update id="updateUser">
+		update user
+		set password=#{password}, nickname=#{nickname}, email=#{email}, phone_number=#{phoneNumber}
+		<if test="systemName != null">, system_name = #{systemName}</if>
+        <if test="originName != null">, origin_name = #{originName}</if>  
+		where user_id=#{userId}
+	</update>
+	
+	<delete id="deleteUser">
+		delete from user where user_id=#{userId}
+	</delete>
+	
+	<select id="getAllUserCnt">
+		SELECT COUNT(*) FROM `user`
+	</select>
+	
+	<select id="getList">
+		select * from user where user_id like '%${keyword}%' order by user_id asc
+	</select>
+	<select id="getNicknameByUserId">
+		select nickname from user where user_id = #{userId}
+	</select>
+	
+	
+	<!-- 유저 불러오기 -->
+	<select id="getUserByPlanId" resultType="com.example.demo.domain.UserDTO">
+		SELECT u.*
+		FROM `group` g
+		JOIN `user` u ON g.user_id = u.user_id
+		WHERE g.plan_id = #{planId};
+	</select>
+	
+	<!-- 그룹장 닉네임 -->
+	<select id="getLeaderNickByPlanId">
+		SELECT u.nickname
+		FROM `user` u
+		JOIN `group` g ON u.user_id = g.user_id
+		WHERE g.plan_id = #{planId}
+		AND g.rule = '그룹장';
+	</select>
+</mapper>

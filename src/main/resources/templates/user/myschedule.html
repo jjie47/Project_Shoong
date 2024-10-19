@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+    <title>내 일정</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">마이페이지</a>
+            > 
+            <a href="#">내 일정</a>
+        </p>
+        <div>내 일정</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+                <div id="my_schedule">
+                    <div class="bluebar"></div>
+                    <div class="box1">
+                        <div class="textbox">
+                            <p>내 일정</p>
+                        </div>
+                    </div>
+                    <div class="box2">
+                        <div class="menu1">
+                            <p class="text1">계획 관리</p>
+                            <p class="text2">내 모든 계획을 한 눈에</p>
+                            <a href="/user/myPlan"><p class="text3">바로가기</p><img src="/images/blue_arrow.png" alt="" class="text3logo"></a>
+                            <img src="/images/mypage_icon1.png" alt="" class="logo">
+                        </div>
+                        <div class="menu2">
+                            <p class="text1">후기 관리</p>
+                            <p class="text2">여행 후 기록한 후기들</p>
+                            <a href="/user/myReview"><p class="text3">바로가기</p><img src="/images/blue_arrow.png" alt="" class="text3logo"></a>
+                            <img src="/images/mypage_icon2.png" alt="" class="logo">
+                        </div>
+                        <div class="menu3">
+                            <p class="text1">댓글 관리</p>
+                            <p class="text2">내가 작성한 댓글을 한 눈에</p>
+                            <a href="/user/myComment"><p class="text3">바로가기</p><img src="/images/blue_arrow.png" alt="" class="text3logo"></a>
+                            <img src="/images/mypage_icon3.png" alt="" class="logo">
+                        </div>
+                        <div class="menu4">
+                            <p class="text1">좋아요</p>
+                            <p class="text2">좋아요를 체크한 리스트</p>
+                            <a href="#"><div class="btn1"><p>계획</p></div></a>
+                            <a href="#"><div class="btn2"><p>후기</p></div></a>
+                            <img src="./images/mypage_icon3.png" alt="" class="logo"> 
+                        </div>
+                    </div>
+                    <div class="blackbar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>

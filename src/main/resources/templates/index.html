@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF_8">
+    <meta name="viewport" content="width=device_width, initial_scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    
+
+    <title>Shoong</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <section>
+		
+		<div id="firstwrap">
+		    <div class="first inner">
+		        <div class="bigtitle">
+		            <p class="bigtitle1">Start your Plan</p>
+		            <p class="bigtitle2">with. Shoong</p>
+		        </div>
+
+		        <div class="smalltitle">
+		            <p class="smalltitle1">당신이 여행을 계획하고,</p>
+		            <p class="smalltitle2">여행 그 이상의 가치를 만들기를 바랍니다.</p>
+		        </div>
+
+		        <div class="bottom_menu">
+		            <div class="bottomtitle">
+		                <p class="bottomtitle1">어떤 나라의 여행을</p>
+		                <p class="bottomtitle1">계획하시고 계신가요?</p>
+		            </div>
+		            <a href="#" data-index="0" class="country" id="country1">
+		                <div class="img1">
+		                    <div class="img_box">
+		                        <img src="./images/country1.png" alt="">
+		                    </div>
+		                    <p>동남아</p>
+		                </div>
+		            </a>
+		            <a href="#" data-index="1" class="country" id="country2">
+		                <div class="img2">
+		                    <div class="img_box">
+		                        <img src="./images/country2.png" alt="">
+		                    </div>
+		                    <p>일본</p>
+		                </div>
+		            </a>
+		            <a href="#" data-index="2" class="country" id="country3">
+		                <div class="img3">
+		                    <div class="img_box">
+		                        <img src="./images/country3.png" alt="">
+		                    </div>
+		                    <p>대양주</p>
+		                </div>
+		            </a>
+		            <a href="#" data-index="3" class="country" id="country4">
+		                <div class="img4">
+		                    <div class="img_box">
+		                        <img src="./images/country4.png" alt="">
+		                    </div>
+		                    <p>유럽</p>
+		                </div>
+		            </a>
+		            <a href="#" data-index="4" class="country" id="country5">
+		                <div class="img5">
+		                    <div class="img_box">
+		                        <img src="./images/country5.png" alt="">
+		                    </div>
+		                    <p>미주</p>
+		                </div>
+		            </a>
+		        </div>
+		        <div class="main_arrow">
+		            <p id="prev"><img src="./images/btn_prev.png" alt=""></p>
+		            <p id="next"><img src="./images/btn_next.png" alt=""></p>
+		        </div>
+		    </div>
+		</div>
+
+            
+    </section>
+
+    <section>
+        <div id="secondwrap">
+            <div class="second1">
+                <div class="second1_text1">
+                    <p class="bold">우리가 그리던 계획, <span class="blue bold">Shoong</span></p>
+                </div>
+                <div class="second1_text2">
+                    <p>결정하기 어렵고 힘들던 여행계획, 슈웅이 도와드립니다!</p>
+                </div>
+            </div>
+            <div class="second2">
+                <div class="second2_left">
+                    <a href="/plan/list">
+                        <div class="second2_left_top">
+                            <img src="./images/main_banner1.png" alt="">
+                        </div>
+                        <div class="second2_left_bot">
+                            <div class="second2_left_bot_text1">
+                                <p class="blue bold">여행계획 구경하기</p>
+                            </div>
+                            <div class="second2_left_bot_text2">
+                                <p>나와 같은 여행지에 가는 사람들은
+                                    <br>
+                                어떤 계획을 세웠을까 궁금하지 않으신가요?</p>
+                            </div>
+                            <div class="second2_left_bot_btn">
+                                <p>보러가기</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="second2_right">
+                    <a href="/review/list">
+                        <div class="second2_right_top">
+                            <img src="./images/main_banner2.png" alt="">
+                        </div>
+                        <div class="second2_right_bot">
+                            <div class="second2_right_bot_text1">
+                                <p class="blue bold">여행후기 구경하기</p>
+                            </div>
+                            <div class="second2_right_bot_text2">
+                                <p>여행을 다녀온 사람들의 후기를 한 눈에!
+                                    <br>
+                                어떤점이 좋았고, 어떤점이 안좋았을까요?</p>
+                            </div>
+                            <div class="second2_right_bot_btn">
+                                <p>보러가기</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div id="thirdwrap">
+            <div class="third1">
+                <div class="third1_text1">
+                    <p>우리와 함께하는 Shoong</p>
+                </div>
+                <div class="third1_text2">
+                    <p>슈웅은 고객님들과 함께 여행 문화를 만들어갑니다.</p>
+                </div>
+            </div>
+            <div class="third2">
+                <div class="third2_box1">
+                    <div class="third2_box1_top">
+                        <p>함께 계획한 여행 수</p>
+                    </div>
+                    <div class="third2_box1_bot">
+                        <p th:text="${T(java.lang.String).format('%,d', rt[0].planCount * 112)}"></p>
+                        <p>&nbsp회</p>
+                    </div>
+                </div>
+                <div class="third2_box2">
+                    <div class="third2_box2_top">
+                        <p>함께 여행한 고객 수</p>
+                    </div>
+                    <div class="third2_box2_bot">
+						<p th:text="${T(java.lang.String).format('%,d', rt[0].userCount * 137)}"></p>
+                        <p>&nbsp명</p>
+                    </div>
+                </div>
+                <div class="third2_box3">
+                    <div class="third2_box3_top">
+                        <p>남겨주신 여행 후기 수</p>
+                    </div>
+                    <div class="third2_box3_bot">
+						<p th:text="${T(java.lang.String).format('%,d', rt[0].reviewCount * 27)}"></p>
+                        <p>&nbsp개</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div id="fourthwrap">
+            <div class="fourth1">
+                <div class="fourth1_text1">
+                    <p>남겨주신 여행 후기, <span class="blue">Review</span></p>
+                </div>
+                <div class="fourth1_text2">
+                    <p>여행을 다녀온 사람들의 후기를 구경하실 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="fourth2">
+				
+				<!--여기서부터-->
+                <div class="fourth2_img1" th:each="plan : ${rt}">
+					<img th:src="${plan.reviewImage != null ? plan.reviewImage : '/images/sample_img1.png'}" alt="">
+                    <a th:href="@{/review/read?reviewId={reviewId}(reviewId=${plan.reviewId})}">
+                        <div class="fourth2_blackbox">
+                        <div class="fourth2_text1">
+                            <p th:text="${plan.cityKor}"></p>
+                        </div>
+                        <div class="fourth2_text1_underbar">
+                            
+                        </div>
+                        <div class="fourth2_text2">
+                            <p th:text="${plan.startDate}"></p>
+							<p>&nbsp~&nbsp</p>
+							<p th:text="${plan.endDate}"></p>
+                        </div>
+                        <div class="fourth2_text3">
+                            <p>(</p>
+							<p th:text="${plan.nights}"></p>
+							<p>박&nbsp</p>
+							<p th:text="${plan.days}"></p>
+							<p>일)</p>
+                        </div>
+                    </div>
+                </a>
+                </div>
+				<!--여기까지-->
+				
+            </div>
+			
+            <div class="fourth4">
+                <div class="fourth4_btn">
+                    <a href="/review/list"><p>더보기</p></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+    
+</div>
+
+<script>
+        const images = [
+            '../images/first.jpg',
+            '../images/second2.jpg',
+            '../images/third3.jpg',
+            '../images/fourth44.jpg',
+            '../images/fifth5.jpg',
+            '../images/sixth6.jpg',
+        ];
+
+        let currentIndex = 0;
+
+        function updateBackground() {
+            document.getElementById('firstwrap').style.backgroundImage = `url(${images[currentIndex]})`;
+        }
+
+        function updateSelectedCountry(selectedIndex) {
+            const countries = document.querySelectorAll('.country');
+            countries.forEach((country, index) => {
+                const imgBox = country.querySelector('.img_box');
+                imgBox.classList.toggle('selected', index === selectedIndex);
+            });
+        }
+
+        document.getElementById('prev').addEventListener('click', () => {
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            updateBackground();
+        });
+
+        document.getElementById('next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateBackground();
+        });
+
+        document.querySelectorAll('.country').forEach((country, index) => {
+            country.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentIndex = index + 1; // country click moves to the next image
+                updateBackground();
+                updateSelectedCountry(index);
+            });
+        });
+
+        // 초기 배경 이미지 설정
+        updateBackground();
+		
+		setInterval(() => {
+		    currentIndex = (currentIndex + 1) % images.length;
+		    updateBackground();
+		}, 4000);
+    </script>
+</body>
+</html>
+
+

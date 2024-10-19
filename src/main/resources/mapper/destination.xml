@@ -1,0 +1,62 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DestinationMapper">
+	
+	<select id="getMyDestinationByPlanIds"  resultType="DestinationDTO">
+		SELECT d.* FROM `destination` d
+    	JOIN `plan` p ON d.plan_id = p.plan_id
+    	WHERE p.plan_id IN
+    <foreach item="planId" collection="planIds" open="(" separator="," close=")">
+        #{planId}
+    </foreach>
+	</select>
+	
+	<select id="getMyDestCountByPlanIds"  resultType="Long">
+		SELECT COUNT(*) FROM `destination` d
+    	JOIN `plan` p ON d.plan_id = p.plan_id
+    	WHERE p.plan_id IN
+    <foreach item="planId" collection="planIds" open="(" separator="," close=")">
+        #{planId}
+    </foreach>
+    	GROUP BY d.plan_id
+    	ORDER BY d.plan_id;
+	</select>
+	
+	<select id="getMyfirst"  resultType="DestinationDTO">
+		select d.city_kor,d.country_kor,d.plan_id 
+		from destination as d join place as p on d.destination_id = p.destination_id 
+		where plan_id in (#{planId})
+		order by start_time limit 1;
+	</select>
+	
+	<insert id="insertDestination" parameterType="java.util.Set">
+		insert into destination
+		(city_kor, country_kor, country_code, continent, plan_id)
+		values
+		<foreach collection="destinations" item="destination" separator=",">
+			(#{destination.cityKor}, #{destination.countryKor}, #{destination.countryCode}, #{destination.continent}, #{planId})
+		</foreach>
+	</insert>
+	<select id="getDestinationsByPlanId" resultType="java.util.Map">
+		select city_kor, destination_id
+		from destination
+		where plan_id = #{planId}
+	</select>
+	
+	
+	<!-- 목적지 불러오기 -->
+	<select id="getDestinationByPlanId" resultType="com.example.demo.domain.DestinationDTO">
+		SELECT * 
+		FROM `destination` 
+		WHERE `plan_id` = #{planId};
+	</select>
+	
+	<!-- 목적지 불러오기  -->
+	<select id="getDestinationById" resultType="com.example.demo.domain.DestinationDTO">
+		SELECT * 
+		FROM `destination` 
+		WHERE destination_id = #{destinationId};
+	</select>
+	
+</mapper>

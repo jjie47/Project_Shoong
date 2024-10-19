@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+	
+
+
+    <title>후기 관리</title>
+</head>
+<body>
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="#">홈</a>
+            > 
+            <a href="#">마이페이지</a>
+            > 
+            <a href="#">내 일정</a>
+            > 
+            <a href="#">후기 관리</a>
+        </p>
+        <div>후기 관리</div>
+    </div>
+
+    <div class="container">
+        <div class="inner flex">
+            <!-- 좌측 메뉴 불러오기 -->
+            <div id="left_menu">
+				<th:block th:replace="~{layout/left_menu::left_menu}"></th:block>
+			</div>
+            <!-- 우측 컨텐츠 -->
+            <div class="content">
+                <div id="my_plan_view">
+                    <div class="bluebar"></div>
+                    <div class="box1">
+                        <div class="textbox">
+                            <p>내 일정</p>
+                            <p class="mini_text">후기 관리</p>
+                        </div>
+                    </div>
+                    <div class="box2">
+                        <div class="category1">
+                            <p>번호</p>
+                        </div>
+                        <div class="category2">
+                            <p>제목</p>
+                        </div>
+                        <div class="category3">
+                            <p>등록일시</p>
+                        </div>
+                        <div class="category4">
+                            <p>좋아요 수</p>
+                        </div>
+                        <div class="category5">
+                            <p>조회수</p>
+                        </div>
+                    </div>
+                    <div class="box3">
+                        <div class="boxcover">
+							
+							<div th:if="${review[0] == null or review[0].size() == 0}" class="no_review">
+								<p>등록된 리뷰가 없습니다.</p>
+							</div>
+							
+                            <!-- 여기서부터 -->
+                            <div class="postbox" th:each="entry, iterStat : ${review[0]}">
+                                <div class="flex">
+                                    <div class="post1">
+                                        <p><span th:text="${iterStat.index +  pageMaker.pagenum * 10 - 9}"></span></p>
+                                    </div>
+                                    <div class="post2">
+                                        <a th:href="@{/review/read?reviewId={reviewId}(reviewId=${entry.reviewId})}">
+                                            <p class="posttitle"><span th:text="${entry.title}"></span></p>
+                                        </a>
+                                        <p>&nbsp&nbsp[</p>
+                                        <p><span th:text="${review[1][iterStat.index]}"></span></p>
+                                        <p>]</p>
+                                    </div>
+                                    <div class="post3">
+                                        <p><span th:text="${entry.createdDate}"></span></p>
+                                    </div>
+                                    <div class="post4">
+                                        <p><span th:text="${entry.likeCount}"></span></p>
+                                    </div>
+                                    <div class="post5">
+                                        <p><span th:text="${entry.viewCount}"></span></p>
+                                    </div>
+                                    <a th:href="@{/user/myReview/delete/{reviewId}(reviewId=${entry.reviewId})}"
+									onclick="return confirm('정말 삭제하시겠습니까?');">
+                                        <div class="post6">
+                                            <p>삭제</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- 여기까지 -->
+                            
+
+                        </div>
+                    </div>
+					
+					<div class="pagination">
+						<!-- <a class="change_page" th:if="${pageMaker.pagenum > 1}" th:href="@{/myComment(pagenum=1)}"><img src="/images/page_end.png" class="reflect" alt=""></a> -->
+						<a th:if="${pageMaker.prev}" class="change_page" th:href="${pageMaker.startPage-1}"><img src="/images/page_next.png" class="reflect" alt=""></a>
+						<th:block th:each="i:${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+						<a class="change_page" th:href="${i}" th:if="${pageMaker.pagenum != i}">[[${i}]]</a>
+						<span class="now_page" th:if="${pageMaker.pagenum == i}">[[${i}]]</span>
+						</th:block>
+						<a th:if="${pageMaker.next}" class="change_page" th:href="${pageMaker.endPage+1}"><img src="/images/page_next.png" alt=""></a>
+						<a class="change_page" th:if="${pageMaker.pagenum != pageMaker.realEnd}" th:href="${pageMaker.realEnd}"><img src="/images/page_end.png" alt=""></a>
+					</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+	$(".change_page").click(function(e){
+			//e(이벤트)의 기본 작동 막기
+			e.preventDefault();
+			let pagenum = e.target.getAttribute("href");
+			console.log(pagenum);
+			location.replace("/user/myReview?pagenum="+pagenum)
+			//const form = document.searchForm;
+			//form.pagenum.value = pagenum;
+			//form.submit();
+		})
+</script>

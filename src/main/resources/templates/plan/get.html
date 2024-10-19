@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="../js/jieun.js"></script>
+	
+
+    <title>Shoong-계획보기</title>
+</head>
+<body>
+	<!--<th:block th:if="${session.loginUser == null">
+		<script>
+			location.replace('/user/login');
+		</script>
+	</th:block>-->
+<div id="wrap">
+    <!-- 헤더 불러오기 -->
+    <div id="header">
+        <th:block th:replace="~{layout/header::header}"></th:block>
+    </div>
+
+    <!-- 서브 상단 -->
+    <div id="sub_top">
+        <p>
+            <a href="/">홈</a>
+            > 
+            <a href="/plan/list">계획 구경하기</a>
+            > 
+            <a>계획 상세보기</a>
+        </p>
+        <div>계획 상세보기</div>
+    </div>
+
+    <div class="container">
+        <div class="inner">
+            <!-- ★★★작업위치-시작★★★ -->
+            <div id="plan_get">
+                <p class="blue_line"></p>
+                <div class="plan_con">
+                    <div class="plan_list">
+                        <div class="p_title">
+                            <div>
+                                <span>[[${planList.leaderNick}]]</span> 님의 계획입니다.
+                                <p>[[${planList.plan.startDate.substring(0, 10)}]] ~ [[${planList.plan.endDate.substring(0, 10)}]]</p>
+                            </div>
+                            <div>
+                                <p>[[${planList.daysCount}]]박 [[${planList.daysCount+1}]]일 ([[${planList.groups.size()}]]명)</p>
+								<div id="like_plan">
+                                    <div class="img">
+										<span class="heart" onclick="likedPlan(this)">
+											<img th:src="${planList.likedCheck != 0 ? '../images/like_on.png' : '../images/like.png'}" alt="">
+										</span>
+										<input th:value="${planList.plan.planId}" class="planID hidden"/>
+                                        <span class="like_plan_num">[[${planList.likedCount}]]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p_con">
+                            <ul class="destiList">
+                                <li>
+                                    <div class="daysList"><!-- 날짜별 -->
+                                        <div th:each="dayData : ${planList.planDataList}">
+	                                    	<p th:if="${dayData[0]['destination'] != null}" class="dest_title">
+												<span>[[${dayData[0]['destination'].cityKor}]]</span> 
+												[[${dayData[0]['destination'].countryKor}]]
+											</p>
+                                            <p class="day_title">[[${dayData[0]['num']}]]일차 <span>[[${dayData[0]['date']}]]</span></p>
+                                            <ul class="placeList"><!-- 장소 -->
+                                                <li th:each="place : ${dayData[0].placeList}">
+                                                    <p class="pl_type">[[${place['place'].type}]]</p>
+                                                    <div>[[${place['place'].name}]]</div>
+                                                    <span>[[${place['place'].startTime.substring(11,16)}]] ~ [[${place['place'].endTime.substring(11,16)}]]</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="plan_map">
+                        <!-- ★지도★ -->
+                        <div id="map"></div>
+                    </div>
+                </div>
+				<div th:if="${planList.reviews != null}" class="review_con">
+                    <div class="title">
+                        <span>여행 후기</span> 해당 계획의 여행 후기입니다.
+                    </div>
+                    <ul>
+                        <li th:each="review : ${planList.reviews}">
+                            <a th:href="@{/review/read(reviewId=${review.reviewId})}">
+                                <div>
+                                    <p>[[${review.title}]]</p>
+                                    <ul>
+                                        <li>
+                                            <img src="../images/view_write.png" alt="">
+                                            [[${review.createdDate}]]
+                                        </li>
+                                        <li>
+                                            <img src="../images/view_eye.png" alt="">
+                                            [[${review.viewCount}]]
+                                        </li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                
+            </div>
+            <!-- ★★★작업위치-끝★★★ -->
+        </div>
+    </div>
+
+    <!-- 푸터 불러오기 -->
+    <div id="footer">
+        <th:block th:replace="~{layout/footer::footer}"></th:block>
+    </div>
+</div>
+</body>
+<script src="../js/plan/types.js"></script>
+<script th:inline="javascript">
+    var planList = /*[[${planList}]]*/ {};
+    console.log(planList);
+
+    // const planDataList = planList.planDataList;
+    // for(const planData of planDataList) {
+    //     const placeList = planData.placeList;
+    //     for(const place of placeList) {
+    //         const latitude = place.latitude;
+    //         const longitude = place.longitude;
+
+
+    //     }
+    // }
+
+
+</script>
+<script src="../js/plan/maps_get.js"></script>
