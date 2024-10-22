@@ -18,5 +18,4 @@ public interface PlanService {
 	List<PlanDetailsDTO> getPlans(CriteriaJ criJ, String userId);
 	PlanDetailsDTO getPlan(long planId, String userId);
 	long getTotal(CriteriaJ criJ);
-//	PlanDetailsDTO getPlanDays(long planId, String userId);
 }
