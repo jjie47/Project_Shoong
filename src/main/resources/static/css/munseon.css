@@ -761,21 +761,27 @@ header{
 #contents .detail .schedule_manage .cost_manage .cost .cost_name{
     width: 145px;
     font-size: 15px;
-    cursor: pointer;
     position: absolute;
     display: flex;
     align-items: center;
     left: 27px;
 }
+#contents .detail .schedule_manage .cost_manage .cost .cost_name span{
+    width: 100%;
+    cursor: pointer;
+}
 #contents .detail .schedule_manage .cost_manage .cost .cost_payer{
     width: 55px;
     font-size: 15px;
     color: #E1E1E1;
-    cursor: pointer;
     position: absolute;
     display: flex;
     align-items: center;
     left: 180px;
+}
+#contents .detail .schedule_manage .cost_manage .cost .cost_payer span{
+    width: 100%;
+    cursor: pointer;
 }
 #contents .detail .schedule_manage .cost_manage .cost .cost_amount{
     width: 102px;
@@ -787,9 +793,10 @@ header{
     text-align: right;
     justify-content: right;
     right: 27px;
-    cursor: pointer;
 }
 #contents .detail .schedule_manage .cost_manage .cost .cost_amount span{
+    width: 100%;
+    cursor: pointer;
     display: inline-block;
     text-align: right;
 }
