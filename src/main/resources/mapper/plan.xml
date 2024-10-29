@@ -19,9 +19,22 @@
 		SELECT COUNT(*) FROM `plan`
 	</select>
 	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="planId" parameterType="PlanDTO">
+		insert into plan values();
+	</insert>
+	
+	<delete id="delete">
+		delete from `plan`
+		where `plan_id` = #{planId}
+	</delete>
+	
 	<insert id="insertPlan" useGeneratedKeys="true" keyProperty="planId" parameterType="PlanDTO">
 		insert into plan (start_date, end_date) values(#{startDate}, #{endDate})
 	</insert>
+	
+	<update id="updatePlanDate">
+		update plan set start_date = #{startDate}, end_date = #{endDate} where plan_id = #{planId}
+	</update>
 	
 	<sql id="criJ">
 		<if test = "keyword != '' and keywordType != '' and keywordType != null">

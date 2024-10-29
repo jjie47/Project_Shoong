@@ -28,6 +28,6 @@ public interface UserService {
 	void deleteMyPlan(long planId);
 	void exitMyPlan(String userId, long planId);
 
-	List<UserDTO> getUsersByKeyword(String keyword);
+	List<UserDTO> getUsersByKeyword(String keyword, long planId);
 }
  

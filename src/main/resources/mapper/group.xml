@@ -28,6 +28,26 @@
 		select `group`.rule, `group`.plan_id, `group`.user_id, nickname from `group`, `user` where `group`.user_id = `user`.user_id and plan_id = #{planId};
 	</select>
 	
+	<select id="getInvitedListByUserId" resultType="map">
+		select * from `group` where user_id = #{userId} and rule = '요청됨'
+	</select>
+	
+	<select id="getLeaderByPlanId">
+		select user_id from `group` where plan_id = #{planId} and rule = '그룹장'
+	</select>
+	
+	<update id="updateMember">
+		update `group` set rule = '그룹원' where plan_id = #{planId} and user_id = #{userId}
+	</update>
+	
+	<delete id="deleteMember">
+		delete from `group` where plan_id = #{planId} and user_id = #{userId}
+	</delete>
+	
+	<select id="getMembersId" resultType="java.lang.String">
+		select user_id from `group` where plan_id = #{planId} and (rule = '그룹장' or rule = '그룹원')
+	</select>
+	
 	<!-- 그룹 불러오기 -->
 	<select id="getGroupByPlanId" resultType="com.example.demo.domain.GroupDTO">
 		SELECT * 

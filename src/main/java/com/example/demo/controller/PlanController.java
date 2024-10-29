@@ -35,12 +35,23 @@ public class PlanController {
 	private PlanService service;
 	
 	@GetMapping("write")
-	public String write(HttpServletRequest req, HttpServletResponse resp, RedirectAttributes attributes) {
+	public String write(HttpServletRequest req, HttpServletResponse resp, Model model) {
 		HttpSession session = req.getSession();
 		String userId = (String)session.getAttribute("loginUser");
-//		로그인 확인 여부
 		if(userId!=null) {
-			return "/plan/write";
+			long planId = service.create(userId);
+			if(planId!=-1) {
+				model.addAttribute("planId", planId);
+				model.addAttribute("userId", userId);
+				return "/plan/write";
+			}
+			else {
+				Cookie cookie = new Cookie("isCreated", "false");
+				cookie.setPath("/");
+				cookie.setMaxAge(60);
+				resp.addCookie(cookie);
+			}
+			return "redirect:/";			
 		}
 		else {
 			Cookie cookie = new Cookie("isLogined", "false");
@@ -56,6 +67,8 @@ public class PlanController {
 	{
 		HttpSession session = req.getSession();
 		
+		long planId = ((Integer)data.get("planId")).longValue();
+		System.out.println("계획 Id 확인 : " + planId);
 		Map<String, Object> selectedDefaultDestinations = (Map<String, Object>) data.get("selectedDefaultDestinations");
 		List<String> selectedDestinations = (List<String>)data.get("selectedDestinations");
 		Map<String, String> selectedDates = (Map<String, String>) data.get("selectedDates");
@@ -66,7 +79,7 @@ public class PlanController {
 		String userId = (String) session.getAttribute("loginUser");
 		
 		
-		if(service.regist(selectedDefaultDestinations,selectedDestinations, selectedDates, selectedPlaces, itineraries, costs, userId) != -1) {
+		if(service.regist(planId,selectedDefaultDestinations,selectedDestinations, selectedDates, selectedPlaces, itineraries, costs, userId) != -1) {
 			System.out.println("===========================");
 			System.out.println("Controller : 게시글 등록 성공!");
 			
