@@ -38,6 +38,7 @@ a{
 .btn_clicked{
     background-color: #828282;
     cursor: default;
+    pointer-events: none;
 }
 
 /* wrap */

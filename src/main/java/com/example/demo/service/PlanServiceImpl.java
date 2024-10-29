@@ -52,7 +52,30 @@ public class PlanServiceImpl implements PlanService {
 	private SqlSession sqlSession;
 	
 	@Override
-	public long regist(Map<String, Object> selectedDefaultDestinations,
+	public long create(String userId) {
+		PlanDTO plan = new PlanDTO();
+		if(pmapper.insert(plan)==1) {
+			long planId = plan.getPlanId();
+			GroupDTO group = new GroupDTO();
+			group.setPlanId(planId);
+			group.setUserId(userId);
+			group.setRule("그룹장");
+			if(gmapper.insertGroup(group)==1) {
+				return planId;
+			}
+		}
+		return -1;
+//		if(pmapper.delete(plan)==1) {
+//			System.out.println("계획 생성 실패 : 계획 삭제 완료");
+//			return -1;
+//		}
+//		System.out.println("계획 생성 실패 : 계획 삭제 실패");
+//		return -2;
+	}
+	
+	@Override
+	public long regist(long planId,
+			Map<String, Object> selectedDefaultDestinations,
 			List<String> selectedDestinations,
 			Map<String, String> selectedDates,
 			Map<String, Object> selectedPlaces,
@@ -64,12 +87,12 @@ public class PlanServiceImpl implements PlanService {
 		PlanDTO plan = new PlanDTO();
 		
 		
-		// 계획 추가
+		// 계획 날짜 업데이트
+		plan.setPlanId(planId);
 		plan.setStartDate(selectedDates.get("startDate"));
 		plan.setEndDate(selectedDates.get("endDate"));
-		if(pmapper.insertPlan(plan)==1) {
-			System.out.println("Service : 계획 추가 성공");
-			long planId = plan.getPlanId();
+		if(pmapper.updatePlanDate(plan)==1) {
+			System.out.println("Service : 계획 날짜 수정 성공");
 			
 			// 목적지 추가
 			Set<DestinationDTO> destinations = new HashSet<>();

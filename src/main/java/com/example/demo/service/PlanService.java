@@ -7,7 +7,9 @@ import com.example.demo.domain.CriteriaJ;
 import com.example.demo.domain.PlanDetailsDTO;
 
 public interface PlanService {
-	long regist(Map<String, Object> selectedDefaultDestinations,
+	long create(String userId);
+	long regist(long planId,
+				Map<String, Object> selectedDefaultDestinations,
 				List<String> selectedDestinations,
 				Map<String, String> selectedDates,
 				Map<String, Object> selectedPlaces,

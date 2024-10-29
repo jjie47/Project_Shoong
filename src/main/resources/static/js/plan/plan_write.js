@@ -80,6 +80,8 @@ $(function() {
         cover.css('visibility', 'visible');
 
         changeCursorStyle(e);
+
+        getInviteSocketConnection();
     })      
     destinations_index.click(function(e) {
         members_tab.css('top','0px');
@@ -94,6 +96,8 @@ $(function() {
         cover.css('visibility', 'visible');
 
         changeCursorStyle(e);
+
+        closeInviteSocketConnection();
     })      
     date_index.click(function(e) {
         members_tab.css('top','0px');
@@ -108,6 +112,8 @@ $(function() {
         cover.css('visibility', 'visible');
 
         changeCursorStyle(e);
+
+        closeInviteSocketConnection();
     })      
     places_index.click(function(e) {
         members_tab.css('top','0px');
@@ -122,6 +128,8 @@ $(function() {
         cover.css('visibility', 'hidden');
         
         changeCursorStyle(e);
+
+        closeInviteSocketConnection();
     })
     index_tab.click(function(e) {
         index_tab.css('visibility', 'hidden');
@@ -147,6 +155,8 @@ $(function() {
         btn_save.css('visibility', 'hidden');
 
         changeCursorStyle(e);
+
+        closeInviteSocketConnection();
     })
     btn_schedule.click(function() {
         if(selectedPlaces.size == 0) {
@@ -178,20 +188,87 @@ $(function() {
 
         // 기간 불러오기
         bindPeriod();
+
+        closeInviteSocketConnection();
     })
 })
 
 // 1. 그룹 초대 ===============================================================
-// 그룹 초대 - event
+// 그룹 초대 - button
+// let socket = null;
+
+getInviteSocketConnection();
+function getInviteSocketConnection() {
+    if(socket_invite==null) {
+        socket_invite = new WebSocket(`ws://localhost:8080/invite/${userId}`);
+
+        socket_invite.onerror = function(e) {
+            console.log(e);
+        }
+        socket_invite.onopen = function(e) {
+            console.log(e);
+        }
+        socket_invite.onmessage = function(e) {
+            console.log(e.data);
+            let sender = e.data.split(":")[0];
+            let responsedPlanId = e.data.split(":")[1];
+            console.log("planId and responsed : " + planId + " " + responsedPlanId)
+            if(responsedPlanId == String(planId)) {
+                console.log("here")
+                if(sender=='accept' || sender=='refuse') {
+                    console.log("here2")
+                    getGroupList();
+                }
+            }
+        }
+        socket_invite.onclose = function(e) {
+            console.log(e);
+        }
+    }
+}
+function closeInviteSocketConnection() {
+    if(socket_invite!=null) {
+        socket_invite.close();
+        socket_invite = null;
+    }
+}
+
+
 $(function() {
     // 초대 버튼 - click시 이벤트 제거
     $(document).on("click", ".btn_invite", function(e) {
-        $(e.currentTarget).addClass("btn_clicked");
-        console.log("click");
-        $(this).off("click");
+        // 이벤트 제거
+        $(e.currentTarget).addClass("btn_clicked btn_no_hover");
+        
+        const inviteUserId = $(e.currentTarget).siblings('input').val();
+
+        // 초대 요청
+        $.ajax({
+            url: "/group/invite",
+            type: "POST",
+            data: JSON.stringify({"planId": planId,
+                    "userId": inviteUserId}),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                // 성공
+                if(result === "invite success") {
+                    // socket 전송
+                    socket_invite.send(`invite:${planId}:${inviteUserId}`);
+                    getGroupList();
+                }
+
+                // 실패
+                else if(result === "invite failed") {
+                    alert("초대 오류 발생!!")
+                    setTimeout(()=>{
+                        $(e.currentTarget).removeClass("btn_clicked btn_no_hover");
+                    }, 3000)
+                }
+            }
+        })
     })
 })
-// 그룹 초대 - 요청
+// 그룹 초대 - 목록
 // 사용자 검색
 function searchUser() {
     const keyword = $('#search_user').val();
@@ -199,9 +276,31 @@ function searchUser() {
         $.ajax({
             url: "/user/search",
             type: "GET",
-            data: {"keyword": keyword},
+            data: {"keyword": keyword,
+                "planId": planId
+            },
             success: function (userList) {
-                $('#userList').replaceWith(userList);
+                // $('#userList').replaceWith(list);
+                let str = "";
+
+                // const list = userList.filter(user=>user.userId!==userId);
+                for(const user of userList) {
+                    str += `<div class="user">
+                                        <input type="hidden" value="${user.userId}"/>
+                                        <div class="user_img">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="user_info">
+                                            <span>${user.nickname}</span>
+                                            <span>${user.userId}</span>
+                                        </div>
+                                        <div class="btn btn_invite">
+                                            <span>초&nbsp&nbsp대</span>
+                                        </div>
+                                    </div>`;
+                }
+
+                $('#userList').html(str);
             }
         })
     }
@@ -213,15 +312,15 @@ function searchUser() {
 window.onload = getGroupList();
 // member_index.trigger("click");
 function getGroupList() {
-    // const planId = /*[[${planId}]]*/'';
-    // $.ajax({
-    //     url: "/group/list",
-    //     type: "GET",
-    //     data: {"planId": planId},
-    //     success: function (groupMemberList) {
-    //         $('#groupMemberList').replaceWith(groupMemberList);
-    //     }
-    // })
+    console.log("here3")
+    $.ajax({
+        url: "/group/list",
+        type: "GET",
+        data: {"planId": planId},
+        success: function (groupMemberList) {
+            $('#groupMemberList').replaceWith(groupMemberList);
+        }
+    })
 }
 
 // 2. 도시 및 나라 선택 ===============================================================
@@ -1113,12 +1212,16 @@ $(function() {
         console.log(JSON.stringify({"selectedDates": selectedDatesObj})); 
         console.log(JSON.stringify({"selectedPlaces": selectedPlacesObj})); 
         console.log(JSON.stringify({"itineraries": itinerariesObj})); 
-        console.log(JSON.stringify({"costs": costsObj})); 
+        console.log(JSON.stringify({"costs": costsObj}));
+
+        closeInviteSocketConnection();
+
         $.ajax({
                 url : "/plan/write",
                 type : "POST",
                 contentType : "application/json",
                 data : JSON.stringify({
+					"planId": planId, 
                     "selectedDefaultDestinations": selectedDefaultDestinationsObj, 
                     "selectedDestinations": [...selectedDestinations], 
                     "selectedDates": selectedDatesObj, 
@@ -1126,7 +1229,7 @@ $(function() {
                     "itineraries": itinerariesObj, 
                     "costs": costsObj}),
                 success : function(data) {
-                    window.location.href = "/user/myPlan"
+                    window.location.replace("/user/myPlan");
                 }
         })
     })

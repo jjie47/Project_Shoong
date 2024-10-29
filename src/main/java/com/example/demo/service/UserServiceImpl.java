@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.domain.CommentDTO;
 import com.example.demo.domain.DestinationDTO;
 import com.example.demo.domain.GroupDTO;
+import com.example.demo.domain.GroupMemberDTO;
 import com.example.demo.domain.PlanDTO;
 import com.example.demo.domain.ReviewDTO;
 import com.example.demo.domain.UserDTO;
@@ -318,13 +320,20 @@ public class UserServiceImpl implements UserService{
 		public void deleteMyPlan(long planId) {
 			planMapper.deleteMyPlan(planId);
 		};
-
-	@Autowired
-	UserMapper umapper;
 	
 	@Override
-	public List<UserDTO> getUsersByKeyword(String keyword) {
-		List<UserDTO> list = umapper.getList(keyword);
+	public List<UserDTO> getUsersByKeyword(String keyword, long planId) {
+		List<UserDTO> ulist = userMapper.getList(keyword);
+		List<GroupDTO> glist = groupMapper.getGroupByPlanId(planId);
+		List<String> gUserList = new ArrayList<>();
+		for(GroupDTO group : glist) {
+			gUserList.add(group.getUserId());
+		}
+		
+		List<UserDTO> list = ulist.stream().filter(u ->
+			!gUserList.contains(u.getUserId())
+		).collect(Collectors.toList());
+		
 		return list;
 	}
 }

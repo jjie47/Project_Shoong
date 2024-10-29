@@ -1,6 +1,5 @@
 <th:block th:fragment="header">
 <script defer src="/js/script.js"></script>
-
 <div class="inner">
     <div class="logo">
         <a href="/" id="logoimg"><img src="/images/top_logo.png" alt=""></a>
@@ -13,19 +12,181 @@
         </ul>
     </div>
     <div class="login">
-        <ul>
-			<!-- 세션에 로그인 사용자 정보가 있는 경우 -->
-			<th:block th:if="${session.loginUser != null}">
+        <!-- 세션에 로그인 사용자 정보가 있는 경우 -->
+        <th:block th:if="${session.loginUser != null}">
+            <ul>
+                <li><div>알림</div></li>
                 <li><a th:href="@{/user/myaccount}">마이페이지</a></li>
                 <li><a th:href="@{/user/logout}">로그아웃</a></li>
-            </th:block>
-			
-			<!-- 세션에 로그인 사용자 정보가 없는 경우 -->
-			<th:block th:unless="${session.loginUser != null}">
-				<li><a th:href="@{/user/login}">로그인</a></li>
-	            <li><a th:href="@{/user/join}">회원가입</a></li>
-			</th:block>
-        </ul>
+            </ul>
+            <div class="notification">
+                <ul>
+                </ul>
+            </div>
+        </th:block>
+        
+        <!-- 세션에 로그인 사용자 정보가 없는 경우 -->
+        <th:block th:unless="${session.loginUser != null}">
+            <ul>
+                <li><a th:href="@{/user/login}">로그인</a></li>
+                <li><a th:href="@{/user/join}">회원가입</a></li>
+            </ul>
+        </th:block>
     </div>
 </div>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script th:inline="javascript">
+// 그룹 초대 - 웹소켓
+let socket_invite = null;
+let userId = /*[[${session.loginUser}]]*/'';
+
+const planning = $('.menu').find('a').eq(0);
+const btn_notify = $('.login').children('ul').find('div');
+const notification = $('.login').children('.notification').eq(0);
+
+$(function(){
+
+    // socket 연결
+    if(userId!=null) {
+        if(socket_invite==null) {
+            socket_invite = new WebSocket(`ws://localhost:8080/invite/${userId}`);
+            
+            socket_invite.onerror = function(e) {
+                console.log(e);
+            }
+            socket_invite.onopen = function(e) {
+                console.log(e);
+            }
+            socket_invite.onmessage = function(e) {
+                console.log(e.data);
+                let sender = e.data.split(":")[0];
+                console.log("sender 확인: "+sender);
+                // let msg = e.data.split(":")[0];
+                if(sender == 'invite') {
+                    console.log("sender 확인: "+sender);
+                    btn_notify.addClass("notify");
+    
+                    if(!notification.hasClass("hidden")){
+                        loadInviteList();
+                    }
+                }
+            }
+            socket_invite.onclose = function(e) {
+                console.log(e);
+            }
+        }
+    }
+    
+    planning.click(function() {
+        if(socket_invite != null) {
+            socket_invite.close();
+            socket_invite = null;
+        }
+    })
+
+    notification.addClass("hidden");
+    btn_notify.click(function(e) {
+        btn_notify.removeClass("notify");
+        if(notification.hasClass("hidden")) {
+            notification.removeClass("hidden");
+            // 요청
+            loadInviteList();
+        }
+        else {
+            notification.addClass("hidden");
+            notification.children('ul').html('');
+        }
+    })
+
+    $(document).on("click", ".accept", function(e) {
+        const acceptedPlanId = $(e.currentTarget).siblings('input').val();
+        // db 요청
+        $.ajax({
+            url: "/group/invite/accept",
+            type: "POST",
+            data: JSON.stringify({"acceptedPlanId": acceptedPlanId,
+                "userId": userId}),
+            contentType: "application/json; charset=utf-8",
+            success: function (resp) {
+                if(resp=='add member success') {
+                    $(e.currentTarget).parent().parent().remove();
+                    let str = "";
+                    getMembersId(acceptedPlanId, function(members){
+                        socket_invite.send(`accept:${acceptedPlanId}:${members}`);
+                    });
+                } else {
+                    alert('잠시 후 다시 시도해주세요.');
+                }
+            }
+        })
+    })
+    $(document).on("click", ".refuse", function(e) {
+        const refusedPlanId = $(e.currentTarget).siblings('input').val();
+        // db 요청
+        $.ajax({
+            url: "/group/invite/refuse",
+            type: "POST",
+            data: JSON.stringify({"refusedPlanId": refusedPlanId,
+                "userId": userId}),
+            contentType: "application/json; charset=utf-8",
+            success: function (resp) {
+                if(resp=='remove member success') {
+                    $(e.currentTarget).parent().parent().remove();
+                    let str = "";
+                    getMembersId(acceptedPlanId, function(members){
+                        socket_invite.send(`refuse:${refusedPlanId}:${members}`);
+                    });
+                } else {
+                    alert('잠시 후 다시 시도해주세요.');
+                }
+            }
+        })
+    })
+})
+function loadInviteList() {
+    $.ajax({
+        url: "/group/list/invite",
+        type: "GET",
+        data: {"userId": userId},
+        success: function (inviteList) {
+            let str = "";
+
+            for(const request of inviteList) {
+                str += `<li>
+                            <div>
+                                <input type="hidden" value="${request.plan_id}"/>
+                                <span>${request.leader}</span>
+                                <span>님의 그룹 초대</span>
+                                <button class="accept">수락</button>
+                                <button class="refuse">거절</button>
+                            </div>
+                        </li>`;
+            }
+
+            notification.children('ul').html(str);
+        }
+    })
+}
+
+function getMembersId(responsedPlanId, callback) {
+    console.log("getMemebersId: "+responsedPlanId);
+    let str = "";
+    $.ajax({
+        url: "/group/members",
+        type: "GET",
+        data: {"responsedPlanId": responsedPlanId},
+        success: function (resp) {
+            if(resp!=null) {
+                for(const data of resp) {
+                    str += `${data},`
+                }
+                str= str.slice(0,-1);
+                callback(str);
+            } else {
+                alert('잠시 후 다시 시도해주세요.');
+            }
+        }
+    })
+}
+</script>
 </th:block>

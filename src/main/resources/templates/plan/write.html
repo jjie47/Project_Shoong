@@ -81,7 +81,7 @@
 						</div>
 						<span>사용자</span>
 						<div class="user_list" id="userList">
-							<th:block th:each="user : ${userList}">
+							<!-- <th:block th:each="user : ${userList}">
 								<div class="user">
 									<div class="user_img">
 										<img src="" alt="">
@@ -94,7 +94,7 @@
 										<span>초&nbsp&nbsp대</span>
 									</div>
 								</div>
-							</th:block>
+							</th:block> -->
 						</div>
 					</div>
 					<div class="box destination_choose">
@@ -551,6 +551,13 @@
 		</main>
 	</div>
 </body>
+<script th:inline="javascript">
+	// Controller -> planId
+	var planId = /*[[${planId}]]*/+0;
+	var userId = /*[[${userId}]]*/+'';
+	console.log("현재 plan의 Id : "+planId);
+	console.log("현재 접속 유저 : "+userId);
+</script>
 <script src="/js/plan/global.js"></script>
 <script src="/js/plan/daterangepicker.js"></script>
 <script src="/js/plan/timepicker.js"></script>

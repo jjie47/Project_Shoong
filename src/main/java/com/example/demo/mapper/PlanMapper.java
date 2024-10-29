@@ -25,8 +25,14 @@ public interface PlanMapper {
 	List<Long> getAllPlan();
 
 	long getAllPlanCnt();
+	
+	int insert(PlanDTO plan);
 
+	int delete(PlanDTO plan);
+	
 	int insertPlan(PlanDTO plan);
+	
+	int updatePlanDate(PlanDTO plan);
 	
 	List<PlanDTO> getPlans(CriteriaJ criJ); //전체 계획 불러오기
 	List<PlanDTO> getSharedPlans(CriteriaJ criJ); //공유된 계획 불러오기

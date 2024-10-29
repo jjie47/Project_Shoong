@@ -25,3 +25,6 @@ let dateArr = [];
 // 요일 상수
 const dayOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+// socket 객체
+let socket_invite = null;
+let socket_chat = null;
