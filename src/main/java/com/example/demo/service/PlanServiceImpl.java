@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,12 +15,14 @@ import java.util.Set;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.CostDTO;
 import com.example.demo.domain.CriteriaJ;
 import com.example.demo.domain.DestinationDTO;
 import com.example.demo.domain.GroupDTO;
+import com.example.demo.domain.PhotoDTO;
 import com.example.demo.domain.PlaceDTO;
 import com.example.demo.domain.PlanDTO;
 import com.example.demo.domain.PlanDetailsDTO;
@@ -28,6 +31,7 @@ import com.example.demo.domain.UserDTO;
 import com.example.demo.mapper.CostMapper;
 import com.example.demo.mapper.DestinationMapper;
 import com.example.demo.mapper.GroupMapper;
+import com.example.demo.mapper.LikedMapper;
 import com.example.demo.mapper.LikedPlanMapper;
 import com.example.demo.mapper.PlaceMapper;
 import com.example.demo.mapper.PlanMapper;
@@ -279,13 +283,19 @@ public class PlanServiceImpl implements PlanService {
     @Autowired
     private GroupMapper gMapper;
     @Autowired
-    private LikedPlanMapper lMapper;
+    private LikedPlanMapper lpMapper;
+    @Autowired
+    private LikedMapper lMapper;
     @Autowired
     private UserMapper uMapper;
     @Autowired
     private ReviewMapper rMapper;
-
+    
+	@Value("${file.dir}")
+	private String saveFolder;
 	
+	private static final String DEFAULT_MAIN_IMAGE_PATH = "/images/sample_img1.png";
+		
 	@Override
 	public List<PlanDetailsDTO> getPlans(CriteriaJ criJ, String userId) {
 		// 모든 Plan 가져오기(한 페이지의 갯수만큼)
@@ -308,8 +318,8 @@ public class PlanServiceImpl implements PlanService {
             List<UserDTO> users = uMapper.getUserByPlanId(planId);
             List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
             int daysCount = pMapper.getDaysCountByPlanId(planId); //여행일수
-            int likedCount = lMapper.getLikedCountByPlanId(planId); //좋아요갯수
-            int likedCheck = lMapper.getLikedCheck(planId,userId); //로그인 유저의 좋아요 여부
+            int likedCount = lpMapper.getLikedCountByPlanId(planId); //좋아요갯수
+            int likedCheck = lpMapper.getLikedCheck(planId,userId); //로그인 유저의 좋아요 여부
             String leaderNick = uMapper.getLeaderNickByPlanId(planId); //그룹장 닉네임
 
             // PlanDetailsDTO 객체 생성 및 데이터 세팅
@@ -344,6 +354,8 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public PlanDetailsDTO getPlan(long planId, String userId) {
 		
+		//@@@@여행계획@@@@
+		
 		PlanDetailsDTO planList = new PlanDetailsDTO();
 
 		// 각 planId에 해당하는 Destination, Place 등 불러오기
@@ -353,23 +365,24 @@ public class PlanServiceImpl implements PlanService {
 	    List<CostDTO> costs = cMapper.getCostByPlanId(planId);
 	    List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
 	    List<UserDTO> users = uMapper.getUserByPlanId(planId);
-	    List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
 	    int daysCount = pMapper.getDaysCountByPlanId(planId); // 여행일수
-	    int likedCount = lMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
-	    int likedCheck = lMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
+	    int likedCount = lpMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
+	    int likedCheck = lpMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
 	    String leaderNick = uMapper.getLeaderNickByPlanId(planId); // 그룹장 닉네임
 	    
+//	    List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
+
 	    planList.setPlan(plan);
 	    planList.setDestinations(destinations);
 	    planList.setPlaces(places);
 	    planList.setCosts(costs);
 	    planList.setGroups(groups);
 	    planList.setUsers(users);
-	    planList.setReviews(reviews);
 	    planList.setDaysCount(daysCount);
 	    planList.setLikedCount(likedCount);
 	    planList.setLikedCheck(likedCheck);
 	    planList.setLeaderNick(leaderNick);
+//	    planList.setReviews(reviews);
 	    
 	    
 	    
@@ -465,11 +478,39 @@ public class PlanServiceImpl implements PlanService {
 	        dayData.add(dayInfo);
 	        //하루 일정 List를 계획 List에 넣기
 	        planDataList.add(dayData);
+	        
+	        
 	    }
 	    
+	    //여행계획 하나에 들어있는 목적지,장소 등 추가
 	    planList.setPlanDataList(planDataList);
 	    
-	    System.out.println(planList.getPlanDataList());
+	    
+	    
+	    //@@@@여행후기@@@@
+	    
+	    List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
+
+	    //리뷰별 첫번째 이미지 가져오기
+	    for (ReviewDTO review : reviews) {
+	    	//reviewid 기준 사진 꺼내오기
+	        String fullPath = DEFAULT_MAIN_IMAGE_PATH;
+	        
+	        List<PhotoDTO> photos = lMapper.getPhotosByReviewId(review.getReviewId());
+		    
+	        //리뷰에 사진이 있으면 실행
+	    	if(photos != null && !photos.isEmpty()) {
+	    		PhotoDTO firstPhoto = photos.get(0);
+	    		String systemName = firstPhoto.getSystemName();
+
+	    		//이미지가 폴더에 있으면 실행
+	        	File file = new File(saveFolder, systemName);
+	        	if(file.exists()) {
+	        		fullPath = file.getName();
+	        	}
+	    	}
+	    }
+	    
 	    
 		return planList;
 	}

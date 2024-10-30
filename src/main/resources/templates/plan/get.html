@@ -94,6 +94,7 @@
                     </div>
                     <ul>
                         <li th:each="review : ${planList.reviews}">
+							<img src="/images/sample_img1.png">
                             <a th:href="@{/review/read(reviewId=${review.reviewId})}">
                                 <div>
                                     <p>[[${review.title}]]</p>
