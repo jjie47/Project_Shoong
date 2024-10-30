@@ -336,4 +336,16 @@ public class UserServiceImpl implements UserService{
 		
 		return list;
 	}
+
+	@Override
+	public void socialJoin(UserDTO userDTO) {
+		userMapper.insertSocialUser(userDTO);
+		System.out.println("user insert 잘됬는지 확인" + userDTO);
+	}
+
+	@Override
+	public UserDTO getSocialUserByUserId(String userId) {
+		UserDTO userDTO = userMapper.getUserByUserId(userId);
+		return userDTO;
+	}
 }

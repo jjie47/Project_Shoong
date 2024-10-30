@@ -7,6 +7,11 @@
 		values(#{userId}, #{password}, #{nickname}, #{email}, #{phoneNumber})
 	</insert>
 	
+	<insert id="insertSocialUser">
+		insert into user (user_id, nickname, system_name, origin_name, email, phone_number, password, point)
+		values(#{userId}, #{nickname}, #{systemName}, 'default_profile.png', 'unknow@example.com', '000-0000-0000', 'defaultPassword',0)
+	</insert>
+	
 	<select id="getUserByUserId">
 		select * from user where user_id=#{userId}
 	</select>

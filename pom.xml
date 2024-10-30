@@ -81,6 +81,17 @@
           <artifactId>sdk</artifactId>
           <version>4.3.0</version>
       </dependency>
+      <!-- Jackson -->
+      <dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	</dependency>
+	<!-- WebClient 의존성 -->
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-webflux</artifactId>
+	</dependency>
+
 	</dependencies>
 
 	<build>

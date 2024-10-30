@@ -22,4 +22,6 @@ public interface UserMapper {
 	
 	List<UserDTO> getUserByPlanId(Long planId);
 	String getLeaderNickByPlanId(Long planId);
+	
+	int insertSocialUser(UserDTO user);
 }

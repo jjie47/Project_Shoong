@@ -5,7 +5,7 @@ a{ text-decoration: none; }
 
 #first_page{
     height: 100%;
-    width: 1920px;
+    width: 100%;
     height: 100vh;
     background-image: url(../images/first.jpg);
     background-repeat: no-repeat;
@@ -24,12 +24,13 @@ a{ text-decoration: none; }
 }
 .white_box{
     position:absolute;
-    left: 734px;
-    top: 121px;
+    left: 50%;
+    top: 50%;
     width: 451px;
     height: 724px; 
     background-color: #FFFFFF;
     border-radius: 20px;
+	transform: translate(-50%, -50%);
 }
 .white_box h2{
     margin-top: 35px;
