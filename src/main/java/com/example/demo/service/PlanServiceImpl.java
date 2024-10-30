@@ -296,6 +296,7 @@ public class PlanServiceImpl implements PlanService {
 	
 	private static final String DEFAULT_MAIN_IMAGE_PATH = "/images/sample_img1.png";
 		
+	//여행계획보기
 	@Override
 	public List<PlanDetailsDTO> getPlans(CriteriaJ criJ, String userId) {
 		// 모든 Plan 가져오기(한 페이지의 갯수만큼)
@@ -316,7 +317,6 @@ public class PlanServiceImpl implements PlanService {
             List<CostDTO> costs = cMapper.getCostByPlanId(planId);
             List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
             List<UserDTO> users = uMapper.getUserByPlanId(planId);
-            List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
             int daysCount = pMapper.getDaysCountByPlanId(planId); //여행일수
             int likedCount = lpMapper.getLikedCountByPlanId(planId); //좋아요갯수
             int likedCheck = lpMapper.getLikedCheck(planId,userId); //로그인 유저의 좋아요 여부
@@ -330,7 +330,6 @@ public class PlanServiceImpl implements PlanService {
             planDetailsDTO.setCosts(costs); //List
             planDetailsDTO.setGroups(groups); //List
             planDetailsDTO.setUsers(users); //List
-            planDetailsDTO.setReviews(reviews); //List
             planDetailsDTO.setDaysCount(daysCount); //int
             planDetailsDTO.setLikedCount(likedCount); //int
             planDetailsDTO.setLikedCheck(likedCheck); //int
@@ -345,17 +344,16 @@ public class PlanServiceImpl implements PlanService {
     }
 	
 	
+	//페이지에 나올 여행계획 갯수
 	@Override
 	public long getTotal(CriteriaJ criJ) {
 		return pMapper.getTotalCount(criJ);
 	}
 	
 	
+	//여행계획 상세보기
 	@Override
 	public PlanDetailsDTO getPlan(long planId, String userId) {
-		
-		//@@@@여행계획@@@@
-		
 		PlanDetailsDTO planList = new PlanDetailsDTO();
 
 		// 각 planId에 해당하는 Destination, Place 등 불러오기
@@ -369,8 +367,6 @@ public class PlanServiceImpl implements PlanService {
 	    int likedCount = lpMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
 	    int likedCheck = lpMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
 	    String leaderNick = uMapper.getLeaderNickByPlanId(planId); // 그룹장 닉네임
-	    
-//	    List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
 
 	    planList.setPlan(plan);
 	    planList.setDestinations(destinations);
@@ -382,10 +378,8 @@ public class PlanServiceImpl implements PlanService {
 	    planList.setLikedCount(likedCount);
 	    planList.setLikedCheck(likedCheck);
 	    planList.setLeaderNick(leaderNick);
-//	    planList.setReviews(reviews);
 	    
-	    
-	    
+
 	    //★★계획 하나에 들어있는 모든것
 	    List<List<HashMap<String, Object>>> planDataList = new ArrayList<>();
 	    
@@ -479,20 +473,30 @@ public class PlanServiceImpl implements PlanService {
 	        //하루 일정 List를 계획 List에 넣기
 	        planDataList.add(dayData);
 	        
-	        
 	    }
 	    
 	    //여행계획 하나에 들어있는 목적지,장소 등 추가
 	    planList.setPlanDataList(planDataList);
-	    
-	    
-	    
-	    //@@@@여행후기@@@@
-	    
+
+		return planList;
+	}
+	
+	
+	//여행계획에 해당하는 후기보기
+	@Override
+	public List<HashMap<String, Object>> getReview(long planId) {
+	    List<HashMap<String, Object>> reviewList = new ArrayList<>();
+	    	    
+	    //계획ID에 해당하는 리뷰리스트
 	    List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
 
 	    //리뷰별 첫번째 이미지 가져오기
 	    for (ReviewDTO review : reviews) {
+	    	//리뷰+사진 담길 HashMap
+		    HashMap<String, Object> reviewMap = new HashMap<>();
+		    
+	    	reviewMap.put("review", review);
+	    	
 	    	//reviewid 기준 사진 꺼내오기
 	        String fullPath = DEFAULT_MAIN_IMAGE_PATH;
 	        
@@ -506,14 +510,15 @@ public class PlanServiceImpl implements PlanService {
 	    		//이미지가 폴더에 있으면 실행
 	        	File file = new File(saveFolder, systemName);
 	        	if(file.exists()) {
-	        		fullPath = file.getName();
+	        		fullPath = "/file/" + file.getName();
 	        	}
 	    	}
+	    	reviewMap.put("photo", fullPath);
+	    	
+	        reviewList.add(reviewMap);
 	    }
 	    
-	    
-		return planList;
+	    return reviewList;
 	}
-	
 	
 }
