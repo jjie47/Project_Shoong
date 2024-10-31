@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,6 @@ public interface PlanService {
 	
 	List<PlanDetailsDTO> getPlans(CriteriaJ criJ, String userId);
 	PlanDetailsDTO getPlan(long planId, String userId);
+	List<HashMap<String, Object>> getReview(long planId);
 	long getTotal(CriteriaJ criJ);
-//	PlanDetailsDTO getPlanDays(long planId, String userId);
 }

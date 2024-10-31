@@ -88,23 +88,24 @@
                         <div id="map"></div>
                     </div>
                 </div>
-				<div th:if="${planList.reviews != null}" class="review_con">
+				<div th:if="${reviewList != null && not #lists.isEmpty(reviewList)}" class="review_con">
                     <div class="title">
                         <span>여행 후기</span> 해당 계획의 여행 후기입니다.
                     </div>
                     <ul>
-                        <li th:each="review : ${planList.reviews}">
-                            <a th:href="@{/review/read(reviewId=${review.reviewId})}">
+                        <li th:each="reviewMap : ${reviewList}">
+							<img th:src="${reviewMap['photo'] != null ? reviewMap['photo'] : '/images/sample_img1.png'}">
+                            <a th:href="@{/review/read(reviewId=${reviewMap['review'].reviewId})}">
                                 <div>
-                                    <p>[[${review.title}]]</p>
+                                    <p>[[${reviewMap['review'].title}]]</p>
                                     <ul>
                                         <li>
                                             <img src="../images/view_write.png" alt="">
-                                            [[${review.createdDate}]]
+                                            [[${reviewMap['review'].createdDate}]]
                                         </li>
                                         <li>
                                             <img src="../images/view_eye.png" alt="">
-                                            [[${review.viewCount}]]
+                                            [[${reviewMap['review'].viewCount}]]
                                         </li>
                                     </ul>
                                 </div>

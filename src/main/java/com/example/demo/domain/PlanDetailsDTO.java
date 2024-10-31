@@ -13,7 +13,6 @@ public class PlanDetailsDTO {
     private List<CostDTO> costs;
     private List<GroupDTO> groups;
     private List<UserDTO> users;
-    private List<ReviewDTO> reviews;
     private int daysCount;
     private int likedCount;
     private int likedCheck;

@@ -1,0 +1,12 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PhotoMapper">
+	<!-- 사진 불러오기 -->
+	<select id="getPhotoByPlanId" resultType="com.example.demo.domain.PhotoDTO">
+		SELECT p.*
+		FROM `photo` p
+		JOIN `review` r ON p.`review_id` = r.`review_id`
+		WHERE r.`plan_id` = #{planId};
+	</select>
+</mapper>

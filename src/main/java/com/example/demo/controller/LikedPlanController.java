@@ -23,10 +23,11 @@ public class LikedPlanController {
 	@ResponseBody
 	public void likedPlan(@RequestParam("planId") long planId, @RequestParam("likedCheck") int likedCheck, Model model, HttpServletRequest req) {
 //      임시아이디 입력
-//	    String userId = "abc123";
+	    String userId = "apple";
+		
 //      session 부여
-	    HttpSession session = req.getSession();
-	    String userId = (String)session.getAttribute("loginUser");
+//	    HttpSession session = req.getSession();
+//	    String userId = (String)session.getAttribute("loginUser");
 	    
 	    //빈 하트를 클릭했을 때 (좋아요 생성)
 	    if(likedCheck == 1) {

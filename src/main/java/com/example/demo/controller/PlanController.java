@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.net.http.HttpRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -131,26 +132,34 @@ public class PlanController {
 	
 	
 
-	    @GetMapping("list")
-	    public String getPlanList(CriteriaJ criJ, Model model) {
-	    	String userId = "abc123";
-	    	List<PlanDetailsDTO> planLists = service.getPlans(criJ, userId);
-	    	
-	        model.addAttribute("planLists", planLists);
-	        model.addAttribute("pageMaker",new PageDTO(service.getTotal(criJ), criJ));
+    @GetMapping("list")
+    public String getPlanList(CriteriaJ criJ, Model model, HttpServletRequest req) {
+    	String userId = "apple";
+    	
+//    	HttpSession session = req.getSession();
+//		String userId = (String)session.getAttribute("loginUser");
+    	
+    	List<PlanDetailsDTO> planLists = service.getPlans(criJ, userId);
+    	
+        model.addAttribute("planLists", planLists);
+        model.addAttribute("pageMaker",new PageDTO(service.getTotal(criJ), criJ));
 
-	        return "plan/list";
-	    }
+        return "plan/list";
+    }
 
-	    
-	    @GetMapping("get")
-	    public String getPlanView(@RequestParam("planId") Long planId, Model model) {
-	    	String userId = "abc123";
-	    	System.out.println("planId : " + planId);
-	    	
-	    	PlanDetailsDTO planList = service.getPlan(planId, userId);
-	    	model.addAttribute("planList", planList);
-	    	
-	        return "plan/get";
-	    }
+    
+    @GetMapping("get")
+    public String getPlanView(@RequestParam("planId") Long planId, Model model, HttpServletRequest req) {
+    	String userId = "apple";
+    	
+//    	HttpSession session = req.getSession();
+//		String userId = (String)session.getAttribute("loginUser");
+    	
+    	PlanDetailsDTO planList = service.getPlan(planId, userId);
+    	List<HashMap<String, Object>> reviewList =  service.getReview(planId);
+    	model.addAttribute("planList", planList);
+    	model.addAttribute("reviewList", reviewList);
+    	
+        return "plan/get";
+    }
 }

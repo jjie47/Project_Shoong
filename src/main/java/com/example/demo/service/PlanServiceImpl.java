@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,12 +15,14 @@ import java.util.Set;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.CostDTO;
 import com.example.demo.domain.CriteriaJ;
 import com.example.demo.domain.DestinationDTO;
 import com.example.demo.domain.GroupDTO;
+import com.example.demo.domain.PhotoDTO;
 import com.example.demo.domain.PlaceDTO;
 import com.example.demo.domain.PlanDTO;
 import com.example.demo.domain.PlanDetailsDTO;
@@ -28,6 +31,7 @@ import com.example.demo.domain.UserDTO;
 import com.example.demo.mapper.CostMapper;
 import com.example.demo.mapper.DestinationMapper;
 import com.example.demo.mapper.GroupMapper;
+import com.example.demo.mapper.LikedMapper;
 import com.example.demo.mapper.LikedPlanMapper;
 import com.example.demo.mapper.PlaceMapper;
 import com.example.demo.mapper.PlanMapper;
@@ -279,13 +283,20 @@ public class PlanServiceImpl implements PlanService {
     @Autowired
     private GroupMapper gMapper;
     @Autowired
-    private LikedPlanMapper lMapper;
+    private LikedPlanMapper lpMapper;
+    @Autowired
+    private LikedMapper lMapper;
     @Autowired
     private UserMapper uMapper;
     @Autowired
     private ReviewMapper rMapper;
-
+    
+	@Value("${file.dir}")
+	private String saveFolder;
 	
+	private static final String DEFAULT_MAIN_IMAGE_PATH = "/images/sample_img1.png";
+		
+	//여행계획보기
 	@Override
 	public List<PlanDetailsDTO> getPlans(CriteriaJ criJ, String userId) {
 		// 모든 Plan 가져오기(한 페이지의 갯수만큼)
@@ -306,10 +317,9 @@ public class PlanServiceImpl implements PlanService {
             List<CostDTO> costs = cMapper.getCostByPlanId(planId);
             List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
             List<UserDTO> users = uMapper.getUserByPlanId(planId);
-            List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
             int daysCount = pMapper.getDaysCountByPlanId(planId); //여행일수
-            int likedCount = lMapper.getLikedCountByPlanId(planId); //좋아요갯수
-            int likedCheck = lMapper.getLikedCheck(planId,userId); //로그인 유저의 좋아요 여부
+            int likedCount = lpMapper.getLikedCountByPlanId(planId); //좋아요갯수
+            int likedCheck = lpMapper.getLikedCheck(planId,userId); //로그인 유저의 좋아요 여부
             String leaderNick = uMapper.getLeaderNickByPlanId(planId); //그룹장 닉네임
 
             // PlanDetailsDTO 객체 생성 및 데이터 세팅
@@ -320,7 +330,6 @@ public class PlanServiceImpl implements PlanService {
             planDetailsDTO.setCosts(costs); //List
             planDetailsDTO.setGroups(groups); //List
             planDetailsDTO.setUsers(users); //List
-            planDetailsDTO.setReviews(reviews); //List
             planDetailsDTO.setDaysCount(daysCount); //int
             planDetailsDTO.setLikedCount(likedCount); //int
             planDetailsDTO.setLikedCheck(likedCheck); //int
@@ -335,15 +344,16 @@ public class PlanServiceImpl implements PlanService {
     }
 	
 	
+	//페이지에 나올 여행계획 갯수
 	@Override
 	public long getTotal(CriteriaJ criJ) {
 		return pMapper.getTotalCount(criJ);
 	}
 	
 	
+	//여행계획 상세보기
 	@Override
 	public PlanDetailsDTO getPlan(long planId, String userId) {
-		
 		PlanDetailsDTO planList = new PlanDetailsDTO();
 
 		// 각 planId에 해당하는 Destination, Place 등 불러오기
@@ -353,26 +363,23 @@ public class PlanServiceImpl implements PlanService {
 	    List<CostDTO> costs = cMapper.getCostByPlanId(planId);
 	    List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
 	    List<UserDTO> users = uMapper.getUserByPlanId(planId);
-	    List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
 	    int daysCount = pMapper.getDaysCountByPlanId(planId); // 여행일수
-	    int likedCount = lMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
-	    int likedCheck = lMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
+	    int likedCount = lpMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
+	    int likedCheck = lpMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
 	    String leaderNick = uMapper.getLeaderNickByPlanId(planId); // 그룹장 닉네임
-	    
+
 	    planList.setPlan(plan);
 	    planList.setDestinations(destinations);
 	    planList.setPlaces(places);
 	    planList.setCosts(costs);
 	    planList.setGroups(groups);
 	    planList.setUsers(users);
-	    planList.setReviews(reviews);
 	    planList.setDaysCount(daysCount);
 	    planList.setLikedCount(likedCount);
 	    planList.setLikedCheck(likedCheck);
 	    planList.setLeaderNick(leaderNick);
 	    
-	    
-	    
+
 	    //★★계획 하나에 들어있는 모든것
 	    List<List<HashMap<String, Object>>> planDataList = new ArrayList<>();
 	    
@@ -465,288 +472,53 @@ public class PlanServiceImpl implements PlanService {
 	        dayData.add(dayInfo);
 	        //하루 일정 List를 계획 List에 넣기
 	        planDataList.add(dayData);
+	        
 	    }
 	    
+	    //여행계획 하나에 들어있는 목적지,장소 등 추가
 	    planList.setPlanDataList(planDataList);
-	    
-	    System.out.println(planList.getPlanDataList());
-	    
+
 		return planList;
 	}
 	
 	
-	//수정전 완성본
-//	@Override
-//	public PlanDetailsDTO getPlan(long planId, String userId) {
-//		
-//		PlanDetailsDTO planList = new PlanDetailsDTO();
-//
-//		// 각 planId에 해당하는 Destination, Place 등 불러오기
-//	    PlanDTO plan = pMapper.getPlanByPlanId(planId);
-//	    List<DestinationDTO> destinations = dMapper.getDestinationByPlanId(planId); 
-//	    List<PlaceDTO> places = plMapper.getPlaceByPlanId(planId);
-//	    List<CostDTO> costs = cMapper.getCostByPlanId(planId);
-//	    List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
-//	    List<UserDTO> users = uMapper.getUserByPlanId(planId);
-//	    int daysCount = pMapper.getDaysCountByPlanId(planId); // 여행일수
-//	    int likedCount = lMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
-//	    int likedCheck = lMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
-//	    String leaderNick = uMapper.getLeaderNickByPlanId(planId); // 그룹장 닉네임
-//	    
-//	    planList.setPlan(plan);
-//	    planList.setDestinations(destinations);
-//	    planList.setPlaces(places);
-//	    planList.setCosts(costs);
-//	    planList.setGroups(groups);
-//	    planList.setUsers(users);
-//	    planList.setDaysCount(daysCount);
-//	    planList.setLikedCount(likedCount);
-//	    planList.setLikedCheck(likedCheck);
-//	    planList.setLeaderNick(leaderNick);
-//
-//		return planList;
-//	}
-	
-	
-	
-	
-//	@Override
-//	public PlanDetailsDTO getPlan(long planId, String userId) {
-//		PlanDetailsDTO planList = new PlanDetailsDTO();
-//		
-//		// 각 planId에 해당하는 Destination, Place 등 불러오기
-//		PlanDTO plan = pMapper.getPlanByPlanId(planId);
-//        List<DestinationDTO> destinations = dMapper.getDestinationByPlanId(planId); 
-//        List<PlaceDTO> places = plMapper.getPlaceByPlanId(planId);
-//        List<CostDTO> costs = cMapper.getCostByPlanId(planId);
-//        List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
-//        List<UserDTO> users = uMapper.getUserByPlanId(planId);
-//        int daysCount = pMapper.getDaysCountByPlanId(planId); //여행일수
-//        int likedCount = lMapper.getLikedCountByPlanId(planId); //좋아요갯수
-//        int likedCheck = lMapper.getLikedCheck(planId,userId); //로그인 유저의 좋아요 여부
-//        String leaderNick = uMapper.getLeaderNickByPlanId(planId); //그룹장 닉네임
-//		
-//        planList.setPlan(plan);
-//        planList.setDestinations(destinations);
-//        planList.setPlaces(places);
-//        planList.setCosts(costs);
-//        planList.setGroups(groups);
-//        planList.setUsers(users);
-//        planList.setDaysCount(daysCount);
-//        planList.setLikedCount(likedCount);
-//        planList.setLikedCheck(likedCheck);
-//        planList.setLeaderNick(leaderNick);
-//        
-//		return planList;
-//		
-//	}
-	
-	
-	
-//	@Override
-//	public List<List<HashMap<String, Object>>> getPlanDays(long planId, String userId) {
-//		
-//		PlanDetailsDTO planList = new PlanDetailsDTO();
-//
-//		// 각 planId에 해당하는 Destination, Place 등 불러오기
-//		PlanDTO plan = pMapper.getPlanByPlanId(planId);
-//        List<DestinationDTO> destinations = dMapper.getDestinationByPlanId(planId); 
-//        List<PlaceDTO> places = plMapper.getPlaceByPlanId(planId);
-//        List<CostDTO> costs = cMapper.getCostByPlanId(planId);
-//        List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
-//        List<UserDTO> users = uMapper.getUserByPlanId(planId);
-//        int daysCount = pMapper.getDaysCountByPlanId(planId); //여행일수
-//        int likedCount = lMapper.getLikedCountByPlanId(planId); //좋아요갯수
-//        int likedCheck = lMapper.getLikedCheck(planId,userId); //로그인 유저의 좋아요 여부
-//        String leaderNick = uMapper.getLeaderNickByPlanId(planId); //그룹장 닉네임
-//		
-//        planList.setPlan(plan);
-//        planList.setDestinations(destinations);
-//        planList.setPlaces(places);
-//        planList.setCosts(costs);
-//        planList.setGroups(groups);
-//        planList.setUsers(users);
-//        planList.setDaysCount(daysCount);
-//        planList.setLikedCount(likedCount);
-//        planList.setLikedCheck(likedCheck);
-//        planList.setLeaderNick(leaderNick);
-//
-//        
-//		//////////////////////////////////////////
-//        
-//        SimpleDateFormat sdfYMDHms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-//        SimpleDateFormat sdfYMD = new SimpleDateFormat("yyyy-MM-dd");
-//
-//        String test = "2024-07-16";
-//
-//        //String을 날짜 연산을 위해 Date 객체로 변경
-//        Date date = (Date) sdfYMD.parse(test, null); 
-//
-//        //날짜 연산을 위한 Calendar객체 생성 후 date 대입
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(date);
-//        
-//        
-//        cal.add(Calendar.DATE, 1); // 1일 더하기
-//        System.out.println("1일 더하기: "+sdfYMD.format(cal.getTime(), null, null));
-//        
-//		//////////////////////////////////////////
-//		        
-//		DestinationDTO destination = new DestinationDTO();
-//		List<PlaceDTO> placeList = new ArrayList<>();
-//		
-//		//HashMap에 일자, 목적지, 장소리스트 추가
-//		HashMap<String, Object> planDay = new HashMap<>();
-//		planDay.put("day", 1);
-//		planDay.put("destination", destination);
-//		planDay.put("placeList", placeList);
-//		
-//		// List<HashMap<String, Object>> 생성
-////		List<HashMap<String, Object>> planDays = new ArrayList<>();
-//		// planDay을 List에 추가
-//		planDays.add(planDay);
-//		
-//
-//        //여행일 구하기
-//        int planDaysCount = daysCount + 1;       
-//        //여행 시작날짜 가져오기
-//        plan.getStartDate();
-//		
-//		//여행일만큼 반복문돌기
-//        for(int i=0; i<planDaysCount; i++) {
-//        	List<HashMap<String, Object>> planDays = new ArrayList<>();
-//        }
-//		
-//		//planId에 해당하는 목적지 가져오기
-//		//목적지 갯수 구하기
-//		//목적지 갯수만큼 planList추가하기(첫 destination일때만)
-//		
-//		//placeList에 List<PlaceDTO> placeList 추가하기
-//
-//		
-//		
-//		//반복문 내부에서
-//		//"day" -> i++ 로 증가시키기
-//		//"destination" -> 
-//		
-//		return planDays;
-//	}
-//	
-	
-	
-//	지피티꺼
-//	@Override
-//	public List<HashMap<String, Object>> getPlanDays(long planId, String userId) {
-//
-//	    PlanDetailsDTO planList = new PlanDetailsDTO();
-//	    
-//	    // 각 planId에 해당하는 Destination, Place 등 불러오기
-//	    PlanDTO plan = pMapper.getPlanByPlanId(planId);
-//	    List<DestinationDTO> destinations = dMapper.getDestinationByPlanId(planId); 
-//	    List<PlaceDTO> places = plMapper.getPlaceByPlanId(planId);
-//	    List<CostDTO> costs = cMapper.getCostByPlanId(planId);
-//	    List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
-//	    List<UserDTO> users = uMapper.getUserByPlanId(planId);
-//	    int daysCount = pMapper.getDaysCountByPlanId(planId); // 여행일수
-//	    int likedCount = lMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
-//	    int likedCheck = lMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
-//	    String leaderNick = uMapper.getLeaderNickByPlanId(planId); // 그룹장 닉네임
-//	    
-//	    planList.setPlan(plan);
-//	    planList.setDestinations(destinations);
-//	    planList.setPlaces(places);
-//	    planList.setCosts(costs);
-//	    planList.setGroups(groups);
-//	    planList.setUsers(users);
-//	    planList.setDaysCount(daysCount);
-//	    planList.setLikedCount(likedCount);
-//	    planList.setLikedCheck(likedCheck);
-//	    planList.setLeaderNick(leaderNick);
-//
-//	    // 여행일 만큼 반복문을 돌면서 HashMap을 생성하여 데이터를 추가
-//	    List<HashMap<String, Object>> planDays = new ArrayList<>();
-//
-//	    // 여행 시작날짜 가져오기
-//	    SimpleDateFormat sdfYMD = new SimpleDateFormat("yyyy-MM-dd");
-//	    Date startDate;
-//	    try {
-//	        startDate = sdfYMD.parse(plan.getStartDate());
-//	    } catch (ParseException e) {
-//	        throw new RuntimeException("날짜 파싱 오류", e); // 또는 적절한 예외 처리
-//	    }
-//
-//	    Calendar cal = Calendar.getInstance();
-//	    cal.setTime(startDate);
-//	    
-//	    List<HashMap<String, Object>> planDays = new ArrayList<>();
-//	    int placeIndex = 0; // PlaceDTO의 인덱스를 관리할 변수
-//
-//	    for (int i = 0; i < daysCount + 1; i++) {
-//	        HashMap<String, Object> planDay = new HashMap<>();
-//	        planDay.put("day", i + 1);
-//
-//	        // 목적지(destination) 설정
-//	        DestinationDTO destination = null;
-//	        if (placeIndex < places.size() && (i == 0 || places.get(placeIndex).getPlaceId() != places.get(placeIndex - 1).getPlaceId())) {
-//	            destination = destinations.get(i);  
-//	        }
-//	        planDay.put("destination", destination);
-//
-//	        // 해당 날짜의 placeList 설정
-//	        List<PlaceDTO> placeList = new ArrayList<>();
-//	        while (placeIndex < places.size() && sdfYMD.format(places.get(placeIndex).getStartTime()).equals(sdfYMD.format(cal.getTime()))) {
-//	            placeList.add(places.get(placeIndex));
-//	            placeIndex++;
-//	        }
-//	        planDay.put("placeList", placeList);
-//
-//	        // 다음 날로 이동
-//	        cal.add(Calendar.DATE, 1);
-//
-//	        planDays.add(planDay);
-//	    }
-//
-//	    return planDays;
-//	}
+	//여행계획에 해당하는 후기보기
+	@Override
+	public List<HashMap<String, Object>> getReview(long planId) {
+	    List<HashMap<String, Object>> reviewList = new ArrayList<>();
+	    	    
+	    //계획ID에 해당하는 리뷰리스트
+	    List<ReviewDTO> reviews = rMapper.getReviewByPlanId(planId);
 
+	    //리뷰별 첫번째 이미지 가져오기
+	    for (ReviewDTO review : reviews) {
+	    	//리뷰+사진 담길 HashMap
+		    HashMap<String, Object> reviewMap = new HashMap<>();
+		    
+	    	reviewMap.put("review", review);
+	    	
+	    	//reviewid 기준 사진 꺼내오기
+	        String fullPath = DEFAULT_MAIN_IMAGE_PATH;
+	        
+	        List<PhotoDTO> photos = lMapper.getPhotosByReviewId(review.getReviewId());
+		    
+	        //리뷰에 사진이 있으면 실행
+	    	if(photos != null && !photos.isEmpty()) {
+	    		PhotoDTO firstPhoto = photos.get(0);
+	    		String systemName = firstPhoto.getSystemName();
 
+	    		//이미지가 폴더에 있으면 실행
+	        	File file = new File(saveFolder, systemName);
+	        	if(file.exists()) {
+	        		fullPath = "/file/" + file.getName();
+	        	}
+	    	}
+	    	reviewMap.put("photo", fullPath);
+	    	
+	        reviewList.add(reviewMap);
+	    }
+	    
+	    return reviewList;
+	}
 	
-//	@Override
-//	public PlanDetailsDTO getPlanDays(long planId, String userId) {
-//		
-//		PlanDetailsDTO planList = new PlanDetailsDTO();
-//
-//		// 각 planId에 해당하는 Plan, Destination 등 불러오기
-//	    PlanDTO plan = pMapper.getPlanByPlanId(planId);
-//	    List<DestinationDTO> destinations = dMapper.getDestinationByPlanId(planId);
-//	    List<CostDTO> costs = cMapper.getCostByPlanId(planId);
-//	    List<GroupDTO> groups = gMapper.getGroupByPlanId(planId);
-//	    List<UserDTO> users = uMapper.getUserByPlanId(planId);
-//	    int daysCount = pMapper.getDaysCountByPlanId(planId); // 여행일수
-//	    int likedCount = lMapper.getLikedCountByPlanId(planId); // 좋아요 갯수
-//	    int likedCheck = lMapper.getLikedCheck(planId, userId); // 로그인 유저의 좋아요 여부
-//	    String leaderNick = uMapper.getLeaderNickByPlanId(planId); // 그룹장 닉네임
-//
-//	    // Destination에 맞는 Place 가져와서 로직 추가
-//	    Map<DestinationDTO, List<PlaceDTO>> destinationPlacesMap = new HashMap<>();
-//	    for (DestinationDTO destination : destinations) {
-//	        List<PlaceDTO> places = plMapper.getPlacesByDestinationId(planId, destination.getDestinationId());
-//	        destinationPlacesMap.put(destination, places);
-//	    }
-//	    
-//	    planList.setPlan(plan);
-//	    planList.setDestinations(destinations); // Destination 리스트 설정
-//	    planList.setDestinationPlacesMap(destinationPlacesMap); // 각 Destination에 따른 Place 리스트 설정
-//	    planList.setCosts(costs);
-//	    planList.setGroups(groups);
-//	    planList.setUsers(users);
-//	    planList.setDaysCount(daysCount);
-//	    planList.setLikedCount(likedCount);
-//	    planList.setLikedCheck(likedCheck);
-//	    planList.setLeaderNick(leaderNick);
-//
-//        
-//		
-//		return planList;
-//	}
 }
