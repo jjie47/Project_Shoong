@@ -24,7 +24,7 @@ public class MainController {
 		
 		List<Map<String, Object>> result = service.getMain();
 		model.addAttribute("rt", result);
-		System.out.println(result);
+		//System.out.println(result);
 		
 		return "index";
 	}

@@ -40,6 +40,27 @@ public class OauthController {
 	@Value("${kakao.redirect.uri}")
 	private String kakaoRedirectUri;
 	
+<<<<<<< HEAD
+	@Value("${google.client.id}")
+	private String googleClientId;
+	
+	@Value("${google.redirect.uri}")
+	private String googleRedirectUri;
+	
+	@Value("${google.client.secret}")
+	private String googleClientSecret;
+	
+	@Value("${naver.client.id}")
+	private String naverClientId;
+	
+	@Value("${naver.redirect.uri}")
+	private String naverRedirectUri;
+	
+	@Value("${naver.client.secret}")
+	private String naverClientSecret;
+	
+=======
+>>>>>>> upstream/develop
 	@Autowired
 	private UserService userService;
 
@@ -122,5 +143,154 @@ public class OauthController {
                 .block();
 	}
 
+<<<<<<< HEAD
+//	google
+	@GetMapping("google")
+	public String googleLogin() {
+		String googleLoginUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + googleClientId + 
+				"&redirect_uri=" + googleRedirectUri +
+				"&response_type=code" +
+				"&scope=email profile";
+		
+		return "redirect:" + googleLoginUrl;
+	}
+	
+	@GetMapping("google/callback")
+	public String googleCallback(@RequestParam("code") String code, HttpServletRequest req) {
+		String accessToken = generateGoogleToken(code);
+		
+		JsonNode user = findUserInfoOfGoogle(accessToken);
+		
+		String userId = user.path("id").asText();
+		String nickname = user.path("name").asText();
+		String email = user.path("email").asText();
+		String systemName = user.path("picture").asText();
+		
+		UserDTO userDTO = userService.getSocialUserByUserId(userId);
+		
+		if(userDTO == null) {
+			userDTO = new UserDTO();
+			userDTO.setUserId(userId);
+			userDTO.setNickname(nickname);
+			userDTO.setEmail(email);
+			userDTO.setSystemName(systemName);
+			
+			userService.socialJoin(userDTO);
+		}
+		
+		HttpSession session = req.getSession();
+		session.setAttribute("loginUser", userId);
+		
+		return "redirect:/";
+	}
+	
+	private String generateGoogleToken(String code) {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); 
+		params.add("grant_type", "authorization_code"); 
+		params.add("client_id", googleClientId);
+		params.add("client_secret", googleClientSecret);
+		params.add("redirect_uri", googleRedirectUri);
+		params.add("code", code);	
+		
+		JsonNode response = WebClient.builder()
+				.baseUrl("https://oauth2.googleapis.com/token")
+				.build()
+				.post()
+				.header("Content-type", "application/x-www-form-urlencoded;charset-utf-8")
+				.body(BodyInserters.fromFormData(params)) 
+				.retrieve() 
+				.bodyToMono(JsonNode.class)
+				.block();
+		
+		return response.path("access_token").asText();
+	}
+	
+	private JsonNode findUserInfoOfGoogle(String accessToken) {
+		return WebClient.builder()
+                .baseUrl("https://www.googleapis.com/userinfo/v2/me")
+                .build()
+                .get()
+                .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+                .header("Authorization", "Bearer " + accessToken)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .block();
+	}
+	
+//	네이버
+	@GetMapping("naver")
+	public String naverLogin() {
+		String naverLoginUrl = "https://nid.naver.com/oauth2.0/authorize?client_id=" + naverClientId +
+				"&redirect_uri=" + naverRedirectUri +
+				"&response_type=code";
+		
+		return "redirect:" + naverLoginUrl;
+	}
+	
+	@GetMapping("naver/callback")
+	public String naverCallback(@RequestParam("code") String code, HttpServletRequest req) {
+		String accessToken = generateNaverToken(code);
+		
+		JsonNode user = findUserInfoOfNaver(accessToken);
+
+		String userId = user.path("response").path("id").asText();
+		String nickname = user.path("response").path("nickname").asText();
+		String email = user.path("response").path("email").asText();
+		String systemName = user.path("response").path("profile_image").asText();
+		String phoneNumber = user.path("response").path("mobile").asText();
+		
+		UserDTO userDTO = userService.getSocialUserByUserId(userId);
+		
+		if(userDTO == null) {
+			userDTO = new UserDTO();
+			userDTO.setUserId(userId);
+			userDTO.setNickname(nickname);
+			userDTO.setEmail(email);
+			userDTO.setSystemName(systemName);
+			userDTO.setPhoneNumber(phoneNumber);
+			
+			userService.socialJoin(userDTO);
+		}
+		
+		HttpSession session = req.getSession();
+		session.setAttribute("loginUser", userId);
+		
+		return "redirect:/";
+	}
+
+	private String generateNaverToken(String code) {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); 
+		params.add("grant_type", "authorization_code"); 
+		params.add("client_id", naverClientId);
+		params.add("client_secret", naverClientSecret);
+		params.add("redirect_uri", naverRedirectUri);
+		params.add("code", code);	
+		
+		JsonNode response = WebClient.builder()
+				.baseUrl("https://nid.naver.com/oauth2.0/token")
+				.build()
+				.post()
+				.header("Content-type", "application/x-www-form-urlencoded;charset-utf-8")
+				.body(BodyInserters.fromFormData(params)) 
+				.retrieve() 
+				.bodyToMono(JsonNode.class)
+				.block();
+		
+		return response.path("access_token").asText();
+	}
+	
+	private JsonNode findUserInfoOfNaver(String accessToken) {
+		return WebClient.builder()
+                .baseUrl("https://openapi.naver.com/v1/nid/me")
+                .build()
+                .get()
+                .header("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+                .header("Authorization", "Bearer " + accessToken)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .block();
+	}
+=======
+>>>>>>> upstream/develop
 }
 

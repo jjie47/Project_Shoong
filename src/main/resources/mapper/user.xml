@@ -9,7 +9,28 @@
 	
 	<insert id="insertSocialUser">
 		insert into user (user_id, nickname, system_name, origin_name, email, phone_number, password, point)
+<<<<<<< HEAD
+		values(#{userId}, #{nickname}, #{systemName}, 'default_profile.png', 
+		<choose>
+			<when test="email != null and email !=''">
+				#{email}	
+			</when>
+			<otherwise>
+				'unknow@example.com'				
+			</otherwise>
+		</choose>,
+		<choose>
+           <when test="phoneNumber != null and phoneNumber != ''">
+               #{phoneNumber}
+           </when>
+           <otherwise>
+               '000-0000-0000'
+           </otherwise>
+        </choose>,
+	 	'defaultPassword',0)
+=======
 		values(#{userId}, #{nickname}, #{systemName}, 'default_profile.png', 'unknow@example.com', '000-0000-0000', 'defaultPassword',0)
+>>>>>>> upstream/develop
 	</insert>
 	
 	<select id="getUserByUserId">
