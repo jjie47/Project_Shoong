@@ -52,18 +52,15 @@ $(function(){
             socket_invite = new WebSocket(`ws://localhost:8080/invite/${userId}`);
             
             socket_invite.onerror = function(e) {
-                console.log(e);
+                // console.log(e);
             }
             socket_invite.onopen = function(e) {
-                console.log(e);
+                // console.log(e);
             }
             socket_invite.onmessage = function(e) {
-                console.log(e.data);
+                // console.log(e.data);
                 let sender = e.data.split(":")[0];
-                console.log("sender 확인: "+sender);
-                // let msg = e.data.split(":")[0];
                 if(sender == 'invite') {
-                    console.log("sender 확인: "+sender);
                     btn_notify.addClass("notify");
     
                     if(!notification.hasClass("hidden")){
@@ -72,7 +69,7 @@ $(function(){
                 }
             }
             socket_invite.onclose = function(e) {
-                console.log(e);
+                // console.log(e);
             }
         }
     }
@@ -169,7 +166,6 @@ function loadInviteList() {
 }
 
 function getMembersId(responsedPlanId, callback) {
-    console.log("getMemebersId: "+responsedPlanId);
     let str = "";
     $.ajax({
         url: "/group/members",

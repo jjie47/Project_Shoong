@@ -37,7 +37,6 @@ public class GroupServiceImpl implements GroupService {
 	public List<Map<String, Object>> getInviteList(String userId) {
 		GroupMapper gMapper = sqlSession.getMapper(GroupMapper.class);
 		List<Map<String, Object>> list = gMapper.getInvitedListByUserId(userId);
-		System.out.println(list);
 		if(list!=null) {
 			for(Map<String, Object> request: list) {
 				long planId = (long)request.get("plan_id");

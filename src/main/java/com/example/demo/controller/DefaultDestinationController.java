@@ -22,8 +22,6 @@ public class DefaultDestinationController {
 	@GetMapping("list")
 	public String list(String keyword, String continent, Model model) {
 		List<DefaultDestinationDTO> list = service.getList(keyword, continent);
-//		System.out.println(continent);
-//		System.out.println(keyword);
 		model.addAttribute("defaultDestinationList", list);
 		return "/plan/write :: #defaultDestinationList";
 	}

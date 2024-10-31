@@ -160,7 +160,7 @@ $(function() {
     })
     btn_schedule.click(function() {
         if(selectedPlaces.size == 0) {
-            console.log("추가된 장소가 없어요.")
+            // console.log("추가된 장소가 없어요.")
             return;
         }
         index_tab.css('visibility', 'visible');
@@ -195,7 +195,6 @@ $(function() {
 
 // 1. 그룹 초대 ===============================================================
 // 그룹 초대 - button
-// let socket = null;
 
 getInviteSocketConnection();
 function getInviteSocketConnection() {
@@ -203,26 +202,23 @@ function getInviteSocketConnection() {
         socket_invite = new WebSocket(`ws://localhost:8080/invite/${userId}`);
 
         socket_invite.onerror = function(e) {
-            console.log(e);
+            // console.log(e);
         }
         socket_invite.onopen = function(e) {
-            console.log(e);
+            // console.log(e);
         }
         socket_invite.onmessage = function(e) {
-            console.log(e.data);
+            // console.log(e.data);
             let sender = e.data.split(":")[0];
             let responsedPlanId = e.data.split(":")[1];
-            console.log("planId and responsed : " + planId + " " + responsedPlanId)
             if(responsedPlanId == String(planId)) {
-                console.log("here")
                 if(sender=='accept' || sender=='refuse') {
-                    console.log("here2")
                     getGroupList();
                 }
             }
         }
         socket_invite.onclose = function(e) {
-            console.log(e);
+            // console.log(e);
         }
     }
 }
@@ -280,10 +276,7 @@ function searchUser() {
                 "planId": planId
             },
             success: function (userList) {
-                // $('#userList').replaceWith(list);
                 let str = "";
-
-                // const list = userList.filter(user=>user.userId!==userId);
                 for(const user of userList) {
                     str += `<div class="user">
                                         <input type="hidden" value="${user.userId}"/>
@@ -299,7 +292,6 @@ function searchUser() {
                                         </div>
                                     </div>`;
                 }
-
                 $('#userList').html(str);
             }
         })
@@ -310,9 +302,7 @@ function searchUser() {
 }
 // 그룹원 목록 불러오기
 window.onload = getGroupList();
-// member_index.trigger("click");
 function getGroupList() {
-    console.log("here3")
     $.ajax({
         url: "/group/list",
         type: "GET",
@@ -417,7 +407,6 @@ function removeDefaultDestination(destinationId) {
 // 3. 날짜 선택 ===============================================================
 // 날짜 추가
 function addDate(start, end) {
-    console.log("이게 불러진다ㅗㄱ??")
     selectedDates.set("startDate", start);
     selectedDates.set("endDate", end);
     
@@ -428,18 +417,6 @@ function addDate(start, end) {
 // 날짜 초기화
 addDate(timeEx, timeEx);
 
-// dateMap 초기화
-// function initDateMap() {
-//     const map = new Map();
-
-//     for(const element of dateArr) {
-//         map.set(element, )
-//     }
-// }
-
-// 날짜 불러오기
-
-
 // 사이 모든 날짜 배열로 뽑기
 function getDatesStartToLast(startDate, endDate) {
 	var regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
@@ -447,15 +424,11 @@ function getDatesStartToLast(startDate, endDate) {
 	var result = [];
 	var curDate = new Date(startDate);
 	while(curDate <= new Date(endDate)) {
-        console.log(curDate)
-        console.log(curDate.toISOString())
-        console.log(curDate.toISOString().split("T")[0])
 		result.push(curDate.toISOString().split("T")[0]);
 		curDate.setDate(curDate.getDate() + 1);
 	}
 	return result;
 }
-
 
 
 // 4. 장소 선택 ===============================================================
@@ -502,8 +475,6 @@ $(function() {
 // 장소 선택
 // 장소 추가
 function addPlace(place) {
-    console.log(place.id);
-    console.log(place);
     selectedPlaces.set(place.id, place);
     // 선택 목적지 목록 추가
     const destination = {
@@ -515,7 +486,6 @@ function addPlace(place) {
     }
     destinationKey--;
     selectedDestinations.add(JSON.stringify(destination));
-    console.log(selectedDestinations);
 }
 
 // 장소 삭제
@@ -543,48 +513,22 @@ $(function() {
         $(e.currentTarget).children('.itinerary_remove').css('visibility', 'hidden');
     })
     // 일정 - click
-    // let lastItineraryEvent = null;       =>      timepicker 쪽으로 이동
     $(document).on("click", ".itinerary", function(e){
-        console.log("현재 이벤트 : " + $(lastItineraryEvent));
-        // let iId;
-        // if(lastItineraryEvent!=null || lastItineraryEvent!=undefined) {
-        //     iId = $(lastItineraryEvent).children('input').val();
-        //     let value = $('#schedule_search_place').val();
-        //     itineraries.get(Number(iId)).lastKeyword = (value==null || value==undefined) ? '' : value;
-    
-        //     const startTime = parseTimeValueToTime(itineraries.get(Number(iId)).startTime);
-        //     const endTime = parseTimeValueToTime(itineraries.get(Number(iId)).endTime);
-        //     $('.time_choose').find('input:eq(0)').val(startTime);
-        //     $('.time_choose').find('input:eq(1)').val(endTime);
-        // }
-    
-        // $('.schedule_manage').css('visibility', 'visible');
-        // // e를 .schedule_manage에 전달
-        // lastItineraryEvent = e.currentTarget;
-        // iId = $(lastItineraryEvent).children('input').val();
-        // const keyword = itineraries.get(Number(iId)).lastKeyword;
-        // $('#schedule_search_place').val(keyword);
-        // searchSelectedPlaces(keyword);
+        // console.log("현재 이벤트 : " + $(lastItineraryEvent));
 
         // 일정 관리 화면 띄우기
         $('.schedule_manage').css('visibility', 'visible');
         // 이전 선택 일정 테두리색 변화
         $(lastItineraryEvent).parent().css("border", "none");
-
-        
-        
+		
         // 클릭시 재정렬
         // 이전 일정의 id 저장
-        // let iId = $(lastItineraryEvent).children('input').val();
         let iId = $(e.currentTarget).children('input').val();
         // 시간 정렬
         const date = $(lastItineraryEvent).closest('.schedule').children('input').val();
         $(lastItineraryEvent).closest('.itineraries').html(bindItinerariesByDate(date));
         // 클릭한 id에 해당하는 event 객체 복구
         const clickedItinerary = $('.schedules').find(`input[value=${iId}]`).parent();
-        // console.log($(lastItineraryEvent).eq(0));
-        // $(lastItineraryEvent).closest('.itineraries').get(0).html('');
-        // $(lastItineraryEvent).closest('.itineraries').get(0).append(bindItinerariesByDate(date));
 
         // 일정의 event 객체 저장
         lastItineraryEvent = clickedItinerary;
@@ -593,7 +537,6 @@ $(function() {
             "border-bottom":"2px solid #006BDF"});
         // 새로운 일정 Key 불러오기
         iId = $(lastItineraryEvent).children('input').val();
-        console.log("선택 일정 Key : " + iId);
         // 일정 검색어 목록 불러오기
         const keyword1 = itineraries.get(Number(iId)).lastKeyword;
         $('#schedule_search_place').val(keyword1);
@@ -635,14 +578,7 @@ $(function() {
         }
         $('.cost_list').append(str);
     })
-    // $(document).click(function(e) {
-    //     if(!$(e.target).closest('section:first-of-type, .itinerary, .schedule_manage, .ui-timepicker-container').length) {
-    //         $('.schedule_manage').css('visibility', 'hidden');
-    //     }
-    // })
-    // $('#map').mousedown(function() {
-    //     $('.schedule_manage').css('visibility', 'hidden');
-    // })
+	
     // 일정 추가 - click
     $(document).on("click", ".itinerary_add", function(e) {
         if(lastItineraryEvent!==null) {
@@ -660,7 +596,6 @@ $(function() {
         // 일정의 event 객체 저장
         lastItineraryEvent = $(e.currentTarget).siblings('.itineraries').children().last().children('.itinerary').get(0);
         const iId = $(lastItineraryEvent).children('input').val();
-        console.log("선택 일정 Key : " + iId);
         
         // 일정관리 탭 띄우기
         schedule_manage.css('visibility', 'visible');
@@ -671,18 +606,12 @@ $(function() {
         const hour = String(new Date().getHours()).padStart(2, '0');
         const minute = String(new Date().getMinutes()).padStart(2, '0');
         const time = `${hour}:${minute}:00`;
-        console.log(time);
         $('.time_choose').find('input').val(parseTimeValueToTime(time));
         // 비용 목록 초기화
         $('.cost_list').html('');
         // 현재 선택 일정 테두리 색 변화
         $(lastItineraryEvent).parent().css({"border-top":"2px solid #006BDF",
             "border-bottom":"2px solid #006BDF"});
-        // $('.schedule_place').children('.place_list').html('');
-        
-        // 현재 관리 일정
-        // $(e.currentTarget).siblings('.itineraries').children().last().children('.itinerary').get(0);
-        // $('.time_choose').find('input').val(parseTimeWithDayAndNight(new Date()));
     })
     // 일정 삭제 - click
     $(document).on("click", ".itinerary_remove", function(e) {
@@ -706,7 +635,6 @@ $(function() {
     // 장소 선택
     $(document).on("click", ".btn_add_place_schedule", function(e) {
         const placeId = $(e.currentTarget).siblings('input').val();
-        // bindIdBySelectedPlace(placeId, lastItineraryEvent);
         addItineraryPlace(lastItineraryEvent, placeId)
         bindItineraryPlace(lastItineraryEvent);
     })
@@ -729,9 +657,6 @@ $(function() {
     })
     // 항목명 변경
     $(document).on("click", ".cost_name span, .cost_payer span, .cost_amount span", function(e) {
-        // $(e.currentTarget).children('input').css('visibility', 'visible');
-        // $(e.currentTarget).children('input').focus();
-        // $(e.currentTarget).children('span').css('visibility', 'hidden');
         $(e.currentTarget).siblings('input').css('visibility', 'visible');
         $(e.currentTarget).siblings('input').focus();
         $(e.currentTarget).css('visibility', 'hidden');
@@ -767,7 +692,6 @@ $(function() {
 
             const costId = $(e.currentTarget).parent().siblings('input').val();
             costs.get(Number(costId)).content = value;
-            console.log(JSON.stringify(costs.get(Number(costId))));
         }
     })
     $(document).on("blur", ".cost_payer input", function(e) {
@@ -785,9 +709,7 @@ $(function() {
         }
 
         const costId = $(e.currentTarget).parent().siblings('input').val();
-        // costs.get(Number(costId)).set("payer", value);
         costs.get(Number(costId)).payer = value;
-        console.log(JSON.stringify(costs.get(Number(costId))));
     })
     $(document).on("keyup", ".cost_payer input", function(e) {
         if(e.keyCode===13) {
@@ -805,9 +727,7 @@ $(function() {
             }
 
             const costId = $(e.currentTarget).parent().siblings('input').val();
-            // costs.get(Number(costId)).set("payer", value);
             costs.get(Number(costId)).payer = value;
-            console.log(JSON.stringify(costs.get(Number(costId))));
         }   
     })
     $(document).on("blur", ".cost_amount input", function(e) {
@@ -826,9 +746,7 @@ $(function() {
             value = 0;
         }
         const costId = $(e.currentTarget).parent().siblings('input').val();
-        // costs.get(Number(costId)).set("amount", Number(value));
         costs.get(Number(costId)).amount = value;
-        console.log(JSON.stringify(costs.get(Number(costId))));
     })
     $(document).on("keyup", ".cost_amount input", function(e) {
         if(e.keyCode===13) {
@@ -847,9 +765,7 @@ $(function() {
                 value = 0;
             }
             const costId = $(e.currentTarget).parent().siblings('input').val();
-            // costs.get(Number(costId)).set("amount", Number(value));
             costs.get(Number(costId)).amount = value;
-            console.log(JSON.stringify(costs.get(Number(costId))));
         }   
     })
 })
@@ -916,7 +832,6 @@ function bindItinerariesByDate(date) {
         return 0;
     });
     itineraries = new Map(arrItineraries);
-    console.log("일정맵 : "+JSON.stringify(Object.fromEntries(itineraries)));
     for(const [itinerary_key, itinerary_value] of itineraries) {
         if(date === itinerary_value.date) {
             const pId = itinerary_value.placeId;
@@ -959,7 +874,6 @@ function parseTimeKor(time) {
 
 // 일정 추가
 function addItinerary(e) {
-    // itineraries.get(date).push(1);
     // 일정 화면에 추가
     let str = '';
     str += `<div>
@@ -983,7 +897,6 @@ function addItinerary(e) {
     $(e.currentTarget).prev().append(str);
 
     // 일정 map에 일정 객체 추가
-    // itineraries.set(itineraryKey, new Map());
     itineraries.set(itineraryKey, {});
 
     const itinerary = itineraries.get(itineraryKey);
@@ -993,33 +906,7 @@ function addItinerary(e) {
     const minute = String(now.getMinutes()).padStart(2, '0');
     itinerary.startTime = `${hour}:${minute}:00`;
     itinerary.endTime = `${hour}:${minute}:00`;
-    // $('.time_choose').find(span).html()
     itinerary.lastKeyword = '';
-    
-    // // addCost
-    // str = '';
-    // str += `<div class="cost">
-    //             <input type="hidden" value="${costKey}">
-    //             <span class="cost_separator"></span>
-    //             <div class="cost_name">
-    //                 <span>항목명</span>
-    //                     <input type="text">
-    //                 </div>
-    //                 <div class="cost_payer">
-    //                     <span>( 이름 )</span>
-    //                     <input type="text">
-    //                 </div>
-    //                 <div class="cost_amount">
-    //                     <span>예상 금액</span>
-    //                     <input type="text">
-    //                 </div>
-    //             <div class="cost_remove">
-    //                 <img src="/images/remove.png" alt="">
-    //             </div>
-    //         </div>`;
-    // $('.cost_list').append(str);
-    // costs.get(Number(costKey)).set("itineraryId", itineraryKey);
-
     itineraryKey--;
 }
 // 일정 삭제
@@ -1040,8 +927,6 @@ function removeItinerary(e) {
 function addItineraryDate(e) {
     const date = $(e.currentTarget).siblings('input').val();
     const itineraryId = $(e.currentTarget).prev().children().last().find('input').val();
-    // itineraries.get(Number(itineraryId)).set("date", date);
-    console.log(date)
     itineraries.get(Number(itineraryId)).date = date;
 }
 // 검색 장소 선택하여 ID 가져오기
@@ -1053,15 +938,12 @@ function bindIdBySelectedPlace(placeId, lastItineraryEvent) {
 // 검색 장소 선택시 객체에 추가
 function addItineraryPlace(itinerary, placeId) {
     const itineraryId = $(itinerary).children('input').val();
-    // itineraries.get(Number(itineraryId)).set("placeId", placeId)
-    console.log(placeId)
     itineraries.get(Number(itineraryId)).placeId = placeId;
 }
 // 검색 장소 선택시 장소 event 객체를 통해 일정 이름 주소 등 바인딩
 function bindItineraryPlace(itinerary) {
     const $itinerary = $(itinerary);
     const itineraryId = $itinerary.children('input').val();
-    // const id = itineraries.get(Number(itineraryId)).get("placeId");
     const id = itineraries.get(Number(itineraryId)).placeId;
     const type = getColorByPlaceType(selectedPlaces.get(id).type);
     const name = selectedPlaces.get(id).name;
@@ -1114,13 +996,11 @@ function searchSelectedPlaces(keyword) {
 // 일정시간 추가
 function addItineraryTime(itinerary, time, key) {
     if(itinerary !== null) {
-        console.log("init "+itinerary)
         // "12:00:00"
         const timeStr = parseTime(time);
     
         const itineraryId = $(itinerary).children('input').val();
         // 일정맵에 넣기
-        // itineraries.get(Number(itineraryId)).set(key, timeStr);
         if(key==="startTime") {
             itineraries.get(Number(itineraryId)).startTime = timeStr;
         } else {
@@ -1142,7 +1022,6 @@ function bindItineraryTime(itinerary, time, key) {
 }
 // 비용 추가
 function addCost(e) {
-    // itineraries.get(date).push(1);
     let str = '';
     str += `<div class="cost">
                 <input type="hidden" value="${costKey}">
@@ -1182,37 +1061,17 @@ function addCost(e) {
 function removeCost(e) {
     const costId = $(e.currentTarget).siblings('input').val();
     costs.delete(Number(costId));
-    console.log("제거 : " + Number(costId));
-    console.log("제거후 map : " + JSON.stringify(Object.fromEntries(costs)));
     $(e.currentTarget).parent().remove();
 }
 
-
-
 // 저장하기 ================================================================
 $(function() {
-    $('.btn_save').click(function() {
-        console.log(selectedDefaultDestinations);
-        console.log(selectedDestinations);
-        console.log(selectedDates);
-        console.log(selectedPlaces);
-        console.log(itineraries);
-        console.log(itineraryKey);
-        console.log(costs);
-        console.log(costKey);
-    })
     $('.btn_save').click(function() {
         const selectedDefaultDestinationsObj = Object.fromEntries(selectedDefaultDestinations);
         const selectedDatesObj = Object.fromEntries(selectedDates);
         const selectedPlacesObj = Object.fromEntries(selectedPlaces);
         const itinerariesObj = Object.fromEntries(itineraries);
         const costsObj = Object.fromEntries(costs);
-        console.log(JSON.stringify({"selectedDefaultDestinations": selectedDefaultDestinationsObj})); 
-        console.log(JSON.stringify({"selectedDestinations":  [...selectedDestinations]})); 
-        console.log(JSON.stringify({"selectedDates": selectedDatesObj})); 
-        console.log(JSON.stringify({"selectedPlaces": selectedPlacesObj})); 
-        console.log(JSON.stringify({"itineraries": itinerariesObj})); 
-        console.log(JSON.stringify({"costs": costsObj}));
 
         closeInviteSocketConnection();
 
