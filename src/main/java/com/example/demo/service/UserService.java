@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.domain.CommentDTO;
+import com.example.demo.domain.PointDTO;
 import com.example.demo.domain.UserDTO;
 import com.example.demo.domain.UserDTO;
 
@@ -29,5 +30,11 @@ public interface UserService {
 	void exitMyPlan(String userId, long planId);
 
 	List<UserDTO> getUsersByKeyword(String keyword, long planId);
+	
+	void socialJoin(UserDTO userDTO);
+	UserDTO getSocialUserByUserId(String userId);
+
+	List<PointDTO> getPointByUserId(String userId);
+	
 }
  

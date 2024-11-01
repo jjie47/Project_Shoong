@@ -40,7 +40,6 @@ public class GroupController {
 	@ResponseBody
 	public List<Map<String, Object>> getInviteList(String userId) {
 		List<Map<String, Object>> list = service.getInviteList(userId);
-		System.out.println(list);
 		Collections.reverse(list);
 		return list;
 	}
@@ -58,11 +57,8 @@ public class GroupController {
 	@GetMapping("members")
 	@ResponseBody
 	public ResponseEntity<List<String>> members(String responsedPlanId) {
-		System.out.println(responsedPlanId);
 		long planId = Long.parseLong(responsedPlanId);
-		System.out.println(planId);
 		List<String> membersId = service.getMembersId(planId);
-		System.out.println(membersId);
 		if(membersId!=null) {
 			return new ResponseEntity<List<String>>(membersId, HttpStatus.OK);
 		}

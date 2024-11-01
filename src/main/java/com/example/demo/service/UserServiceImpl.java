@@ -23,6 +23,7 @@ import com.example.demo.domain.DestinationDTO;
 import com.example.demo.domain.GroupDTO;
 import com.example.demo.domain.GroupMemberDTO;
 import com.example.demo.domain.PlanDTO;
+import com.example.demo.domain.PointDTO;
 import com.example.demo.domain.ReviewDTO;
 import com.example.demo.domain.UserDTO;
 import com.example.demo.mapper.CommentMapper;
@@ -94,7 +95,12 @@ public class UserServiceImpl implements UserService{
 		if("default_profile.png".equals(systemName)) {
 			fullPath = DEFAULT_FROFILE_IMAGE_PATH;
 		}
+		else if (systemName.startsWith("http")) {
+			// url 이 제공하는 경우
+			fullPath = systemName;
+		}
 		else {
+			// 로컬 파일 경로 처리
 			File file = new File(saveFolder, systemName);
 			if(file.exists()) {
 				String filename = file.getName();
@@ -102,6 +108,19 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		user.setSystemName(fullPath);
+		
+		//사용자의 포인트 목록을 가져옴
+		List<PointDTO> points = userMapper.getPointByUserId(userId);
+		user.setPoints(points);
+		
+		//포인트 합산
+		int totalPoints = 0;
+		
+		for(PointDTO point : points) {
+			totalPoints += point.getPoint();
+		}
+		
+		user.setTotalPoints(totalPoints);
 		
 		return user;
 	}
@@ -336,4 +355,23 @@ public class UserServiceImpl implements UserService{
 		
 		return list;
 	}
+
+	@Override
+	public void socialJoin(UserDTO userDTO) {
+		userMapper.insertSocialUser(userDTO);
+	}
+
+	@Override
+	public UserDTO getSocialUserByUserId(String userId) {
+		UserDTO userDTO = userMapper.getUserByUserId(userId);
+		return userDTO;
+	}
+
+	@Override
+	public List<PointDTO> getPointByUserId(String userId) {
+		List<PointDTO> plist = userMapper.getPointByUserId(userId);
+		return plist;
+	}
+	
+	
 }

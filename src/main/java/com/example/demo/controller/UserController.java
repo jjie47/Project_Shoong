@@ -24,6 +24,7 @@ import com.example.demo.domain.CommentDTO;
 import com.example.demo.domain.LikedPlanDTO;
 import com.example.demo.domain.LikedReviewDTO;
 import com.example.demo.domain.PageDTO;
+import com.example.demo.domain.PointDTO;
 import com.example.demo.domain.ReviewDTO;
 import com.example.demo.domain.UserDTO;
 import com.example.demo.service.CommentService;
@@ -410,22 +411,29 @@ public class UserController {
 //		return "/plan/write :: #userList";
 		return list;
 	}
-	
+
+
 //	마이페이지 - 내 계정 - 포인트 관리
 	@GetMapping("mypoint")
-	public String mypage(Model model) {
+	public String mypoint(HttpServletRequest req, HttpServletResponse resp, Model model) {
+		HttpSession session = req.getSession(false);
+		String userId = (session != null) ? (String) session.getAttribute("loginUser") : null;
+		
+		model.addAttribute("user", userId);
+		
+		List<PointDTO> result = service.getPointByUserId(userId);
+		model.addAttribute("pt", result);
+		
+		if(userId == null) {
+			try {
+				resp.sendRedirect("/user/login");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return "user/mypoint";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 //	@GetMapping("/")
 //	public String index(HttpServletRequest req) {
@@ -437,8 +445,6 @@ public class UserController {
 ////      원하는 페이지 띄우기
 //		return "index";
 //	}
-	
-	
 	
 	@GetMapping("myplan/owo1")
 	public String owo1() {
