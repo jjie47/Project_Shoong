@@ -69,7 +69,7 @@ public class PlanController {
 		HttpSession session = req.getSession();
 		
 		long planId = ((Integer)data.get("planId")).longValue();
-		System.out.println("계획 Id 확인 : " + planId);
+		
 		Map<String, Object> selectedDefaultDestinations = (Map<String, Object>) data.get("selectedDefaultDestinations");
 		List<String> selectedDestinations = (List<String>)data.get("selectedDestinations");
 		Map<String, String> selectedDates = (Map<String, String>) data.get("selectedDates");
@@ -79,50 +79,36 @@ public class PlanController {
 		
 		String userId = (String) session.getAttribute("loginUser");
 		
-		
 		if(service.regist(planId,selectedDefaultDestinations,selectedDestinations, selectedDates, selectedPlaces, itineraries, costs, userId) != -1) {
-			System.out.println("===========================");
-			System.out.println("Controller : 게시글 등록 성공!");
-			
 			Cookie cookie = new Cookie("hasRegisted", "true");
 			cookie.setPath("/");
 			cookie.setMaxAge(5);
 			resp.addCookie(cookie);
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		for (Map.Entry<String, Object> entry : selectedDefaultDestinations.entrySet()) {
-			System.out.print("selectedDefaultDestinations : ");
-		    System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
-		for (String entry : selectedDestinations) {
-			System.out.print("selectedDestinations : ");
-			System.out.println(entry);
-		}
-		for (Map.Entry<String, String> entry : selectedDates.entrySet()) {
-			System.out.print("selectedDates : ");
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
-		for (Map.Entry<String, Object> entry : selectedPlaces.entrySet()) {
-			System.out.print("selectedPlaces : ");
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
-		for (Map.Entry<String, Object> entry : itineraries.entrySet()) {
-			System.out.print("itineraries : ");
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
-		for (Map.Entry<String, Object> entry : costs.entrySet()) {
-			System.out.print("costs : ");
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
+//		for (Map.Entry<String, Object> entry : selectedDefaultDestinations.entrySet()) {
+//			System.out.print("selectedDefaultDestinations : ");
+//			System.out.println(entry.getKey() + ": " + entry.getValue());
+//		}
+//		for (String entry : selectedDestinations) {
+//			System.out.print("selectedDestinations : ");
+//			System.out.println(entry);
+//		}
+//		for (Map.Entry<String, String> entry : selectedDates.entrySet()) {
+//			System.out.print("selectedDates : ");
+//			System.out.println(entry.getKey() + ": " + entry.getValue());
+//		}
+//		for (Map.Entry<String, Object> entry : selectedPlaces.entrySet()) {
+//			System.out.print("selectedPlaces : ");
+//			System.out.println(entry.getKey() + ": " + entry.getValue());
+//		}
+//		for (Map.Entry<String, Object> entry : itineraries.entrySet()) {
+//			System.out.print("itineraries : ");
+//			System.out.println(entry.getKey() + ": " + entry.getValue());
+//		}
+//		for (Map.Entry<String, Object> entry : costs.entrySet()) {
+//			System.out.print("costs : ");
+//			System.out.println(entry.getKey() + ": " + entry.getValue());
+//		}
 	}	
 	
 	

@@ -90,14 +90,13 @@ public class PlanServiceImpl implements PlanService {
 		
 		PlanDTO plan = new PlanDTO();
 		
-		
 		// 계획 날짜 업데이트
 		plan.setPlanId(planId);
 		plan.setStartDate(selectedDates.get("startDate"));
 		plan.setEndDate(selectedDates.get("endDate"));
 		if(pmapper.updatePlanDate(plan)==1) {
-			System.out.println("Service : 계획 날짜 수정 성공");
-			
+//			System.out.println("Service : 계획 날짜 수정 성공");
+	
 			// 목적지 추가
 			Set<DestinationDTO> destinations = new HashSet<>();
 			for(Map.Entry<String, Object> entry : selectedPlaces.entrySet()) {
@@ -113,7 +112,7 @@ public class PlanServiceImpl implements PlanService {
 			}
 			if(destinations.size()>0) {
 				if(dmapper.insertDestination(destinations, planId)>0) {
-					System.out.println("Service : 목적지 추가 성공");
+//					System.out.println("Service : 목적지 추가 성공");
 					
 //					Map<String, Long> destinationIds = new HashMap<>();
 //					for(DestinationDTO destination : destinations) {
@@ -126,19 +125,18 @@ public class PlanServiceImpl implements PlanService {
 					Map<String, Long> destinationIds = new HashMap<>();
 					Map<String, Long> placeIds = new HashMap<>();
 					
-					System.out.println(destinationsByPlanId);
+//					System.out.println(destinationsByPlanId);
 					
 					// destination Id 가져와서 모으기
 					for(Map<String, Object> map : destinationsByPlanId) {
 						String city = (String)map.get("city_kor");
 						Object obj = map.get("destination_id");
 						if(obj instanceof Long) {
-							System.out.println("이거 Long 맞대");
 							Long destinationId = (Long)obj;
 							destinationIds.put(city, destinationId);
 						}
 						else {
-							System.out.println("obj는 Long 타입이 아니래");
+//							System.out.println("obj는 Long 타입이 아님");
 						}
 					}
 					
@@ -166,18 +164,16 @@ public class PlanServiceImpl implements PlanService {
 //						place.setDestinationId(destinationIds.get((String)map.get("city")));
 						
 						String city = (String)selectedPlace.get("city");
-						System.out.println(city);
 						Long destinationId = destinationIds.get(city);
 						if(destinationId != null) {	
 							place.setDestinationId(destinationId); 
 						} else {
-							System.out.println("destinationId를 찾을 수 없더. 현재 도시는 " + city);
+//							System.out.println("destinationId를 찾을 수 없더. 현재 도시는 " + city);
 						}
-						
 						
 						if(pcmapper.insertPlaces(place)==1) {
 							long pcId = place.getPlaceId();
-							System.out.println("Service : 장소 추가 - placeId : "+pcId);
+//							System.out.println("Service : 장소 추가 - placeId : "+pcId);
 							
 //							List<CostDTO> costList = new ArrayList<>();
 //							
@@ -206,17 +202,14 @@ public class PlanServiceImpl implements PlanService {
 //							} else {
 //								System.err.println("Service 에러 : 비용 추가 실패 - placeId : "+pcId);
 //							}
-							System.out.println("Service : 계획 등록 모두 완료");
+//							System.out.println("Service : 계획 등록 완료");
 						}
-						
 //						places.add(place);
 					}
 					
 //					if(places.size()>0) {
 //						if(pcmapper.insertPlace(places)>0) {
 //							System.out.println("Service : 장소 추가 성공");
-//							
-//							
 //							
 //							for(Map.Entry<String, Object> entry : itineraries.entrySet()) {
 //							
@@ -256,21 +249,13 @@ public class PlanServiceImpl implements PlanService {
 			group.setPlanId(planId);
 			group.setRule("그룹장");
 			if(gmapper.insertGroup(group)==1) {
-				System.out.println("Service : 그룹 추가 성공");
+//				System.out.println("Service : 그룹 추가 성공");
 				return planId;
 			}
 		}
 		return -1;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	@Autowired
     private PlanMapper pMapper;

@@ -36,7 +36,7 @@ public class InviteController {
 				for(Session client : clients) {
 					if(client.equals(clients_session.get(inviteUserId))) {
 						// socket_invite.send(`${planId}:${inviteUserId}`);
-						System.out.println("Send '"+message+"' From "+ userId +" To "+inviteUserId);
+//						System.out.println("Send '"+message+"' From "+ userId +" To "+inviteUserId);
 						client.getBasicRemote().sendText(message);
 					}
 				}
@@ -50,7 +50,7 @@ public class InviteController {
 				for(Session client : clients) {
 					if(list.contains(clients_id.get(client))&&!userId.equals(clients_id.get(client))) {
 						// socket_invite.send(`${planId}:${inviteUserId}`);
-						System.out.println("Send '"+message+"' From "+ userId +" To "+clients_id.get(client));
+//						System.out.println("Send '"+message+"' From "+ userId +" To "+clients_id.get(client));
 						client.getBasicRemote().sendText(message);
 					}
 				}

@@ -417,16 +417,6 @@ public class UserController {
 		return "user/mypoint";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 //	@GetMapping("/")
 //	public String index(HttpServletRequest req) {
 ////      임시아이디 입력
@@ -437,8 +427,6 @@ public class UserController {
 ////      원하는 페이지 띄우기
 //		return "index";
 //	}
-	
-	
 	
 	@GetMapping("myplan/owo1")
 	public String owo1() {

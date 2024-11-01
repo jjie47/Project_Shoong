@@ -40,7 +40,6 @@ public class OauthController {
 	@Value("${kakao.redirect.uri}")
 	private String kakaoRedirectUri;
 	
-<<<<<<< HEAD
 	@Value("${google.client.id}")
 	private String googleClientId;
 	
@@ -58,9 +57,7 @@ public class OauthController {
 	
 	@Value("${naver.client.secret}")
 	private String naverClientSecret;
-	
-=======
->>>>>>> upstream/develop
+
 	@Autowired
 	private UserService userService;
 
@@ -143,7 +140,6 @@ public class OauthController {
                 .block();
 	}
 
-<<<<<<< HEAD
 //	google
 	@GetMapping("google")
 	public String googleLogin() {
@@ -290,7 +286,5 @@ public class OauthController {
                 .bodyToMono(JsonNode.class)
                 .block();
 	}
-=======
->>>>>>> upstream/develop
 }
 
