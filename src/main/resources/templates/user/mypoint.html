@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <title>Shoong_sub</title>
+    <title>포인트 관리</title>
 </head>
 <body>
 <div id="wrap">
@@ -44,7 +44,7 @@
 
                     <!-- 포인트 관리 -->
                     <div id="my_point">
-                        <div class="point_item">
+                        <div th:if="${pt != null and pt.size > 0}" class="point_item">
                             <table class="point_table">
                                 <thead>
                                     <tr>
@@ -54,44 +54,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>2024.09.20</td>
-                                        <td>적립</td>
-                                        <td class="point_positive">+ 500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024.07.12</td>
-                                        <td>사용</td>
-                                        <td  class="point_negative">- 500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024.02.02</td>
-                                        <td>적립</td>
-                                        <td class="point_positive">+ 500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2023.12.31</td>
-                                        <td>적립</td>
-                                        <td class="point_positive">+ 500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2023.08.13</td>
-                                        <td>적립</td>
-                                        <td class="point_positive">+ 500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2023.01.20</td>
-                                        <td>적립</td>
-                                        <td class="point_positive">+ 500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2023.01.12</td>
-                                        <td>사용</td>
-                                        <td  class="point_negative">- 500</td>
+                                    <tr th:each="point : ${pt}">
+                                        <td th:text="${point.createdDate}" class="createdDate"></td>
+                                        <td th:text="${point.content}"></td>
+                                        <td th:text="${point.point}" class="point_positive"></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+						<div th:if="${pt == null or pt.size() == 0}">
+							<p>적립된 포인트가 없습니다.</p>
+						</div>
                     </div>
 
             </div>
@@ -103,4 +76,16 @@
         <th:block th:replace="~{layout/footer::footer}"></th:block>
     </div>
 </div>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const createdDates = document.querySelectorAll('.createdDate');
+		
+		createdDates.forEach(date => {
+			const dateTime = date.innerText;
+			const dateOnly = dateTime.split(' ')[0];
+			date.innerText = dateOnly;
+		});
+	});
+</script>
 </body>
+</html>

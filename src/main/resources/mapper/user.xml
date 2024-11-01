@@ -8,7 +8,7 @@
 	</insert>
 	
 	<insert id="insertSocialUser">
-		insert into user (user_id, nickname, system_name, origin_name, email, phone_number, password, point)
+		insert into user (user_id, nickname, system_name, origin_name, email, phone_number, password)
 		values(#{userId}, #{nickname}, #{systemName}, 'default_profile.png', 
 		<choose>
 			<when test="email != null and email !=''">
@@ -26,7 +26,7 @@
                '000-0000-0000'
            </otherwise>
         </choose>,
-	 	'defaultPassword',0)
+	 	'defaultPassword')
 	</insert>
 	
 	<select id="getUserByUserId">
@@ -72,5 +72,10 @@
 		JOIN `group` g ON u.user_id = g.user_id
 		WHERE g.plan_id = #{planId}
 		AND g.rule = '그룹장';
+	</select>
+	
+	<select id="getPointByUserId">
+		SELECT * FROM `point`
+		WHERE user_id = #{userId};
 	</select>
 </mapper>

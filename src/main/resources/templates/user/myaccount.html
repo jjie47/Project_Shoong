@@ -71,7 +71,7 @@
                             <div class="point_mgmt_box1">
                                 <h3 class="point_mgmt_title">총 보유 포인트</h3>
 								<div class="point_box">
-	                                <div class="point_score" th:text=${user.point}></div>
+	                                <div class="point_score" id="pointScore" th:text="${user.totalPoints}"></div>
 									<div class="point_lan">P</div>									
 								</div>
                             </div>
@@ -90,5 +90,14 @@
         <th:block th:replace="~{layout/footer::footer}"></th:block>
     </div>
 </div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		const pointElement = document.getElementById("pointScore");
+		const points = parseInt(pointElement.innerText, 10);
+		const formattedPoints = points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		pointElement.innerHTML = formattedPoints;
+	});
+</script>
 </body>
 </html>

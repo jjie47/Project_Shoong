@@ -651,6 +651,7 @@ input::placeholder{
 	padding: 10px;
 	text-align: center;
 	font-size: 14px;
+	width: 33.33%;
 }
 #my_point .point_item .point_table tr:first-child th:first-child {
 	border-top-left-radius: 10px;

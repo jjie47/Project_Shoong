@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.demo.domain.PointDTO;
 import com.example.demo.domain.UserDTO;
 
 @Mapper
@@ -24,4 +25,6 @@ public interface UserMapper {
 	String getLeaderNickByPlanId(Long planId);
 	
 	int insertSocialUser(UserDTO user);
+	
+	List<PointDTO> getPointByUserId(String userId);
 }
