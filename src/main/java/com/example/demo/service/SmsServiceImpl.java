@@ -19,13 +19,13 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Service
 public class SmsServiceImpl implements SmsService{
 
-	@Value("${coolsms.api.key}")
+	@Value("${COOLSMS_API_KEY}")
 	private String apiKey;
 	
-	@Value("${coolsms.api.secret}")
+	@Value("${COOLSMS_API_SECRET}")
 	private String apiSecret;
 
-	@Value("${petharmony.phone.number}")
+	@Value("${PETHARMONY_PHONE_NUMBER}")
 	private String fromPhoneNumber;
 	
 //	sms 전송하기 위한 서비스 객체

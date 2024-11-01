@@ -63,7 +63,10 @@ local.properties
 *.rar
 
 ### static resources ###
-src/main/resources/application.properties
 src/main/resources/static/images/
 /file/
 shoong.sql
+
+### api key ###
+api-key.env
+src/main/resources/static/js/config/api-key.js

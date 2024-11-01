@@ -34,28 +34,28 @@ import kotlinx.serialization.json.JsonObject;
 @RequestMapping("/oauth2/*")
 public class OauthController {
 	
-	@Value("${kakao.client.id}")
+	@Value("${KAKAO_CLIENT_ID}")
 	private String kakaoClientId;
 	
-	@Value("${kakao.redirect.uri}")
+	@Value("${KAKAO_REDIRECT_URI}")
 	private String kakaoRedirectUri;
 	
-	@Value("${google.client.id}")
+	@Value("${GOOGLE_CLIENT_ID}")
 	private String googleClientId;
 	
-	@Value("${google.redirect.uri}")
+	@Value("${GOOGLE_REDIRECT_URI}")
 	private String googleRedirectUri;
 	
-	@Value("${google.client.secret}")
+	@Value("${GOOGLE_CLIENT_SECRET}")
 	private String googleClientSecret;
 	
-	@Value("${naver.client.id}")
+	@Value("${NAVER_CLIENT_ID}")
 	private String naverClientId;
 	
-	@Value("${naver.redirect.uri}")
+	@Value("${NAVER_REDIRECT_URI}")
 	private String naverRedirectUri;
 	
-	@Value("${naver.client.secret}")
+	@Value("${NAVER_CLIENT_SECRET}")
 	private String naverClientSecret;
 
 	@Autowired
