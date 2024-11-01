@@ -60,7 +60,7 @@ public class InviteController {
 	
 	@OnOpen
 	public void onOpen(Session session, @PathParam(value="userId")String userId) throws IOException {
-		System.out.println("접속 : "+session+" / 아이디 : "+userId);
+//		System.out.println("접속 : "+session+" / 아이디 : "+userId);
 //		synchronized (clients) {
 //			for(Session client : clients) {
 //				
@@ -74,7 +74,7 @@ public class InviteController {
 	
 	@OnClose
 	public void onClose(Session session, @PathParam(value="userId")String userId) throws IOException {
-		System.out.println("접속종료 : "+session+" / 아이디 : "+userId);
+//		System.out.println("접속종료 : "+session+" / 아이디 : "+userId);
 		synchronized (clients) {
 			for(Session client : clients) {
 				
